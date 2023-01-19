@@ -400,10 +400,10 @@ function getCurrentDateTimeWithoutAmPm() {
 */
 function changeDateFormat($fieldName, $dateFormat = false) {
     if ($dateFormat) {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $fieldName)->format($dateFormat);
+        return Carbon::createFromDate('Y-m-d H:i:s', $fieldName)->format($dateFormat);
     } else {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $fieldName)->format('Y-m-d H:i');
-    }    
+        return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $fieldName)->format('m-d-Y');
+    }
 }
 
 /*

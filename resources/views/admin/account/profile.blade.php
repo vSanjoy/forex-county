@@ -27,7 +27,7 @@
                                 $image = asset("images/admin/avatars/1.png");
                                 if ($adminDetail->profile_pic != null && file_exists(public_path('images/uploads/'.$pageRoute.'/'.$adminDetail->profile_pic))) :
                                     $image = asset("images/uploads/".$pageRoute."/thumbs/".$adminDetail->profile_pic);
-                                endif
+                                endif;
                                 @endphp
                                 
                                 <div class="preview_img_div_image position_relative" style="position: relative;">

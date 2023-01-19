@@ -2,7 +2,7 @@
 /*****************************************************/
 # Company Name      :
 # Author            :
-# Created Date      : 16/01/2023
+# Created Date      : 18/01/2023
 # Page/Class name   : AccountController
 # Purpose           : Admin Account Management
 /*****************************************************/
@@ -47,7 +47,7 @@ class AccountController extends Controller
         * Purpose       : It sets some public variables for being accessed throughout this
         *                   controller and its related view pages
         * Author        :
-        * Created Date  : 16/01/2023
+        * Created Date  : 18/01/2023
         * Modified date :
         * Input Params  : Void
         * Return Value  : Mixed
@@ -70,7 +70,7 @@ class AccountController extends Controller
         * Function name : dashboard
         * Purpose       : After login admin will see dashboard page
         * Author        :
-        * Created Date  : 16/01/2023
+        * Created Date  : 18/01/2023
         * Modified date :
         * Input Params  : 
         * Return Value  : Returns to the dashboard page
@@ -83,8 +83,9 @@ class AccountController extends Controller
         ];
 
         try {
-            $adminDetail        = Auth::guard('admin')->user();
-            $data['adminDetail']= $adminDetail;
+            $adminDetail            = Auth::guard('admin')->user();
+            $data['adminDetail']    = $adminDetail;
+            $data['websiteSettings']= $this->websiteSettingModel->first();
             
             return view($this->viewFolderPath.'.dashboard', $data);
         } catch (Exception $e) {
@@ -104,7 +105,7 @@ class AccountController extends Controller
         * Function Name : profile
         * Purpose       : This function is for update profile
         * Author        :
-        * Created Date  : 16/01/2023
+        * Created Date  : 18/01/2023
         * Modified date :
         * Input Params  : Request $request
         * Return Value  : 

@@ -20,15 +20,7 @@ use App\Http\Controllers\admin\CmsController;
 
 Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], function() {
 
-    // Route::get('/', ['as'=>'login', 'uses'=>'AuthController@login']);
-
-    // Route::get('books',['as'=>'books.index','uses'=>'BOOKController@index']);
-    // Route::post('books/create',['as'=>'books.store','uses'=>'BOOKController@store']);
-    // Route::get('books/edit/{id}',['as'=>'books.edit','uses'=>'BOOKController@edit']);
-    // Route::patch('books/{id}',['as'=>'books.update','uses'=>'BOOKController@update']);
-    // Route::delete('books/{id}',['as'=>'books.destroy','uses'=>'BOOKController@destroy']);
-    // Route::get('books/{id}',['as'=>'books.view','uses'=>'BOOKController@view']);
-    
+    // Before Authentication
     Route::controller(AuthController::class)->group(function() {
         Route::name('auth.')->group(function () {
             Route::get('/', 'login')->name('login');
@@ -36,17 +28,8 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
             Route::get('/forgot-password', 'forgotPassword')->name('forgot-password');
             Route::patch('/forgot-password', 'forgotPassword')->name('forgot-password');
         });
-
-
-        // Route::any('/', ['as'=>'auth.login', 'uses'=>'index']);
-        // Route::any('/forgot-password', ['as'=>'auth.forgot-password', 'uses' => 'forgotPassword']);
-
-        // Route::get('/', 'login')->name('login');
     });
-
-       
-    
-
+    Route::post('/ckeditor-upload', [CmsController::class, 'upload'])->name('ckeditor-upload');
 
     Route::group(['middleware' => 'backend'], function () {
         Route::controller(AccountController::class)->group(function() {
@@ -69,8 +52,14 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
 
                 Route::prefix('cms')->name('cms.')->group(function () {
                     Route::get('/list', 'list')->name('list');
-                    Route::get('/add', 'add')->name('add');
-                    Route::post('/add', 'add');
+                    Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/create', 'create');
+
+                    Route::get('/edit/{id}', 'edit')->name('edit');
+                    Route::put('/edit/{id}', 'edit');
+
+                    Route::get('/status/{id}', 'status')->name('change-status');
                     
                 });
             });

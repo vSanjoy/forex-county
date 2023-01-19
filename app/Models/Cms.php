@@ -19,4 +19,14 @@ class Cms extends Model
     public $timestamps    = false;
 
     protected $guarded = ['id'];    // The field name inside the array is not mass-assignable
+
+    // protected $fillable = [
+    //     'page_name'
+    // ];
+
+    // public function getRouteKey()
+    // {
+    //     return customEncryptionDecryption($this->getKey(), 'decrypt');
+    // }
+
 }

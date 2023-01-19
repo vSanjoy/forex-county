@@ -9,6 +9,15 @@
 .upload_image_delete_position_absolute{position: absolute; right: 5px; top: 5px; cursor: pointer; color: #ff0000;}
 .text-white{color: #ffffff;}
 .pointer-none{pointer-events: none;}
+.ck-editor__editable {min-height: 200px;}
+
+#list-table .zeroColumn {min-width: 0 !important; width: 0 !important;}
+#list-table .firstColumn {min-width: 40px; width: 40px;}
+#list-table .imageColumn {min-width: 100px; width: 100px;}
+#list-table .modifiedColumn {min-width: 135px; width: 135px;}
+#list-table .row_status {min-width: 100px; width: 100px;}
+#list-table .actions {min-width: 120px; width: 120px;}
+#list-table .more_actions {min-width: 150px; width: 150px;}
 
 
 
@@ -17,7 +26,7 @@ Preloader
 ********************/
 .preloader {width: 100%; height: 100%; top: 0px; position: fixed; z-index: 99999; background: #fff; opacity: 0.8;}  
 .lds-ripple {display: inline-block; position: relative; width: 64px; height: 64px; position: absolute; top: calc(50% - 3.5px); left: calc(47% - 3.5px); }
-.lds-ripple .lds-pos {position: absolute; border: 2px solid #ff3e1d; opacity: 1; border-radius: 50%; animation: lds-ripple 1s cubic-bezier(0, 0.1, 0.5, 1) infinite; }
+.lds-ripple .lds-pos {position: absolute; border: 2px solid #0164a7; opacity: 1; border-radius: 50%; animation: lds-ripple 1s cubic-bezier(0, 0.1, 0.5, 1) infinite; }
 .lds-ripple .lds-pos:nth-child(2) {animation-delay: -0.5s; }  
 @keyframes lds-ripple {
 0% {

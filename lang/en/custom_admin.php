@@ -55,6 +55,7 @@ return [
     'label_current_password'                        => 'Current Password',    
     'label_confirm_password'                        => 'Confirm Password',
     'label_upload_picture'                          => 'Upload Picture',
+    'label_create'                                  => 'Create',
     'label_menu_sub_admin'                          => 'Sub Admin',
     'label_sub_admin_management'                    => 'Sub Admin Management',
     'label_list'                                    => 'List',
@@ -113,7 +114,7 @@ return [
     'label_contact_number'                          => 'Contact Number',
     'label_search_filter'                           => 'Search / Filter',
     'label_cms_list'                                => 'CMS List',
-    'label_add_cms'                                 => 'Add CMS',
+    'label_create_cms'                              => 'Create CMS',
     'label_edit_cms'                                => 'Edit CMS',
     'label_parent'                                  => 'Parent',
     'label_slug'                                    => 'Slug',
@@ -180,6 +181,7 @@ return [
     'label_next'                                    => 'Next',
     'label_na'                                      => 'NA',
     'label_modified'                                => 'Modified On',
+    'label_created_on'                              => 'Created On',
     'label_page_template'                           => 'Page Template',
     'label_home_page_template'                      => 'Home Page',
     'label_inner_page_template'                     => 'Inner Page',
@@ -323,9 +325,11 @@ return [
     'label_log_out'                                 => 'Log Out',
     'label_upload_new_photo'                        => 'Upload New Photo',
     'label_upload_logo'                             => 'Upload Logo',
+    'label_upload_image'                            => 'Upload Image',
     
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
+    'btn_save'                                      => 'Save',
     'btn_submit'                                    => 'Submit',
     'btn_submitting'                                => 'Submitting',
     'btn_update'                                    => 'Update',
@@ -366,6 +370,14 @@ return [
     'placeholder_default_meta_keywords'             => 'Enter default meta keywords',
     'placeholder_default_meta_description'          => 'Enter default meta description',
     'placeholder_address'                           => 'Enter address',
+    'placeholder_page_name'                         => 'Enter page name',
+    'placeholder_title'                             => 'Enter title',
+    'placeholder_short_title'                       => 'Enter short title',
+    'placeholder_short_description'                 => 'Enter short description',
+    'placeholder_description'                       => 'Enter description',
+    'placeholder_meta_title'                        => 'Enter meta title',
+    'placeholder_meta_keywords'                     => 'Enter meta keywords',
+    'placeholder_meta_description'                  => 'Enter meta description',
 
 
     

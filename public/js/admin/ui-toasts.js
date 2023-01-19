@@ -37,3 +37,18 @@
     };
   }
 })();
+
+// function bootToast(type, message) {
+//   	// if (toastPlacement) {
+//     // 	toastDispose(toastPlacement);
+//   	// }
+//   let selectedType = type;
+//   console.log("===>",selectedType);
+//   let selectedPlacement = ['top-0', 'end-0'];
+
+//   toastPlacementExample.classList.add(selectedType);
+//   DOMTokenList.prototype.add.apply(toastPlacementExample.classList, selectedPlacement);
+//   toastPlacement = new bootstrap.Toast(toastPlacementExample);
+//   toastPlacement.show();
+
+// }

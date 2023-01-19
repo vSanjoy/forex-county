@@ -15,20 +15,13 @@ return new class extends Migration
     {
         Schema::create('cms', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->nullable()->comment('Cms page id');
             $table->string('page_name')->nullable();
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
             $table->text('short_title')->nullable();
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
-            $table->longText('description2')->nullable();
-            $table->text('banner_title')->nullable();
-            $table->text('banner_short_title')->nullable();
-            $table->text('banner_short_description')->nullable();
-            $table->string('banner_image')->nullable();
             $table->string('featured_image')->nullable();
-            $table->string('other_image')->nullable();
             $table->text('meta_title')->nullable();
             $table->text('meta_keywords')->nullable();
             $table->text('meta_description')->nullable();

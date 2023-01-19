@@ -25,7 +25,7 @@ trait GeneralMethods
             'CREATEPAGE' =>
             [
                 ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => trans('custom_admin.label_add'), 'url' => '']
+                ['label' => trans('custom_admin.label_create'), 'url' => '']
             ],
             'EDITPAGE' =>
             [
@@ -85,7 +85,7 @@ trait GeneralMethods
             'urlPrefix'     => $this->urlPrefix ?? '',
             'listUrl'       => $this->listUrl ?? '',
             'listRequestUrl'=> $this->listRequestUrl ?? '',
-            'addUrl'        => $this->addUrl ?? '',
+            'createUrl'     => $this->createUrl ?? '',
             'editUrl'       => $this->editUrl ?? '',
             'viewUrl'       => $this->viewUrl ?? '',
             'statusUrl'     => $this->statusUrl ?? '',

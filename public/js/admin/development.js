@@ -107,19 +107,19 @@ $.validator.addMethod("valid_youtube_url", function(value, element) {
 });
 
 // Ckeditor
-$.validator.addMethod("ckrequired", function (value, element) {  
-    var idname = $(element).attr('id');  
-    var editor = CKEDITOR.instances[idname];  
-    var ckValue = GetTextFromHtml(editor.getData()).replace(/<[^>]*>/gi, '').trim();  
-    if (ckValue.length === 0) {  
-        //if empty or trimmed value then remove extra spacing to current control  
-        $(element).val(ckValue);
-    } else {  
-        //If not empty then leave the value as it is  
-        $(element).val(editor.getData());  
-    }  
-    return $(element).val().length > 0;  
-}, "Please enter description.");
+// $.validator.addMethod("ckrequired", function (value, element) {  
+//     var idname = $(element).attr('id');  
+//     var editor = CKEDITOR.instances[idname];  
+//     var ckValue = GetTextFromHtml(editor.getData()).replace(/<[^>]*>/gi, '').trim();  
+//     if (ckValue.length === 0) {  
+//         //if empty or trimmed value then remove extra spacing to current control  
+//         $(element).val(ckValue);
+//     } else {  
+//         //If not empty then leave the value as it is  
+//         $(element).val(editor.getData());  
+//     }  
+//     return $(element).val().length > 0;  
+// }, "Please enter description.");
   
 function GetTextFromHtml(html) {  
     var dv = document.createElement("DIV");
@@ -1062,9 +1062,6 @@ $(document).ready(function() {
             'title': {
                 required: true
             },
-            // description: {
-            //     ckrequired: true,
-            // },
         },
         messages: {
             'page_name': {
@@ -1073,9 +1070,6 @@ $(document).ready(function() {
             'title': {
                 required: "Please enter title.",
             },
-            // description: {
-            //     ckrequired: "Please enter description."
-            // },
         },
         errorClass: 'error invalid-feedback',
         errorElement: 'div',
@@ -1102,8 +1096,9 @@ $(document).ready(function() {
             }
         },
         submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
             form.submit();
         }
     });
@@ -2187,3 +2182,4 @@ $(document).on('click', '.clickToCopy', function(e) {
         $('#password').focus();
     }
 });
+

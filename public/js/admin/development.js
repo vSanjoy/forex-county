@@ -25,7 +25,7 @@ var pleaseFillOneField          = 'You missed 1 field. It has been highlighted.'
 var pleaseFillMoreFieldFirst    = 'You have missed ';
 var pleaseFillMoreFieldLast     = ' fields. Please fill before submitted.';
 
-var copiedToClipBoard           = 'Copied to clipboard';
+var copiedToClipBoard           = 'Copied';
 
 var btnYes              = 'Yes';
 var btnNo               = 'No';
@@ -127,11 +127,19 @@ function GetTextFromHtml(html) {
     return dv.textContent || dv.innerText || "";  
 }
 
-
 $(document).ready(function() {
     setTimeout(function() {
         $('.notification').slideUp(1000).delay(3000);
     }, 3000);
+
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 3000,
+        ripple: true,
+        position: {x:'right',y:'top'},
+        dismissible: true,
+
+    });
 
     // Password checker
     $('.password-checker').on('keyup', function () {
@@ -193,7 +201,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'password') {
@@ -241,7 +248,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -295,7 +301,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -357,7 +362,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -418,7 +422,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'current_password') {
@@ -495,7 +498,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'distribution_area_id') {
@@ -565,7 +567,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'distribution_area_id') {
@@ -651,7 +652,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'category_id') {
@@ -735,7 +735,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'category_id') {
@@ -825,7 +824,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'role' || $(element).attr('id') == 'service_ids') {
@@ -895,7 +893,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'role' || $(element).attr('id') == 'service_ids') {
@@ -941,7 +938,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -981,7 +977,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1037,7 +1032,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1086,7 +1080,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'description') {
@@ -1113,9 +1106,6 @@ $(document).ready(function() {
             'title': {
                 required: true
             },
-            // description: {
-            //     ckrequired: true,
-            // },
         },
         messages: {
             'page_name': {
@@ -1124,9 +1114,6 @@ $(document).ready(function() {
             'title': {
                 required: "Please enter title.",
             },
-            // description: {
-            //     ckrequired: "Please enter description."
-            // },
         },
         errorClass: 'error invalid-feedback',
         errorElement: 'div',
@@ -1143,7 +1130,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'description') {
@@ -1195,7 +1181,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1235,7 +1220,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1283,7 +1267,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'description') {
@@ -1333,7 +1316,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'description') {
@@ -1379,7 +1361,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1419,7 +1400,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             error.insertAfter(element);
@@ -1493,7 +1473,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'event_category_id' || $(element).attr('id') == 'advertiser_id') {
@@ -1563,7 +1542,6 @@ $(document).ready(function() {
             } else {
                 overallErrorMessage = '';
             }
-            toastr.error(overallErrorMessage, errorMessage+'!');
         },
         errorPlacement: function(error, element) {
             if ($(element).attr('id') == 'event_category_id' || $(element).attr('id') == 'advertiser_id') {
@@ -1787,6 +1765,14 @@ $(document).ready(function() {
 
 // Start :: Admin List Actions //
 function listActions(routePrefix, actionRoute, id, actionType, dTable) {
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple  : true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
+
     var message = actionUrl = '';
 
     if (actionRoute != '') {
@@ -1831,24 +1817,32 @@ function listActions(routePrefix, actionRoute, id, actionType, dTable) {
                         $('.preloader').hide();
                         if (response.type == 'success') {
                             dTable.draw();
-                            toastr.success(response.message, response.title+'!');
+                            notyf.success(response.message);
                         } else if (response.type == 'warning') {
-                            toastr.warning(response.message, response.title+'!');
+                            notyf.warning(response.message);
                         } else {
-                            toastr.error(response.message, response.title+'!');
+                            notyf.error(response.message);
                         }
                     }
                 });
             }
         });
     } else {
-        toastr.error(message, errorMessage+'!');
+        notyf.error(message);
     }
 }
 // End :: Admin List Actions //
 
 // Start :: Admin List Bulk Actions //
 function bulkActions(routePrefix, actionRoute, selectedIds, actionType, dTable) {
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple  : true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
+
     var message = actionUrl = '';
     
     if (actionRoute != '') {
@@ -1897,26 +1891,34 @@ function bulkActions(routePrefix, actionRoute, selectedIds, actionType, dTable) 
                         if (response.type == 'success') {
                             $('.checkAll').prop('checked', false);
                             dTable.draw();
-                            toastr.success(response.message, response.title+'!');
+                            notyf.success(response.message);
                         } else if (response.type == 'warning') {
                             $('.checkAll').prop('checked', false);
                             dTable.draw();
-                            toastr.warning(response.message, response.title+'!');
+                            notyf.warning(response.message);
                         } else {
-                            toastr.error(response.message, response.title+'!');
+                            notyf.error(response.message);
                         }
                     }
                 });
             }
         });
     } else {
-        toastr.error(message, errorMessage+'!');
+        notyf.error(message);
     }
 }
 // End :: Admin List Bulk Actions //
 
 // Start :: Admin Gallery Actions //
 function galleryAction(routePrefix, actionRoute, id, albumId, rowId, actionType, selectedDefaultImage) {
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple  : true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
+
     var message = actionUrl = '';
 
     if (actionRoute != '') {
@@ -1960,13 +1962,13 @@ function galleryAction(routePrefix, actionRoute, id, albumId, rowId, actionType,
                         if (response.type == 'success') {
                             if (actionType == 'delete-image') {
                                 $('#image_'+rowId).remove();
-                                toastr.success(response.message, response.title+'!');
+                                notyf.success(response.message);
                             } else if (actionType == 'set-default') {
                                 $('.delete_block_'+rowId).remove();
                                 window.location.reload();
                             }                            
                         } else {
-                            toastr.error(response.message, response.title+'!');
+                            notyf.error(response.message);
                         }
                     }
                 });
@@ -1975,7 +1977,7 @@ function galleryAction(routePrefix, actionRoute, id, albumId, rowId, actionType,
             }
         });
     } else {
-        toastr.error(message, errorMessage+'!');
+        notyf.error(message);
     }
 }
 // End :: Admin Gallery Actions //
@@ -1987,6 +1989,14 @@ $(document).on('click', '.delete-uploaded-preview-image', function() {
     var dbField     = $(this).data('dbfield');
     var routePrefix = $(this).data('routeprefix');
     var message = actionUrl = '';
+
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple  : true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
 
     if (primaryId != '' && routePrefix != '') {
         actionUrl = adminPanelUrl+'/'+routePrefix+'/'+'delete-uploaded-image';
@@ -2022,18 +2032,18 @@ $(document).on('click', '.delete-uploaded-preview-image', function() {
                         if (response.type == 'success') {
                             $('.preview_img_div_'+dbField).html('');
                             $('.preview_img_div_'+dbField).html('<img id="'+dbField+'_preview" class="mt-2" style="display: none;" />');
-                            toastr.success(response.message, response.title+'!');
+                            notyf.success(response.message);
                         } else if (response.type == 'warning') {
-                            toastr.warning(response.message, response.title+'!');
+                            notyf.warning(response.message);
                         } else {
-                            toastr.error(response.message, response.title+'!');
+                            notyf.error(response.message);
                         }
                     }
                 });
             }
         });
     } else {
-        toastr.error(message, errorMessage+'!');
+        notyf.error(message);
     }
 });
 // Start :: Admin Delete upladed image //
@@ -2045,6 +2055,14 @@ $(document).on('click', '.delete-uploaded-cropped-image', function() {
     var imgContainer    = $(this).data('img-container');
     var routePrefix     = $(this).data('routeprefix');
     var message = actionUrl = '';
+
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple  : true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
 
     if (primaryId != '' && routePrefix != '') {
         actionUrl = adminPanelUrl+'/'+routePrefix+'/'+'delete-uploaded-image';
@@ -2084,18 +2102,18 @@ $(document).on('click', '.delete-uploaded-cropped-image', function() {
                             if (dbField == 'profile_pic') {
                                 $('#profile-pic-holder').html('<img id="admin-avatar" src="'+adminImageUrl+'/users/avatar5.png" class="rounded-circle" width="40" />');
                             }
-                            toastr.success(response.message, response.title+'!');
+                            notyf.success(response.message);
                         } else if (response.type == 'warning') {
-                            toastr.warning(response.message, response.title+'!');
+                            notyf.warning(response.message);
                         } else {
-                            toastr.error(response.message, response.title+'!');
+                            notyf.error(response.message);
                         }
                     }
                 });
             }
         });
     } else {
-        toastr.error(message, errorMessage+'!');
+        notyf.error(message);
     }
 });
 // End :: Delete upladed cropped image //
@@ -2174,7 +2192,14 @@ $(document).on('click', '.clickToCopy', function(e) {
   
     document.execCommand('copy');
 
-    toastr.success(copiedToClipBoard);
+    // Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple: true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
+    notyf.success(copiedToClipBoard);
 
     if (type == 'email') {
         $('#email').focus();

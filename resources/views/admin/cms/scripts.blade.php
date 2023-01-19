@@ -1,9 +1,11 @@
 <script type="text/javascript">
 $(document).ready(function() {
+	@include('admin.includes.notification')
+	
 	@if (Route::currentRouteName() == $routePrefix.'.'.$listUrl)
 	// Get list page data
 	var getListDataUrl = "{{route($routePrefix.'.'.$listRequestUrl)}}";	
-	var dTable = $('#list-table').on('init.dt', function () {$('#dataTableLoading').hide();}).DataTable({
+	var dTable = $('#list-table').on('init.dt', function () {$('#dataTableLoading').hide(); $('ul.pagination').addClass('pagination-round pagination-dark');}).DataTable({
 			destroy: true,
 			autoWidth: false,
 	        responsive: false,
@@ -14,10 +16,10 @@ $(document).ready(function() {
 				emptyTable: '{{ trans("custom_admin.message_no_records_found") }}',
 				zeroRecords: '{{ trans("custom_admin.message_no_records_found") }}',
 				paginate: {
-					first: '{{trans("custom_admin.label_first")}}',
-					previous: '{{trans("custom_admin.label_previous")}}',
-					next: '{{trans("custom_admin.label_next")}}',
-					last: '{{trans("custom_admin.label_last")}}',
+					first: '<i class="bx bx-chevrons-left"></i>',
+					previous: '<i class="bx bx-chevron-left"></i>',
+					next: '<i class="bx bx-chevron-right"></i>',
+					last: '<i class="bx bx-chevrons-right"></i>',
 				}
 			},
 			serverSide: true,
@@ -50,7 +52,7 @@ $(document).ready(function() {
 	        order: [
 				[0, 'desc']
 			],
-			pageLength: 1,
+			pageLength: 10,
 			lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, '{{trans("custom_admin.label_all")}}']],
 			fnDrawCallback: function(settings) {
 				if (settings._iDisplayLength == -1 || settings._iDisplayLength > settings.fnRecordsDisplay()) {
@@ -65,7 +67,7 @@ $(document).ready(function() {
 	$.fn.dataTable.ext.errMode = 'none';	
 	$('#list-table').on('error.dt', function (e, settings, techNote, message) {
 		$('#dataTableLoading').hide();
-		toastr.error(message, "@lang('custom_admin.message_error')");
+		notyf.error(message, "@lang('custom_admin.message_error')");
 	});
 	
 	// Status section

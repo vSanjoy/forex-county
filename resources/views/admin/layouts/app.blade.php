@@ -20,7 +20,7 @@
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/fonts/boxicons.css') }}" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/fontawesome/fontawesome.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/fontawesome/fontawesome.css') }}" /> --}}
 
     <!-- Core CSS -->
     @if (strpos(Route::currentRouteName(), '.list') !== false)
@@ -33,11 +33,9 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
-    <!-- Page -->
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/css/pages/page-auth.css') }}" />
     <!-- Helpers -->
     <script src="{{ asset('js/admin/vendor/js/helpers.js') }}"></script>
@@ -49,17 +47,14 @@
     <!-- Sweetalert -->
     <link href="{{ asset('css/admin/vendor/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
 
-    <!-- Toastr css -->
-    <link href="{{ asset('css/admin/vendor/libs/toastr/toastr.min.css') }}" rel="stylesheet">
+    <!-- Notify Toastr css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <!-- Development css -->
     <link href="{{ asset('css/admin/development.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    
-    @include('admin.includes.notification')
-
     <!-- Preloader -->
     <div class="preloader">
         <div class="lds-ripple">
@@ -133,27 +128,8 @@
     $(".preloader").fadeOut();
     </script>
 
-    <!-- Toastr js & rendering -->
-    <script src="{{ asset('js/admin/vendor/libs/toastr/toastr.min.js') }}"></script>
-    <script>
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-    </script>
+    <!-- Notify Toastr js -->
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
     @if (strpos(Route::currentRouteName(), '.list') !== false)        
     <!-- DataTables -->
@@ -183,7 +159,7 @@
     @endif
 
     <!-- CKEditor -->
-    @if (strpos(Route::currentRouteName(), '.add') !== false || strpos(Route::currentRouteName(), '.edit') !== false || strpos(Route::currentRouteName(), '.profile') !== false)
+    @if (strpos(Route::currentRouteName(), '.add') !== false || strpos(Route::currentRouteName(), '.edit') !== false)
     <script src="{{ asset('js/admin/ckeditor.js') }}"></script>
     <script>
     $(function () {

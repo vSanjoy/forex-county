@@ -1,4 +1,4 @@
-<div class="notifications">
+{{-- <div class="notifications">
     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
         @if(Session::has('alert-' . $msg))
             <div class="alert alert-dismissable alert-{{ $msg }}">
@@ -16,4 +16,12 @@
             @endforeach
         </div>
     @endif
-</div>
+</div> --}}
+
+var notyf = new Notyf({
+    duration: 3000,
+    ripple: true,
+    position: {x:'right',y:'top'},
+    dismissible: true,
+
+});

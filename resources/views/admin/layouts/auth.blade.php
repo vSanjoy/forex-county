@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
     <!-- Page CSS -->
-    <!-- Page -->
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/css/pages/page-auth.css') }}" />
     <!-- Helpers -->
     <script src="{{ asset('js/admin/vendor/js/helpers.js') }}"></script>
@@ -38,16 +37,14 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('js/admin/config.js') }}"></script>
 
-    <!-- Toastr css -->
-    <link href="{{ asset('css/admin/vendor/libs/toastr/toastr.min.css') }}" rel="stylesheet">
+    <!-- Notify Toastr css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <!-- Development css -->
     <link href="{{ asset('css/admin/development.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    @include('admin.includes.notification')
-
     <!-- Preloader -->
     <div class="preloader">
         <div class="lds-ripple">
@@ -88,27 +85,8 @@
     $(".preloader").fadeOut();
     </script>
 
-    <!-- Toastr js & rendering -->
-    <script src="{{ asset('js/admin/vendor/libs/toastr/toastr.min.js') }}"></script>
-    <script>
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-    </script>
+    <!-- Notify Toastr js -->
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </body>
 
 </html>

@@ -4,9 +4,17 @@ $(".upload-image").change(function () {
     imagePreview(this, imagePreviewId);
 });
 function imagePreview(input, imagePreviewId) {
+	// Create an instance of Notyf
+    var notyf = new Notyf({
+        duration: 2000,
+        ripple: true,
+        position: {x:'right',y:'top'},
+        dismissible: false
+    });
+
     if (input.files && input.files[0]) {		
 		if (input.files[0].size > {{config('global.MAX_UPLOAD_IMAGE_SIZE')}}) {
-			toastr.error("@lang('custom_admin.error_max_size_image')", "@lang('custom_admin.message_error')!");
+			notyf.error("{{ __('custom_admin.error_max_size_image') }}");
 		} else {
 			var fileName = input.files[0].name;
 			var extension = fileName.substring(fileName.lastIndexOf('.') + 1);		
@@ -22,11 +30,11 @@ function imagePreview(input, imagePreviewId) {
 			} else {
 				$('#'+imagePreviewId).val('');
 				$('#'+imagePreviewId+'_preview + img').remove();
-				toastr.error("@lang('custom_admin.error_image')", "@lang('custom_admin.message_error')!");
+				notyf.error("{{ __('custom_admin.error_image') }}");
 			}
 		}
     } else {
-		toastr.error("@lang('custom_admin.error_image')", "@lang('custom_admin.message_error')!");
+		notyf.error("{{ __('custom_admin.error_image') }}");
 	}
 }
 $(document).on('click', '.delete-preview-image', function() {

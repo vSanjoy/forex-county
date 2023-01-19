@@ -45,6 +45,26 @@
             </ul>
         </li>
 
-        
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class='menu-icon tf-icons bx bx-globe'></i>
+                <div data-i18n="Cms">{{ __('custom_admin.label_country') }}</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('admin.country.list') }}" class="menu-link">
+                        <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.country.create') }}" class="menu-link">
+                        <div data-i18n="Without navbar">{{ __('custom_admin.label_create') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
     </ul>
 </aside>

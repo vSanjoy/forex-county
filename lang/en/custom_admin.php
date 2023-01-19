@@ -52,7 +52,7 @@ return [
     'label_change_password'                         => 'Change Password',
     'label_new_password'                            => 'New Password',
     'label_password'                                => 'Password',
-    'label_current_password'                        => 'Current Password',    
+    'label_current_password'                        => 'Current Password',
     'label_confirm_password'                        => 'Confirm Password',
     'label_upload_picture'                          => 'Upload Picture',
     'label_create'                                  => 'Create',
@@ -66,7 +66,7 @@ return [
     'label_edit_sub_admin'                          => 'Edit Sub Admin',
     'label_sub_admin_name'                          => 'Sub Admin Name',
     'label_menu_role'                               => 'Role',
-    'label_sub_admin_role'                          => 'Role',    
+    'label_sub_admin_role'                          => 'Role',
     'label_role_list'                               => 'Role List',
     'label_role'                                    => 'Roles',
     'label_add_role'                                => 'Add Role',
@@ -173,7 +173,7 @@ return [
     'label_gallery_list'                            => 'Gallery List',
     'label_gallery'                                 => 'Gallery',
     'label_add_gallery'                             => 'Add Image',
-    'label_edit_gallery'                            => 'Edit Image',    
+    'label_edit_gallery'                            => 'Edit Image',
     'label_all'                                     => 'All',
     'label_first'                                   => 'First',
     'label_last'                                    => 'Last',
@@ -326,7 +326,10 @@ return [
     'label_upload_new_photo'                        => 'Upload New Photo',
     'label_upload_logo'                             => 'Upload Logo',
     'label_upload_image'                            => 'Upload Image',
-    
+    'label_country' => 'Countries',
+    'label_country_list' => 'Country List',
+    'label_create_country'  => 'Create Country',
+
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
     'btn_save'                                      => 'Save',
@@ -348,7 +351,7 @@ return [
     'btn_reloading_gallery'                         => 'Reloading Gallery',
     'btn_send_reset_link'                           => 'Send Reset Link',
     'btn_back_to_home'                              => 'Back To Home',
-    
+
     // Placeholders
     'placeholder_from_email'                        => 'Enter from email',
     'placeholder_to_email'                          => 'Enter to email',
@@ -380,7 +383,7 @@ return [
     'placeholder_meta_description'                  => 'Enter meta description',
 
 
-    
+
     // Errors
     'error_enter_email'                             => 'Please enter email.',
     'error_enter_valid_email'                       => 'Please enter valid email.',
@@ -405,7 +408,7 @@ return [
     'error_enter_email_regex'                       => 'Please enter valid email.',
     'error_enter_phone_no'                          => 'Please enter valid phone number.',
     'error_email_taken'                             => 'The email has already been taken.',
-    'error_enter_current_password'                  => 'Please enter current password.',    
+    'error_enter_current_password'                  => 'Please enter current password.',
     'error_enter_password_regex'                    => 'Min. 8, alphanumeric and special character.',
     'error_enter_confirm_password'                  => 'Please enter confirm password.',
     'error_same_password'                           => 'Confirm password should be same as new password.',
@@ -492,7 +495,7 @@ return [
     'error_advertiser_id'                           => 'Please select advertiser.',
     'error_event_category_id'                       => 'Please select event category.',
     'error_booking_amount'                          => 'Please enter booking amount.',
-    
+
 
     // Messages
     'message_success'                               => 'Success',
@@ -548,7 +551,7 @@ return [
     'message_enter_last_name'                       => 'Enter your last name',
     'message_enter_email'                           => 'Enter your email',
     'message_enter_phone'                           => 'Enter your phone',
-    
+
     // Success
     'success_data_added_successfully'               => 'Data has been added successfully.',
     'success_data_updated_successfully'             => 'Data has been updated successfully.',
@@ -560,5 +563,5 @@ return [
     'success_gallery_updated_successfully'          => 'Gallery has been updated successfully.',
     'success_gallery_deleted_successfully'          => 'Gallery image has been deleted successfully.',
     'success_for_security_reason_logged_out'        => 'For security reasons you have been signed out. Please sign in again.',
-    
+
 ];

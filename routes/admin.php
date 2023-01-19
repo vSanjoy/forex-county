@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CountryController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Controllers
@@ -43,29 +44,31 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                 Route::patch('/settings', 'settings');
             });
         });
-        
+
         Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-        
+
         Route::group(['middleware' => 'admin'], function () {
             Route::controller(CmsController::class)->group(function() {
-
-
                 Route::prefix('cms')->name('cms.')->group(function () {
                     Route::get('/list', 'list')->name('list');
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');
                     Route::post('/create', 'create');
-
                     Route::get('/edit/{id}', 'edit')->name('edit');
                     Route::put('/edit/{id}', 'edit');
-
                     Route::get('/status/{id}', 'status')->name('change-status');
-                    
+
+                });
+            });
+
+            Route::controller(CountryController::class)->group(function () {
+                Route::prefix('country')->name('country.')->group(function () {
+                    Route::get('/list', 'list')->name('list');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                 });
             });
         });
-
-        
     });
 
 });

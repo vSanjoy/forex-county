@@ -39,7 +39,7 @@ class CountryController extends Controller
     public function __construct($data = null) {
         parent::__construct();
 
-        $this->management  = trans('custom_admin.label_cms');
+        $this->management  = trans('custom_admin.label_country');
         $this->model        = new Country();
 
         // Assign breadcrumb
@@ -58,8 +58,7 @@ class CountryController extends Controller
         return view('admin.country.list', $data);
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $data = [
             'pageTitle'     => trans('custom_admin.label_create_country'),
             'panelTitle'    => trans('custom_admin.label_create_country'),
@@ -69,17 +68,20 @@ class CountryController extends Controller
         try {
             if ($request->isMethod('POST')) {
                 $validationCondition = array(
-                    'country_name'     => 'required|unique:'.($this->model)->getTable().',country_name,NULL,id,deleted_at,NULL',
-                    'two_digit_country_code'     => 'required|unique:'.($this->model)->getTable().',two_digit_country_code,NULL,id,deleted_at,NULL',
-                    'three_digit_country_code'     => 'required|unique:'.($this->model)->getTable().',three_digit_country_code,NULL,id,deleted_at,NULL',
-                    'title'         => 'required',
-                    'featured_image'=> 'mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE')
+                    'countryname'              => 'required|unique:'.($this->model)->getTable().',countryname,NULL,id,deleted_at,NULL',
+                    'code'    => 'required|max:2',
+                    'countrycode'  => 'required',
+                    'country_code_for_phone'  => 'required',
+                    'image'                     => 'required|mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE')
                 );
                 $validationMessages = array(
-                    'page_name.required'    => trans('custom_admin.error_page_name'),
-                    'page_name.unique'      => trans('custom_admin.error_name_unique'),
-                    'title.required'        => trans('custom_admin.error_title'),
-                    'featured_image.mimes'  => trans('custom_admin.error_image_mimes')
+                    'countryname.required' => trans('custom_admin.error_country_name'),
+                    'countryname.unique'   => trans('custom_admin.error_country_unique'),
+                    'code.required'         => trans('custom_admin.error_code'),
+                    'countrycode.required'  => trans('custom_admin.error_countrycode'),
+                    'country_code_for_phone.required'   => trans('custom_admin.error_country_code_for_phone'),
+                    'image.mimes'           => trans('custom_admin.error_image'),
+                    'image.mimes'           => trans('custom_admin.error_image_mimes')
                 );
                 $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($validator->fails()) {
@@ -88,14 +90,15 @@ class CountryController extends Controller
                     return back()->withInput();
                 } else {
                     $input          = $request->all();
-                    $input['slug']  = generateUniqueSlug($this->model, trim($request->page_name,' '));
-                    // Featured image upload
-                    $featuredImage  = $request->file('featured_image');
-                    if ($featuredImage != '') {
-                        $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'featured_image', $this->pageRoute, false);
-                        $input['featured_image']= $uploadedFeaturedImage;
-                    }
+                    
+                    // Image upload
+                    // $image  = $request->file('featured_image');
+                    // if ($image != '') {
+                    //     $uploadedImage  = singleImageUpload($this->modelName, $image, 'flag', $this->pageRoute, false);
+                    //     $input['image']= $uploadedImage;
+                    // }
                     $save = $this->model->create($input);
+                    dd('he');
 
                     if ($save) {
                         $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
@@ -114,6 +117,5 @@ class CountryController extends Controller
             $this->generateNotifyMessage('error', $e->getMessage(), false);
             return to_route($this->routePrefix.'.'.$this->listUrl);
         }
-        return view('admin.country.create', $data);
     }
 }

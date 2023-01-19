@@ -64,8 +64,9 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
             Route::controller(CountryController::class)->group(function () {
                 Route::prefix('country')->name('country.')->group(function () {
                     Route::get('/list', 'list')->name('list');
-                    Route::get('/create', 'create')->name('create');
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/create', 'create')->name('create');
                 });
             });
         });

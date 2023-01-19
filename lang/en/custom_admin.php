@@ -326,9 +326,24 @@ return [
     'label_upload_new_photo'                        => 'Upload New Photo',
     'label_upload_logo'                             => 'Upload Logo',
     'label_upload_image'                            => 'Upload Image',
-    'label_country' => 'Countries',
-    'label_country_list' => 'Country List',
-    'label_create_country'  => 'Create Country',
+    'label_country'                                 => 'Countries',
+    'label_country_list'                            => 'Country List',
+    'label_create_country'                          => 'Create Country',
+    'label_country_name'                            => 'Country Name',
+    'label_two_digit_country_code'                  => 'Two Digit Country Code',
+    'label_short_three_digit_country_code'          => 'Three Digit Country Code',
+    'label_country_code_for_phone'                  => 'Country Code For Phone',
+    'label_is_account_holder_name_required'         => 'Is Account Holder Name Required',
+    'label_is_account_number_required'              => 'Is Account Number Required',
+    'label_is_iban_number_required'                 => 'Is Iban Number Required',
+    'label_is_uk_sort_code_required'                => 'Is UK sort Code Required',
+    'label_is_ach_routing_number_required'          => 'Is Ach Routing Number Required',
+    'label_is_account_type_required'                => 'Is Account Type Required',
+    'label_is_beneficiary_bank_required'            => 'Is Beneficiary Bank Required',
+    'label_is_ifsc_code_required'                   => 'Is Ifsc Code Required',
+    'label_is_city_required'                        => 'Is City Required',
+    'label_is_address_required'                     => 'Is Address Required',
+    'label_is_postal_code_required'                 => 'Is Postal Code Required',
 
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
@@ -381,6 +396,12 @@ return [
     'placeholder_meta_title'                        => 'Enter meta title',
     'placeholder_meta_keywords'                     => 'Enter meta keywords',
     'placeholder_meta_description'                  => 'Enter meta description',
+    'placeholder_country_name'                      => 'Enter Country Name',
+    
+    'placeholder_two_digit_country_code'                  => 'Enter Two Digit Country Code',
+    'placeholder_short_three_digit_country_code'          => 'Enter Three Digit Country Code',
+    'placeholder_country_code_for_phone'                  => 'Enter Country Code For Phone',
+
 
 
 
@@ -495,6 +516,11 @@ return [
     'error_advertiser_id'                           => 'Please select advertiser.',
     'error_event_category_id'                       => 'Please select event category.',
     'error_booking_amount'                          => 'Please enter booking amount.',
+    'error_country_name'                            => 'Please enter country name.',
+    'error_country_unique'                          => 'Please enter unique country name.',
+    'error_code'                                    => 'Please enter two digit country code.',
+    'error_countrycode'                             => 'Please enter three digit country code.',
+    'error_country_code_for_phone'                  => 'Please enter country code for phone.',
 
 
     // Messages
@@ -551,6 +577,7 @@ return [
     'message_enter_last_name'                       => 'Enter your last name',
     'message_enter_email'                           => 'Enter your email',
     'message_enter_phone'                           => 'Enter your phone',
+    'message_country_create_edit'                   => 'Select which details required for bank account add',
 
     // Success
     'success_data_added_successfully'               => 'Data has been added successfully.',

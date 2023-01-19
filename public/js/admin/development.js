@@ -1146,110 +1146,36 @@ $(document).ready(function() {
     });
     // End :: CMS Form //
 
-    // Start :: Category Form //
-    $("#createCategoryForm").validate({
-        ignore: ":hidden",
-        debug: false,
-        rules: {
-            title: {
-                required: true,
-            },
-            image: {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title.",
-            },
-            image: {
-                required: "Please upload an image.",
-            },
-        },
-        errorClass: 'error invalid-feedback',
-        errorElement: 'div',
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        },
-        invalidHandler: function(form, validator) {
-            var numberOfInvalids = validator.numberOfInvalids();
-            if (numberOfInvalids) {
-                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
-            } else {
-                overallErrorMessage = '';
-            }
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
-            form.submit();
-        }
-    });
-
-    $("#updateCategoryForm").validate({
-        ignore: ":hidden",
-        debug: false,
-        rules: {
-            title: {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title.",
-            },
-        },
-        errorClass: 'error invalid-feedback',
-        errorElement: 'div',
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        },
-        invalidHandler: function(form, validator) {
-            var numberOfInvalids = validator.numberOfInvalids();
-            if (numberOfInvalids) {
-                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
-            } else {
-                overallErrorMessage = '';
-            }
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
-            form.submit();
-        }
-    });
-    // End :: Category Form //
-
-    // Start :: FAQ Form //
-    $("#createFaqForm").validate({
+    // Start :: Country Form //
+    $("#createCountryForm").validate({
         ignore: [],
         debug: false,
         rules: {
-            question: {
+            'countryname': {
                 required: true
             },
-            answer: {
-                ckrequired: true,
+            'code': {
+                required: true
+            },
+            'countrycode': {
+                required: true
+            },
+            'country_code_for_phone': {
+                required: true
             },
         },
         messages: {
-            question: {
-                required: "Please enter question.",
+            'countryname': {
+                required: "Please enter country name.",
             },
-            answer: {
-                ckrequired: "Please enter answer."
+            'code': {
+                required: "Please enter two digit country code.",
+            },
+            'countrycode': {
+                required: "Please enter three digit country code.",
+            },
+            'country_code_for_phone': {
+                required: "Please enter country code for phone.",
             },
         },
         errorClass: 'error invalid-feedback',
@@ -1276,29 +1202,30 @@ $(document).ready(function() {
             }
         },
         submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
             form.submit();
         }
     });
 
-    $("#updateFaqForm").validate({
+    $("#updateCmsForm").validate({
         ignore: [],
         debug: false,
         rules: {
-            question: {
+            'page_name': {
                 required: true
             },
-            answer: {
-                ckrequired: true,
+            'title': {
+                required: true
             },
         },
         messages: {
-            question: {
-                required: "Please enter question.",
+            'page_name': {
+                required: "Please enter page name.",
             },
-            answer: {
-                ckrequired: "Please enter answer."
+            'title': {
+                required: "Please enter title.",
             },
         },
         errorClass: 'error invalid-feedback',
@@ -1330,233 +1257,7 @@ $(document).ready(function() {
             form.submit();
         }
     });
-    // End :: FAQ Form //
-
-    // Start :: Event Category Form //
-    $("#createEventCategoryForm").validate({
-        ignore: ":hidden",
-        debug: false,
-        rules: {
-            title: {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title.",
-            },
-        },
-        errorClass: 'error invalid-feedback',
-        errorElement: 'div',
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        },
-        invalidHandler: function(form, validator) {
-            var numberOfInvalids = validator.numberOfInvalids();
-            if (numberOfInvalids) {
-                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
-            } else {
-                overallErrorMessage = '';
-            }
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
-            form.submit();
-        }
-    });
-
-    $("#updateEventCategoryForm").validate({
-        ignore: ":hidden",
-        debug: false,
-        rules: {
-            title: {
-                required: true,
-            },
-        },
-        messages: {
-            title: {
-                required: "Please enter title.",
-            },
-        },
-        errorClass: 'error invalid-feedback',
-        errorElement: 'div',
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        },
-        invalidHandler: function(form, validator) {
-            var numberOfInvalids = validator.numberOfInvalids();
-            if (numberOfInvalids) {
-                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
-            } else {
-                overallErrorMessage = '';
-            }
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
-            form.submit();
-        }
-    });
-    // End :: Event Category Form //
-
-    // Start :: Event Form //
-    $("#createEventForm").validate({
-        ignore: ":hidden",
-        debug: false,
-        rules: {
-            event_category_id: {
-                required: true,
-            },
-            advertiser_id: {
-                required: true,
-            },
-            title: {
-                required: true,
-            },
-            price: {
-                required: true,
-                valid_amount:true,
-            },
-            start_date: {
-                required: true,
-            },
-            // image: {
-            //     required: true,
-            // },
-        },
-        messages: {
-            event_category_id: {
-                required: "Please select event category.",
-            },
-            advertiser_id: {
-                required: "Please select advertiser.",
-            },
-            title: {
-                required: "Please enter title.",
-            },
-            price: {
-                required: "Please enter price",
-                valid_amount: "Please enter valid amount",
-            },
-            start_date: {
-                required: "Please select date & time.",
-            },
-            // image: {
-            //     required: "Please upload an image.",
-            // },
-        },
-        errorClass: 'error invalid-feedback',
-        errorElement: 'div',
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        },
-        invalidHandler: function(form, validator) {
-            var numberOfInvalids = validator.numberOfInvalids();
-            if (numberOfInvalids) {
-                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
-            } else {
-                overallErrorMessage = '';
-            }
-        },
-        errorPlacement: function(error, element) {
-            if ($(element).attr('id') == 'event_category_id' || $(element).attr('id') == 'advertiser_id') {
-                error.insertAfter($(element).parents('div.form-group'));
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
-            form.submit();
-        }
-    });
-
-    $("#updateEventForm").validate({
-        ignore: ":hidden",
-        debug: false,
-        rules: {
-            event_category_id: {
-                required: true,
-            },
-            advertiser_id: {
-                required: true,
-            },
-            title: {
-                required: true,
-            },
-            price: {
-                required: true,
-                valid_amount:true,
-            },
-            start_date: {
-                required: true,
-            },
-        },
-        messages: {
-            event_category_id: {
-                required: "Please select event category.",
-            },
-            advertiser_id: {
-                required: "Please select advertiser.",
-            },
-            title: {
-                required: "Please enter title.",
-            },
-            price: {
-                required: "Please enter price",
-                valid_amount: "Please enter valid amount",
-            },
-            start_date: {
-                required: "Please select date & time.",
-            },
-        },
-        errorClass: 'error invalid-feedback',
-        errorElement: 'div',
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-        },
-        invalidHandler: function(form, validator) {
-            var numberOfInvalids = validator.numberOfInvalids();
-            if (numberOfInvalids) {
-                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
-            } else {
-                overallErrorMessage = '';
-            }
-        },
-        errorPlacement: function(error, element) {
-            if ($(element).attr('id') == 'event_category_id' || $(element).attr('id') == 'advertiser_id') {
-                error.insertAfter($(element).parents('div.form-group'));
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
-            form.submit();
-        }
-    });
-    // End :: Event Form //
+    // End :: CMS Form //
     
 
     /***************************** Start :: Data table and Common Functionalities ****************************/

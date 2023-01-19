@@ -43,6 +43,8 @@ table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_a
     top: 50%;
     content: "▾" !important;
 }
+.form-label, .col-form-label {text-transform: none; font-size: 0.85rem;}
+.notyf__toast.notyf__toast--dismissible.notyf__toast--upper.notyf__toast--error {max-width: 100% !important; background: #ed3e3e !important;}
 
 
 

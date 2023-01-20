@@ -141,9 +141,9 @@ class CmsController extends Controller
                                 }
                             } else {
                                 if ($row->status == '1') {
-                                    $status = ' <a data-microtip-position="top" role="" aria-label="'.trans('custom_admin.label_active').'" class="custom_font"><span class="badge rounded-pill bg-success">'.trans('custom_admin.label_active').'</span></a>';
+                                    $status = ' <a data-microtip-position="top" role="" aria-label="'.__('custom_admin.label_active').'" class="custom_font"><span class="badge rounded-pill bg-success">'.__('custom_admin.label_active').'</span></a>';
                                 } else {
-                                    $status = ' <a data-microtip-position="top" role="" aria-label="'.trans('custom_admin.label_active').'" class="custom_font"><span class="badge rounded-pill bg-danger">'.trans('custom_admin.label_inactive').'</span></a>';
+                                    $status = ' <a data-microtip-position="top" role="" aria-label="'.__('custom_admin.label_active').'" class="custom_font"><span class="badge rounded-pill bg-danger">'.__('custom_admin.label_inactive').'</span></a>';
                                 }
                             }
                             return $status;
@@ -168,7 +168,6 @@ class CmsController extends Controller
             $this->generateNotifyMessage('error', $e->getMessage(), false);
             return '';
         } catch (\Throwable $e) {
-            dd('here');
             $this->generateNotifyMessage('error', $e->getMessage(), false);
             return '';
         }
@@ -244,10 +243,10 @@ class CmsController extends Controller
         * Author        :
         * Created Date  : 18/01/2023
         * Modified date :
-        * Input Params  : Request $request
+        * Input Params  : Request $request, Cms $cms = model binding
         * Return Value  : Returns cms data
     */
-    public function edit(Request $request, $id = null) {
+    public function edit(Request $request, Cms $cms) {
         $data = [
             'pageTitle'     => trans('custom_admin.label_edit_cms'),
             'panelTitle'    => trans('custom_admin.label_edit_cms'),
@@ -255,17 +254,16 @@ class CmsController extends Controller
         ];
 
         try {
-            $data['id']         = $id;
-            $data['cmsId']      = $id = customEncryptionDecryption($id, 'decrypt');
-            $data['details']    = $details = $this->model->where(['id' => $id])->first();
+            $data['cms']        = $cms;
+            $data['details']    = $details = $cms;
             
             if ($request->isMethod('PUT')) {
-                if ($id == null) {
+                if ($cms->id == null) {
                     $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
                     return redirect()->route($this->pageRoute.'.'.$this->listUrl);
                 }
                 $validationCondition = array(
-                    'page_name'     => 'required|unique:'.($this->model)->getTable().',page_name,'.$id.',id,deleted_at,NULL',
+                    'page_name'     => 'required|unique:'.($this->model)->getTable().',page_name,'.$cms->id.',id,deleted_at,NULL',
                     'title'         => 'required',
                     'featured_image'=> 'mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE'),
                 );
@@ -282,7 +280,7 @@ class CmsController extends Controller
                     return redirect()->back()->withInput();
                 } else {
                     $input          = $request->all();
-                    $input['slug']  = generateUniqueSlug($this->model, trim($request->page_name,' '), $data['id']);
+                    $input['slug']  = generateUniqueSlug($this->model, trim($request->page_name,' '), $cms->id);
 
                     $featuredImage              = $request->file('featured_image');
                     $previousFeaturedImage      = null;
@@ -295,34 +293,12 @@ class CmsController extends Controller
                         $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'featured_image', $this->pageRoute, false);
                         $input['featured_image']= $uploadedFeaturedImage;
                     }
-                                        
-                    // $updateData['slug']                 = generateUniqueSlug($this->model, trim($request->page_name,' '), $data['id']);
-                    // foreach ($this->websiteLanguages as $langKey => $langVal) {
-                    //     $updateData['page_name']                = $request->page_name ?? null;
-                    //     $updateData['title']                    = $request->title ?? null;
-                    //     $updateData['short_title']              = $request->short_title ?? null;
-                    //     $updateData['short_description']        = $request->short_description ?? null;
-                    //     $updateData['description']              = $request->description ?? null;
-                    //     $updateData['description2']             = $request->description2 ?? null;
-                    //     $updateData['other_description']        = $request->other_description ?? null;
-                    //     $updateData['banner_title']             = $request->banner_title ?? null;
-                    //     $updateData['banner_short_title']       = $request->banner_short_title ?? null;
-                    //     $updateData['banner_short_description'] = $request->banner_short_description ?? null;
-                    //     $updateData['meta_title']               = $request->meta_title ?? null;
-                    //     $updateData['meta_keywords']            = $request->meta_keywords ?? null;
-                    //     $updateData['meta_description']         = $request->meta_description ?? null;
-                    // }
                     $update = $details->update($input);
 
                     if ($update) {
                         $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix.'.'.$this->listUrl);
                     } else {
-                        // If files uploaded then delete those files
-                        unlinkFiles($this->modelName, $uploadedBannerImage, $this->pageRoute, true);
-                        unlinkFiles($this->modelName, $uploadedFeaturedImage, $this->pageRoute, true);
-                        unlinkFiles($this->modelName, $uploadedOtherImage, $this->pageRoute, true);
-
                         $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
                         return back()->withInput();
                     }
@@ -344,39 +320,37 @@ class CmsController extends Controller
         * Author        :
         * Created Date  : 18/01/2023
         * Modified date :
-        * Input Params  : Request $request, $id = null
+        * Input Params  : Request $request, Cms $cms = model binding
         * Return Value  : Returns json
     */
-    public function status(Request $request, $id = null) {
+    public function status(Request $request, Cms $cms) {
         $title      = trans('custom_admin.message_error');
         $message    = trans('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
             if ($request->ajax()) {
-                $id = customEncryptionDecryption($id, 'decrypt');
-                if ($id != null) {
-                    $details = $this->model->where('id', $id)->first();
-                    if ($details != null) {
-                        if ($details->status == 1) {
-                            $details->status = '0';
-                            $details->save();
-                            
-                            $title      = trans('custom_admin.message_success');
-                            $message    = trans('custom_admin.success_status_updated_successfully');
-                            $type       = 'success';
-                        } else if ($details->status == 0) {
-                            $details->status = '1';
-                            $details->save();
-        
-                            $title      = trans('custom_admin.message_success');
-                            $message    = trans('custom_admin.success_status_updated_successfully');
-                            $type       = 'success';
-                        }
-                    } else {
-                        $message = trans('custom_admin.error_invalid');
+                $details = $cms;
+                if ($details != null) {
+                    if ($details->status == 1) {
+                        $details->status = '0';
+                        $details->save();
+                        
+                        $title      = trans('custom_admin.message_success');
+                        $message    = trans('custom_admin.success_status_updated_successfully');
+                        $type       = 'success';
+                    } else if ($details->status == 0) {
+                        $details->status = '1';
+                        $details->save();
+    
+                        $title      = trans('custom_admin.message_success');
+                        $message    = trans('custom_admin.success_status_updated_successfully');
+                        $type       = 'success';
                     }
+                } else {
+                    $message = trans('custom_admin.error_invalid');
                 }
+                
             }
         } catch (Exception $e) {
             $message = $e->getMessage();
@@ -392,38 +366,28 @@ class CmsController extends Controller
         * Author        :
         * Created Date  : 18/01/2023
         * Modified date :
-        * Input Params  : Request $request, $id = null
+        * Input Params  : Request $request, Cms $cms = model binding
         * Return Value  : Returns json
     */
-    public function delete(Request $request, $id = null) {
+    public function delete(Request $request, Cms $cms) {
         $title      = trans('custom_admin.message_error');
         $message    = trans('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
             if ($request->ajax()) {
-                $id = customEncryptionDecryption($id, 'decrypt');
-                if ($id != null) {
-                    $details = $this->model->where('id', $id)->first();
-                    if ($details != null) {
-                        $checkingRelatedRecordsExist = $this->model->where('parent_id', $id)->whereNull('deleted_at')->count();
-                        if (!$checkingRelatedRecordsExist) {
-                            $delete = $details->delete();
-                            if ($delete) {
-                                $title      = trans('custom_admin.message_success');
-                                $message    = trans('custom_admin.success_data_deleted_successfully');
-                                $type       = 'success';
-                            } else {
-                                $message    = trans('custom_admin.error_took_place_while_deleting');
-                            }
-                        } else {
-                            $title      = trans('custom_admin.message_warning');
-                            $message    = trans('custom_admin.message_delete_related_records_exist');
-                            $type       = 'warning';
-                        }
+                $details = $cms;
+                if ($details != null) {
+                    $delete = $details->delete();
+                    if ($delete) {
+                        $title      = trans('custom_admin.message_success');
+                        $message    = trans('custom_admin.success_data_deleted_successfully');
+                        $type       = 'success';
                     } else {
-                        $message = trans('custom_admin.error_invalid');
+                        $message    = trans('custom_admin.error_took_place_while_deleting');
                     }
+                } else {
+                    $message = trans('custom_admin.error_invalid');
                 }
             }
         } catch (Exception $e) {
@@ -454,57 +418,6 @@ class CmsController extends Controller
             $url = asset('images/uploads/'.$this->pageRoute.'/'.$fileName);
             return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
         }
-    }
-
-    /*
-        * Function Name : deleteUploadedImage
-        * Purpose       : This function is for delete uploaded image
-        * Author        :
-        * Created Date  : 18/01/2023
-        * Modified date :
-        * Input Params  : Request $request
-        * Return Value  : 
-    */
-    public function deleteUploadedImage(Request $request, $id = null) {
-        $title      = trans('custom_admin.message_error');
-        $message    = trans('custom_admin.error_something_went_wrong');
-        $type       = 'error';
-
-        try {
-            if ($request->ajax()) {
-                $primaryId  = $request->primaryId ? customEncryptionDecryption($request->primaryId, 'decrypt') : null;
-                $dbField    = $request->dbField ? $request->dbField : '';
-
-                if ($primaryId != null && $dbField != '') {
-                    $details = $this->model->where('id', $primaryId)->first();
-                    if ($details != '') {
-                        $response       = unlinkFiles($details->banner_image, $this->pageRoute, true);
-                        $responseFeaturedImage = unlinkFiles($details->featured_image, $this->pageRoute, true);
-                        if ($response && $responseFeaturedImage) {
-                            $details->$dbField = null;
-                            if ($details->save()) {
-                                $title      = trans('custom_admin.message_success');
-                                $message    = trans('custom_admin.message_image_uploaded_successfully');
-                                $type       = 'success';
-                            } else {
-                                $message    = trans('custom_admin.error_took_place_while_deleting');
-                            }
-                        } else {
-                            $message    = trans('custom_admin.error_took_place_while_deleting');
-                        }
-                    } else {
-                        $message = trans('custom_admin.error_invalid');
-                    }                    
-                } else {
-                    $message = trans('custom_admin.error_invalid');
-                }
-            }
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-        } catch (\Throwable $e) {
-            $message = $e->getMessage();
-        }
-        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
     }
 
 }

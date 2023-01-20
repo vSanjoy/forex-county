@@ -54,9 +54,10 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');
                     Route::post('/create', 'create');
-                    Route::get('/edit/{id}', 'edit')->name('edit');
-                    Route::put('/edit/{id}', 'edit');
-                    Route::get('/status/{id}', 'status')->name('change-status');
+                    Route::get('/edit/{cms}', 'edit')->name('edit');
+                    Route::put('/edit/{cms}', 'edit');
+                    Route::get('/status/{cms}', 'status')->name('change-status');
+                    Route::delete('/delete/{cms}', 'delete')->name('delete');
 
                 });
             });
@@ -66,7 +67,11 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::get('/list', 'list')->name('list');
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');
-                    Route::post('/create', 'create')->name('create');
+                    Route::post('/create', 'create');
+                    Route::get('/edit/{country}', 'edit')->name('edit');
+                    Route::put('/edit/{country}', 'edit');
+                    Route::get('/status/{country}', 'status')->name('change-status');
+                    Route::delete('/delete/{country}', 'delete')->name('delete');
                 });
             });
         });

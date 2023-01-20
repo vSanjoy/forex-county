@@ -1195,11 +1195,7 @@ $(document).ready(function() {
             }
         },
         errorPlacement: function(error, element) {
-            if ($(element).attr('id') == 'description') {
-                error.insertAfter($(element).parents('div.form-group'));
-            } else {
-                error.insertAfter(element);
-            }
+            error.insertAfter(element);
         },
         submitHandler: function(form) {
             $('#btn-saving').html(btnSavingPreloader);
@@ -1208,24 +1204,36 @@ $(document).ready(function() {
             form.submit();
         }
     });
-
-    $("#updateCmsForm").validate({
+    
+    $("#updateCountryForm").validate({
         ignore: [],
         debug: false,
         rules: {
-            'page_name': {
+            'countryname': {
                 required: true
             },
-            'title': {
+            'code': {
+                required: true
+            },
+            'countrycode': {
+                required: true
+            },
+            'country_code_for_phone': {
                 required: true
             },
         },
         messages: {
-            'page_name': {
-                required: "Please enter page name.",
+            'countryname': {
+                required: "Please enter country name.",
             },
-            'title': {
-                required: "Please enter title.",
+            'code': {
+                required: "Please enter two digit country code.",
+            },
+            'countrycode': {
+                required: "Please enter three digit country code.",
+            },
+            'country_code_for_phone': {
+                required: "Please enter country code for phone.",
             },
         },
         errorClass: 'error invalid-feedback',
@@ -1245,19 +1253,16 @@ $(document).ready(function() {
             }
         },
         errorPlacement: function(error, element) {
-            if ($(element).attr('id') == 'description') {
-                error.insertAfter($(element).parents('div.form-group'));
-            } else {
-                error.insertAfter(element);
-            }            
+            error.insertAfter(element);
         },
         submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
-            $('.preloader').show();
+            $('#btn-updating').html(btnUpdatingPreloader);
+            $('#btn-updating').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
             form.submit();
         }
     });
-    // End :: CMS Form //
+    // End :: Country Form //
     
 
     /***************************** Start :: Data table and Common Functionalities ****************************/
@@ -1480,6 +1485,7 @@ function listActions(routePrefix, actionRoute, id, actionType, dTable) {
         actionUrl = adminPanelUrl+'/'+routePrefix+'/'+actionRoute+'/'+id;
     }
 
+    let requestMethod = 'GET';
     if (actionType == 'active') {
         message = confirmActiveStatusMessage;
     } else if (actionType == 'inactive') {
@@ -1489,6 +1495,7 @@ function listActions(routePrefix, actionRoute, id, actionType, dTable) {
     } else if (actionType == 'complete') {
         message = confirmCompleteMessage;
     } else if (actionType == 'delete') {
+        requestMethod = 'DELETE';
         message = confirmDeleteMessage;
     } else {
         message = somethingWrongMessage;
@@ -1512,7 +1519,7 @@ function listActions(routePrefix, actionRoute, id, actionType, dTable) {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     url: actionUrl,
-                    method: 'GET',
+                    method: requestMethod,
                     data: {},
                     success: function (response) {
                         $('.preloader').hide();

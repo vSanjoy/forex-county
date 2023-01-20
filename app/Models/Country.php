@@ -12,4 +12,8 @@ class Country extends Model
 
     protected $guarded = ['id'];    // The field name inside the array is not mass-assignable
 
+    public function resolveRouteBinding($value, $field = null) {
+        return $this->where('id', customEncryptionDecryption($value, 'decrypt'))->firstOrFail();
+    }
+
 }

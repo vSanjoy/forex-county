@@ -8,6 +8,7 @@ return [
     'label_hello'                                   => 'Hello',
     'label_extra'                                   => 'Extra',
     'label_managements'                             => 'Managements',
+    'label_modules'                                 => 'Modules',
     'label_login'                                   => 'Login',
     'label_login_text'                              => 'Sign in to start your session',
     'label_email'                                   => 'Email',
@@ -329,6 +330,7 @@ return [
     'label_country'                                 => 'Countries',
     'label_country_list'                            => 'Country List',
     'label_create_country'                          => 'Create Country',
+    'label_edit_country'                            => 'Edit Country',
     'label_country_name'                            => 'Country Name',
     'label_two_digit_country_code'                  => 'Two Digit Country Code',
     'label_short_three_digit_country_code'          => 'Three Digit Country Code',
@@ -344,6 +346,7 @@ return [
     'label_is_city_required'                        => 'Is City Required',
     'label_is_address_required'                     => 'Is Address Required',
     'label_is_postal_code_required'                 => 'Is Postal Code Required',
+    'label_country_code'                            => 'Country Code',
 
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
@@ -397,10 +400,9 @@ return [
     'placeholder_meta_keywords'                     => 'Enter meta keywords',
     'placeholder_meta_description'                  => 'Enter meta description',
     'placeholder_country_name'                      => 'Enter Country Name',
-    
-    'placeholder_two_digit_country_code'                  => 'Enter Two Digit Country Code',
-    'placeholder_short_three_digit_country_code'          => 'Enter Three Digit Country Code',
-    'placeholder_country_code_for_phone'                  => 'Enter Country Code For Phone',
+    'placeholder_two_digit_country_code'            => 'Enter two digit country code',
+    'placeholder_short_three_digit_country_code'    => 'Enter three digit country code',
+    'placeholder_country_code_for_phone'            => 'Enter country code for phone',
 
 
 

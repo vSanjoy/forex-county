@@ -159,7 +159,7 @@
     @endif
 
     <!-- CKEditor -->
-    @if (strpos(Route::currentRouteName(), '.add') !== false || strpos(Route::currentRouteName(), '.edit') !== false)
+    @if (strpos(Route::currentRouteName(), '.create') !== false || strpos(Route::currentRouteName(), '.edit') !== false)
     <script src="{{ asset('js/admin/ckeditor.js') }}"></script>
     <script>
     $(function () {

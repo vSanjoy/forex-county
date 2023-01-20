@@ -1,4 +1,11 @@
 <?php
+/*
+    * Class name    : Country
+    * Purpose       : Table declaration
+    * Author        :
+    * Created Date  : 20/01/2023
+    * Modified date :
+*/
 
 namespace App\Models;
 

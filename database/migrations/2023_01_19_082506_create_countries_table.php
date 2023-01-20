@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->integer('country_id')->nullable();
-            $table->string('currency')->nullable();
-            $table->string('three_digit_currency_code',100)->nullable();
+            $table->string('countryname')->nullable();
+            $table->string('countrycode',3)->nullable();
+            $table->string('code',2)->nullable();
             $table->string('country_code_for_phone',5)->nullable();
             $table->enum('require_account_holder', ['Y','N'])->default('Y')->comment('N=>No, Y=>Yes');
             $table->enum('require_account_number', ['Y','N'])->default('Y')->comment('N=>No, Y=>Yes');

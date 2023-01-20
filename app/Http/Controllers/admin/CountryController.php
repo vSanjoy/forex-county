@@ -1,13 +1,20 @@
 <?php
+/*****************************************************/
+# Company Name      :
+# Author            :
+# Created Date      : 20/01/2023
+# Page/Class name   : CountryController
+# Purpose           : Country Management
+/*****************************************************/
 
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\Traits\GeneralMethods;
-use App\Models\Country;
 use DataTables;
 
 class CountryController extends Controller
@@ -63,8 +70,8 @@ class CountryController extends Controller
     */
     public function list() {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_cms_list'),
-            'panelTitle'    => trans('custom_admin.label_cms_list'),
+            'pageTitle'     => trans('custom_admin.label_country_list'),
+            'panelTitle'    => trans('custom_admin.label_country_list'),
             'pageType'      => 'LISTPAGE'
         ];
 
@@ -99,8 +106,8 @@ class CountryController extends Controller
     */
     public function ajaxListRequest(Request $request) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_cms_list'),
-            'panelTitle'    => trans('custom_admin.label_cms_list')
+            'pageTitle'     => trans('custom_admin.label_country_list'),
+            'panelTitle'    => trans('custom_admin.label_country_list')
         ];
 
         try {

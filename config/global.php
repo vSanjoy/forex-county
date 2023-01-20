@@ -43,5 +43,10 @@ return [
     'GALLERY_MAX_IMAGE_UPLOAD_AT_ONCE'  => 10,                                      // Number of images upload at once
     'GALLERY_MAX_IMAGE_UPLOAD_SIZE'     => 5120,                                    // Maximum upload images
     'WEBSITE_LANGUAGE'                  => ['en' => 'English', 'ar' => 'Arabic'],   // Website language
-    'BOOKING_SHOW_PER_PAGE'             => 10,                                      // Number of booking show in booking history page
+    'BOOKING_SHOW_PER_PAGE'             => 10,
+    'NA'                                => 'N/A',
+
+    // Country, Currency
+    'NO_YES_DROPDOWN'                   => ['N' => 'No', 'Y' => 'Yes'],
+    'AVAILABLE_TRANSFER_METHODS'        => ['1' => 'Bank Deposit', '2' => 'Cash Pickup', '3' => 'Swift']
 ];

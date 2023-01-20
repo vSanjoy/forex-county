@@ -253,9 +253,6 @@ return [
     'label_is_closed'                               => 'Is Closed?',
     'label_start_time'                              => 'Open Time',
     'label_end_time'                                => 'Close Time',
-    'label_menu_booking'                            => 'Booking',
-    'label_booking_list'                            => 'Booking List',
-    'label_view_booking'                            => 'View Booking',
     'label_customer_name'                           => 'Customer Name',
     'label_booking_start_date_time'                 => 'Booking Start time',
     'label_booking_end_date_time'                   => 'Booking End time',
@@ -307,13 +304,13 @@ return [
     'label_customer'                                => 'Customers',
     'label_add_customer'                            => 'Add Customer',
     'label_edit_customer'                           => 'Edit Customer',
-    'label_menu_advertiser'                         => 'Advertiser',
-    'label_advertiser_management'                   => 'Advertiser Management',
-    'label_advertiser_list'                         => 'Advertiser List',
-    'label_advertiser'                              => 'Advertisers',
-    'label_add_advertiser'                          => 'Add Advertiser',
-    'label_edit_advertiser'                         => 'Edit Advertiser',
-    'label_advertiser_id'                           => 'Advertiser',
+    'label_menu_currency'                           => 'Currency',
+    'label_currency_management'                     => 'Currency',
+    'label_currency_list'                           => 'Currency List',
+    'label_currency'                                => 'Currencies',
+    'label_create_currency'                         => 'Create Currency',
+    'label_edit_currency'                           => 'Edit Currency',
+    'label_currency_id'                             => 'Currency',
     'label_phone'                                   => 'Phone',
     'label_total_customers'                         => 'Total Customers',
     'label_total_advertisers'                       => 'Total Advertisers',
@@ -347,6 +344,10 @@ return [
     'label_is_address_required'                     => 'Is Address Required',
     'label_is_postal_code_required'                 => 'Is Postal Code Required',
     'label_country_code'                            => 'Country Code',
+    'label_title_currency'                          => 'Currency',
+    'label_serial_number'                           => 'Serial Number',
+    'label_is_this_currency_will_be_avaliable_for_sender'=> 'Is this currency will be avaliable for sender',
+    'label_is_this_currency_will_be_avaliable_for_receiver'=> 'Is this currency will be avaliable for receiver',
 
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
@@ -403,8 +404,9 @@ return [
     'placeholder_two_digit_country_code'            => 'Enter two digit country code',
     'placeholder_short_three_digit_country_code'    => 'Enter three digit country code',
     'placeholder_country_code_for_phone'            => 'Enter country code for phone',
-
-
+    'placeholder_exchange_rate'                     => 'Enter exchange rate',
+    'placeholder_currency'                          => 'Enter currency',
+    'placeholder_serial_number'                     => 'Enter Serial number',
 
 
     // Errors
@@ -523,6 +525,11 @@ return [
     'error_code'                                    => 'Please enter two digit country code.',
     'error_countrycode'                             => 'Please enter three digit country code.',
     'error_country_code_for_phone'                  => 'Please enter country code for phone.',
+    'error_country_id'                              => 'Please select country.',
+    'error_currency'                                => 'Please enter currency.',
+    'error_three_digit_currency_code'               => 'Please enter three digit currency code.',
+    'error_serial_number'                           => 'Please enter serial number.',
+
 
 
     // Messages
@@ -580,6 +587,7 @@ return [
     'message_enter_email'                           => 'Enter your email',
     'message_enter_phone'                           => 'Enter your phone',
     'message_country_create_edit'                   => 'Select which details required for bank account add',
+    'message_courrency_manual_exchange_rate'        => 'Manual Exchange Rate',
 
     // Success
     'success_data_added_successfully'               => 'Data has been added successfully.',

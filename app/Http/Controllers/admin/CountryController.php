@@ -273,7 +273,7 @@ class CountryController extends Controller
                     return redirect()->route($this->pageRoute.'.'.$this->listUrl);
                 }
                 $validationCondition = array(
-                    'countryname'               => 'required|unique:'.($this->model)->getTable().',countryname,NULL,id,deleted_at,NULL',
+                    'countryname'               => 'required|unique:'.($this->model)->getTable().',page_name,'.$country->id.',id,deleted_at,NULL',
                     'code'                      => 'required|max:2',
                     'countrycode'               => 'required',
                     'country_code_for_phone'    => 'required',

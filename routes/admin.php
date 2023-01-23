@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\BankController;
 use App\Http\Controllers\admin\CountryController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +76,19 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
             });
             Route::controller(CurrencyController::class)->group(function () {
                 Route::prefix('currency')->name('currency.')->group(function () {
+                    Route::get('/list', 'list')->name('list');
+                    Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/create', 'create');
+                    Route::get('/edit/{currency}', 'edit')->name('edit');
+                    Route::put('/edit/{currency}', 'edit');
+                    Route::get('/status/{currency}', 'status')->name('change-status');
+                    Route::delete('/delete/{currency}', 'delete')->name('delete');
+                });
+            });
+
+            Route::controller(BankController::class)->group(function () {
+                Route::prefix('bank')->name('bank.')->group(function () {
                     Route::get('/list', 'list')->name('list');
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');

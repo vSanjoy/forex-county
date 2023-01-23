@@ -95,7 +95,7 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::post('/create', 'create');
                     Route::get('/edit/{currency}', 'edit')->name('edit');
                     Route::put('/edit/{currency}', 'edit');
-                    Route::get('/status/{currency}', 'status')->name('change-status');
+                    Route::get('/status/{bank}', 'status')->name('change-status');
                     Route::delete('/delete/{currency}', 'delete')->name('delete');
                 });
             });

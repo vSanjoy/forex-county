@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('bank_code', 10)->nullable();
             $table->unsignedBigInteger('country_id');
             $table->string('bank_image')->nullable();
-            $table->enum('status', ['Y', 'N'])->comment('Y->Active | N->Inactive');
+            $table->enum('status', ['0', '1'])->comment('1->Active | 0->Inactive')->default('1');
             $table->timestamps();
             $table->softDeletes();
 

@@ -58,7 +58,7 @@ $(document).ready(function() {
             	},
 			],
 	        order: [
-				[0, 'asc']
+				[0, 'desc']
 			],
 			pageLength: 10,
 			lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, '{{trans("custom_admin.label_all")}}']],

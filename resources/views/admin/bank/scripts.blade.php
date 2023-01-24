@@ -1,11 +1,13 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	@include('admin.includes.notification')
-	
+
 	@if (Route::currentRouteName() == $routePrefix.'.'.$listUrl)
 	// Get list page data
-	var getListDataUrl = "{{route($routePrefix.'.'.$listRequestUrl)}}";	
-	var dTable = $('#list-table').on('init.dt', function () {$('#dataTableLoading').hide(); $('ul.pagination').addClass('pagination-round pagination-dark');}).DataTable({
+	var getListDataUrl = "{{route($routePrefix.'.'.$listRequestUrl)}}";
+	var dTable = $('#list-table').on('init.dt', function () {
+        $('#dataTableLoading').hide();
+        $('ul.pagination').addClass('pagination-round pagination-dark');}).DataTable({
 			destroy: true,
 			autoWidth: false,
 	        responsive: false,
@@ -34,16 +36,9 @@ $(document).ready(function() {
 	        columns: [
 				{data: 'id', name: 'id'},
 	            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-				{
-					data: 'image',
-					orderable: false,
-					searchable: false,
-					render: function ( data, type, row ) {
-						return '<img class="image-border" src="'+row.image+'" width="50" alt="" />';
-					},
-				},
-				{data: 'countryname', name: 'countryname'},
-				{data: 'countrycode', name: 'countrycode'},
+				{data: 'bank_name', name: 'bank_name'},
+				{data: 'bank_code', name: 'bank_code'},
+				{data: 'country_id', name: 'country_id'},
 				{data: 'updated_at', name: 'updated_at', orderable: false, searchable: false},
 				{data: 'status', name: 'status'},
 			@if ($isAllow || in_array($editUrl, $allowedRoutes))
@@ -58,7 +53,7 @@ $(document).ready(function() {
             	},
 			],
 	        order: [
-				[0, 'asc']
+				[0, 'desc']
 			],
 			pageLength: 10,
 			lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, '{{trans("custom_admin.label_all")}}']],
@@ -70,21 +65,21 @@ $(document).ready(function() {
         		}
 			},
 	});
-	
+
 	// Prevent alert box from datatable & console error message
-	$.fn.dataTable.ext.errMode = 'none';	
+	$.fn.dataTable.ext.errMode = 'none';
 	$('#list-table').on('error.dt', function (e, settings, techNote, message) {
 		$('#dataTableLoading').hide();
 		notyf.error(message, "@lang('custom_admin.message_error')");
 	});
-	
+
 	// Status section
 	$(document).on('click', '.status', function() {
 		var id 			= $(this).data('id');
 		var actionType 	= $(this).data('action-type');
 		listActions('{{ $pageRoute }}', 'status', id, actionType, dTable);
 	});
-	
+
 	// Delete section
 	$(document).on('click', '.delete', function() {
 		var id = $(this).data('id');

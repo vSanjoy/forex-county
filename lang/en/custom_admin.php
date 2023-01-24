@@ -348,6 +348,16 @@ return [
     'label_serial_number'                           => 'Serial Number',
     'label_is_this_currency_will_be_avaliable_for_sender'=> 'Is this currency will be avaliable for sender',
     'label_is_this_currency_will_be_avaliable_for_receiver'=> 'Is this currency will be avaliable for receiver',
+    'label_Sender'=> 'Sender',
+    'label_Receiver'=> 'Receiver',
+    'label_Transfer_Number'=> 'Transfer Number',
+    'label_Transfer_Details'=> 'Transfer Details',
+    'label_User_Payment_Status'=> 'User Payment Status',
+    'label_Forexcountry_Transfer_Status'=> 'Forexcountry Transfer Status',
+    'label_money_transfer_list'=> 'Manage Money Transfers',
+    'label_money_transfer'=> 'Money Transfers',
+
+
 
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',

@@ -121,5 +121,12 @@ endif;
         </li>
 
 
+        <li class="menu-item @if(request()->routeIs('admin.money.list')) active @endif">
+            <a href="{{ route('admin.money.list') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-credit-card'></i>
+                <div data-i18n="Analytics">{{ __('custom_admin.label_money_transfer') }}</div>
+            </a>
+        </li>
+
     </ul>
 </aside>

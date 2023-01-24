@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Traits\GeneralMethods;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Validation\Rule;
 
 class BankController extends Controller
 {
@@ -251,5 +252,71 @@ class BankController extends Controller
             $message = $e->getMessage();
         }
         return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
+    public function edit(Request $request, Bank $bank) {
+        $data = [
+            'pageTitle'     => trans('custom_admin.label_edit_cms'),
+            'panelTitle'    => trans('custom_admin.label_edit_cms'),
+            'pageType'      => 'EDITPAGE'
+        ];
+
+        try {
+            $data['countries'] = Country::all(['id', 'countryname']);
+            $data['bank'] = $bank;
+            $data['details'] = $details = $bank;
+
+            if ($request->isMethod('PUT')) {
+                if ($bank->id == null) {
+                    $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+                    return redirect()->route($this->pageRoute.'.'.$this->listUrl);
+                }
+                $validationCondition = array(
+                    'bank_name' => ['required', Rule::unique('banks')->ignore($bank->id)],
+                    'bank_code' => ['required', Rule::unique('banks')->ignore($bank->id)],
+                    'bank_image' => 'mimes:' . config('global.IMAGE_FILE_TYPES') . '|max:' . config('global.IMAGE_MAX_UPLOAD_SIZE')
+                );
+                $validationMessages = array(
+                    'bank_name.required' => trans('custom_admin.error_bank_name'),
+                    'bank_name.unique' => trans('custom_admin.error_bank_name_unique'),
+                    'bank_image.mimes' => trans('custom_admin.error_image_mimes')
+                );
+
+                $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($validator->fails()) {
+                    $validationFailedMessages = validationMessageBeautifier($validator->messages()->getMessages());
+                    $this->generateNotifyMessage('error', $validationFailedMessages, false);
+                    return redirect()->back()->withInput();
+                } else {
+                    $input          = $request->all();
+                    $featuredImage              = $request->file('bank_image');
+                    $previousFeaturedImage      = null;
+                    $unlinkFeaturedImageStatus  = false;
+                    $uploadedFeaturedImage      = '';
+
+                    // Featured image upload
+                    if ($featuredImage != '') {
+                        $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'bank_image', $this->pageRoute, false);
+                        $input['bank_image']= $uploadedFeaturedImage;
+                    }
+                    $update = $details->update($input);
+
+                    if ($update) {
+                        $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                        return to_route($this->routePrefix.'.'.$this->listUrl);
+                    } else {
+                        $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
+                        return back()->withInput();
+                    }
+                }
+            }
+            return view($this->viewFolderPath.'.edit', $data);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            return redirect()->route($this->routePrefix.'.'.$this->listUrl);
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return redirect()->route($this->routePrefix.'.'.$this->listUrl);
+        }
     }
 }

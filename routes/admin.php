@@ -93,10 +93,10 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');
                     Route::post('/create', 'create');
-                    Route::get('/edit/{currency}', 'edit')->name('edit');
-                    Route::put('/edit/{currency}', 'edit');
+                    Route::get('/edit/{bank}', 'edit')->name('edit');
+                    Route::put('/edit/{bank}', 'edit');
                     Route::get('/status/{bank}', 'status')->name('change-status');
-                    Route::delete('/delete/{currency}', 'delete')->name('delete');
+                    Route::delete('/delete/{bank}', 'delete')->name('delete');
                 });
             });
         });

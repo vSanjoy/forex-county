@@ -356,6 +356,11 @@ return [
     'label_Forexcountry_Transfer_Status'=> 'Forexcountry Transfer Status',
     'label_money_transfer_list'=> 'Manage Money Transfers',
     'label_money_transfer'=> 'Money Transfers',
+    'label_bank_name'=> 'Bank Name',
+    'label_bank_code'=> 'Bank Code',
+    'label_bank'=> 'Manage Bank',
+    'label_bank_list'=> 'Manage Banks',
+    'label_create_bank'=> 'Create New Bank',
 
 
 
@@ -417,6 +422,7 @@ return [
     'placeholder_exchange_rate'                     => 'Enter exchange rate',
     'placeholder_currency'                          => 'Enter currency',
     'placeholder_serial_number'                     => 'Enter Serial number',
+    'placeholder_bank_name'                     => 'Bank Name',
 
 
     // Errors

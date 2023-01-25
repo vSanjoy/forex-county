@@ -1486,6 +1486,112 @@ $(document).ready(function() {
         }
     });
     // End :: Transfer fees Form //
+
+    // Start :: Bank Form //
+    $("#createBankForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'country_id': {
+                required: true
+            },
+            'bank_name': {
+                required: true
+            },
+            'bank_code': {
+                required: true
+            }
+        },
+        messages: {
+            'country_id': {
+                required: "Please select country.",
+            },
+            'bank_name': {
+                required: "Please enter bank name.",
+            },
+            'bank_code': {
+                required: "Please enter bank code.",
+            }
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+    
+    $("#updateBankForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'country_id': {
+                required: true
+            },
+            'bank_name': {
+                required: true
+            },
+            'bank_code': {
+                required: true
+            }
+        },
+        messages: {
+            'country_id': {
+                required: "Please select country.",
+            },
+            'bank_name': {
+                required: "Please enter bank name.",
+            },
+            'bank_code': {
+                required: "Please enter bank code.",
+            }
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-updating').html(btnUpdatingPreloader);
+            $('#btn-updating').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+    // End :: Bank Form //
     
 
     /***************************** Start :: Data table and Common Functionalities ****************************/

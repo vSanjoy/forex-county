@@ -77,6 +77,7 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::delete('/delete/{country}', 'delete')->name('delete');
                 });
             });
+
             Route::controller(CurrencyController::class)->group(function () {
                 Route::prefix('currency')->name('currency.')->group(function () {
                     Route::get('/list', 'list')->name('list');
@@ -98,9 +99,6 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                         Route::get('/status/{transferFee}', 'transferFeesStatus')->name('transfer-fees-change-status');
                         Route::delete('/delete/{transferFee}', 'transferFeesDelete')->name('transfer-fees-delete');
                     });
-                    
-                    
-                    
                 });
             });
 
@@ -118,7 +116,7 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
             });
 
             Route::controller(MoneyTransferController::class)->group(function () {
-                Route::prefix('money')->name('money.')->group(function () {
+                Route::prefix('money-transfer')->name('money-transfer.')->group(function () {
                     Route::get('/list', 'list')->name('list');
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');

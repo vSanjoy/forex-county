@@ -1,18 +1,21 @@
 @php
-$cmsRoutes      = ['cms.list','cms.create','cms.edit'];
-$countryRoutes  = ['country.list','country.create','country.edit'];
-$currencyRoutes = ['currency.list','currency.create','currency.edit','currency.transfer-fees.transfer-fees-list','currency.transfer-fees.transfer-fees-create','currency.transfer-fees.transfer-fees-edit'];
-$bankRoutes  = ['bank.list','bank.create','bank.edit'];
+$cmsRoutes          = ['admin.cms.list','admin.cms.create','admin.cms.edit'];
+$countryRoutes      = ['admin.country.list','admin.country.create','admin.country.edit'];
+$currencyRoutes     = ['admin.currency.list','admin.currency.create','admin.currency.edit','admin.currency.transfer-fees.transfer-fees-list','admin.currency.transfer-fees.transfer-fees-create','admin.currency.transfer-fees.transfer-fees-edit'];
+$bankRoutes         = ['admin.bank.list','admin.bank.create','admin.bank.edit'];
+$moneyTransferRoutes= ['admin.money-transfer.list'];
 
 // Current page route
-$currentPageRoute = explode('admin.', Route::currentRouteName());
-if (count($currentPageRoute) > 0) :
-    $currentPage = $currentPageRoute[1];
-else :
-    $currentPage = Route::currentRouteName();
-endif;
+// $currentPageRoute = explode('admin.', Route::currentRouteName());
+// if (count($currentPageRoute) > 0) :
+//     $currentPage = $currentPageRoute[1];
+// else :
+//     $currentPage = Route::currentRouteName();
+// endif;
 
 // dd($currentPage, $currencyRoutes);
+$currentPage = Route::currentRouteName();
+
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -31,7 +34,7 @@ endif;
 
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
-        <li class="menu-item @if ($currentPage == 'dashboard')active @endif">
+        <li class="menu-item @if ($currentPage == 'admin.account.dashboard')active @endif">
             <a href="{{ route('admin.account.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">{{ __('custom_admin.label_dashboard') }}</div>
@@ -49,12 +52,12 @@ endif;
                 <div data-i18n="Cms">{{ __('custom_admin.label_cms') }}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if ($currentPage === 'cms.list')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.cms.list')) active @endif">
                     <a href="{{ route('admin.cms.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
                     </a>
                 </li>
-                <li class="menu-item @if ($currentPage === 'cms.create')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.cms.create')) active @endif">
                     <a href="{{ route('admin.cms.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">{{ __('custom_admin.label_create') }}</div>
                     </a>
@@ -69,12 +72,12 @@ endif;
                 <div data-i18n="Country">{{ __('custom_admin.label_country') }}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if ($currentPage === 'country.list')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.country.list')) active @endif">
                     <a href="{{ route('admin.country.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
                     </a>
                 </li>
-                <li class="menu-item @if ($currentPage === 'country.create')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.country.create')) active @endif">
                     <a href="{{ route('admin.country.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">{{ __('custom_admin.label_create') }}</div>
                     </a>
@@ -89,12 +92,12 @@ endif;
                 <div data-i18n="Currency">{{ __('custom_admin.label_currency') }}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if ($currentPage === 'currency.list' || $currentPage === 'currency.transfer-fees.transfer-fees-list')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.currency.list') || request()->routeIs('admin.transfer-fees.transfer-fees-list')) active @endif">
                     <a href="{{ route('admin.currency.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
                     </a>
                 </li>
-                <li class="menu-item @if ($currentPage === 'currency.create')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.currency.create')) active @endif">
                     <a href="{{ route('admin.currency.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">{{ __('custom_admin.label_create') }}</div>
                     </a>
@@ -102,33 +105,41 @@ endif;
             </ul>
         </li>
         <!-- / Currency & Transfer Fees -->
-
+        <!-- Bank -->
         <li class="menu-item @if (in_array($currentPage, $bankRoutes))active open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bxs-bank'></i>
-                <div data-i18n="Cms">{{ __('custom_admin.label_bank') }}</div>
+                <div data-i18n="Cms">{{ __('custom_admin.label_banks') }}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if ($currentPage === 'bank.list')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.bank.create')) active @endif">
                     <a href="{{ route('admin.bank.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
                     </a>
                 </li>
-                <li class="menu-item @if ($currentPage === 'bank.create')active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.bank.create')) active @endif">
                     <a href="{{ route('admin.bank.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">{{ __('custom_admin.label_create') }}</div>
                     </a>
                 </li>
             </ul>
         </li>
-
-
-        <li class="menu-item @if(request()->routeIs('admin.money.list')) active @endif">
-            <a href="{{ route('admin.money.list') }}" class="menu-link">
+        <!-- / Bank -->
+        <!-- Money Transfer -->
+        <li class="menu-item @if (in_array($currentPage, $moneyTransferRoutes))active open @endif">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bxs-credit-card'></i>
-                <div data-i18n="Analytics">{{ __('custom_admin.label_money_transfer') }}</div>
+                <div data-i18n="Cms">{{ __('custom_admin.label_money_transfer') }}</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item @if(request()->routeIs('admin.money-transfer.list')) active @endif">
+                    <a href="{{ route('admin.money-transfer.list') }}" class="menu-link">
+                        <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
+                    </a>
+                </li>
+            </ul>
         </li>
+        <!-- / Money Transfer -->
 
     </ul>
 </aside>

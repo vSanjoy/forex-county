@@ -4,6 +4,41 @@ $(document).ready(function() {
 
 	@if (Route::currentRouteName() == $routePrefix.'.'.$listUrl)
 	// Get list page data
+	getList();
+
+	// Prevent alert box from datatable & console error message
+	$.fn.dataTable.ext.errMode = 'none';
+	$('#list-table').on('error.dt', function (e, settings, techNote, message) {
+		$('#dataTableLoading').hide();
+		notyf.error(message, "@lang('custom_admin.message_error')");
+	});
+
+	// Status section
+	$(document).on('click', '.status', function() {
+		var id 			= $(this).data('id');
+		var actionType 	= $(this).data('action-type');
+		listActions('{{ $pageRoute }}', 'status', id, actionType, dTable);
+	});
+
+	// Delete section
+	$(document).on('click', '.delete', function() {
+		var id = $(this).data('id');
+		var actionType 	= $(this).data('action-type');
+		listActions('{{ $pageRoute }}', 'delete', id, actionType, dTable);
+	});
+
+	@include($routePrefix.'.includes.filter_for_money_transfer_script')
+
+	@endif
+
+});
+
+@if (Route::currentRouteName() == $routePrefix.'.'.$listUrl)
+function getList() {
+	var fromDate	= $('#from_date').val();
+	var toDate		= $('#to_date').val();
+
+	// Get list page data
 	var getListDataUrl = "{{route($routePrefix.'.'.$listRequestUrl)}}";
 	var dTable = $('#list-table').on('init.dt', function () {$('#dataTableLoading').hide(); $('ul.pagination').addClass('pagination-round pagination-dark');}).DataTable({
 			destroy: true,
@@ -27,19 +62,21 @@ $(document).ready(function() {
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				},
-	        	url: getListDataUrl,
+	        	url: getListDataUrl + '?from_date=' + fromDate + '&to_date=' + toDate,
 				type: 'POST',
 				data: function(data) {},
 	        },
 	        columns: [
 				{data: 'id', name: 'id'},
+				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
 				{data: 'user_id', name: 'user_id'},
 				{data: 'recipient_id', name: 'recipient_id'},
 				{data: 'transfer_no', name: 'transfer_no'},
 				{data: 'payment_status', name: 'payment_status'},
-				{data: 'status', name: 'status'},
 				{data: 'forex_country_transfer_status', name: 'forex_country_transfer_status'},
-				{data: 'updated_at', name: 'updated_at', orderable: false, searchable: false},
+				{data: 'transfer_datetime', name: 'transfer_datetime'},
+				// {data: 'updated_at', name: 'updated_at', orderable: false, searchable: false},
+				{data: 'status', name: 'status'},
 			@if ($isAllow || in_array($editUrl, $allowedRoutes))
 				{data: 'action', name: 'action', orderable: false, searchable: false},
 			@endif
@@ -64,28 +101,6 @@ $(document).ready(function() {
         		}
 			},
 	});
-
-	// Prevent alert box from datatable & console error message
-	$.fn.dataTable.ext.errMode = 'none';
-	$('#list-table').on('error.dt', function (e, settings, techNote, message) {
-		$('#dataTableLoading').hide();
-		notyf.error(message, "@lang('custom_admin.message_error')");
-	});
-
-	// Status section
-	$(document).on('click', '.status', function() {
-		var id 			= $(this).data('id');
-		var actionType 	= $(this).data('action-type');
-		listActions('{{ $pageRoute }}', 'status', id, actionType, dTable);
-	});
-
-	// Delete section
-	$(document).on('click', '.delete', function() {
-		var id = $(this).data('id');
-		var actionType 	= $(this).data('action-type');
-		listActions('{{ $pageRoute }}', 'delete', id, actionType, dTable);
-	});
-	@endif
-
-});
+}
+@endif
 </script>

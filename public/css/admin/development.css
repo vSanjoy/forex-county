@@ -16,8 +16,8 @@
 #list-table .imageColumn {min-width: 100px; width: 100px;}
 #list-table .modifiedColumn {min-width: 135px; width: 135px;}
 #list-table .row_status {min-width: 100px; width: 100px;}
-#list-table .actions {min-width: 120px; width: 120px;}
-#list-table .more_actions {min-width: 150px; width: 150px;}
+#list-table .actions {min-width: 80px; width: 80px;}
+#list-table .more_actions {min-width: 120px; width: 120px;}
 .dataTables_filter .form-control-sm {
     min-height: auto !important;
     padding: 0.4375rem 0.875rem !important;
@@ -48,6 +48,9 @@ table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_a
 .image-border{border: 1px solid #ccc; padding: 2px;}
 .btn-small{width: 30px !important; height: 30px !important;}
 .btn-small .bx{font-size: 1.05rem !important;}
+.filter-header-title {font-size: 1.125rem; color: var(--bs-card-cap-color);}
+.mtm-20{margin-top: -20px;}
+.mt-15{margin-top: 15px;}
 
 
 /*******************

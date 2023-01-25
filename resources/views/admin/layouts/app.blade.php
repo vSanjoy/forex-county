@@ -50,6 +50,12 @@
     <!-- Notify Toastr css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+    @if (strpos(Route::currentRouteName(), '.money-transfer.list') !== false)
+    <!-- Vanilla Datepicker CSS -->
+    {{-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css'> --}}
+    <link href="{{ asset('css/admin/vendor/libs/datepicker/datepicker-bs5.css') }}" rel="stylesheet">
+    @endif
+      
     <!-- Development css -->
     <link href="{{ asset('css/admin/development.css') }}" rel="stylesheet">
 </head>
@@ -233,6 +239,26 @@
 
     <!-- Sweetalert -->
     <script src="{{ asset('js/admin/vendor/libs/sweetalert2/sweetalert2.all.min.js') }}"></script>
+
+    @if (strpos(Route::currentRouteName(), '.money-transfer.list') !== false)
+    <!-- Vanilla Datepicker JS -->
+    {{-- <script src='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js'></script> --}}
+    <script src="{{ asset('js/admin/vendor/libs/datepicker/datepicker-full.js') }}"></script>
+    <script>
+    const elems = document.querySelectorAll('.datepicker-input');
+    for (const elem of elems) {
+        const datepicker = new Datepicker(elem, {
+            format: 'dd/mm/yyyy', // UK format
+        });
+    }      
+
+    const elem = document.getElementById('range');
+    const dateRangePicker = new DateRangePicker(elem, {
+        format: 'mm/dd/yyyy',
+    });
+    </script>
+
+    @endif
 
     @stack('scripts')
 

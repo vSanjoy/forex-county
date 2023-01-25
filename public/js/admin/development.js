@@ -1622,13 +1622,15 @@ $(document).ready(function() {
     /*************************************** End :: Data table and Common Functionalities ***************************************/
 
     /*Date range used in Admin user listing (filter) section*/
-    //Restriction on key & right click
-    // $('#registered_date').keydown(function(e) {
-    //     var keyCode = e.which;
-    //     if ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || keyCode === 8 || keyCode === 122 || keyCode === 32 || keyCode == 46) {
-    //         e.preventDefault();
-    //     }
-    // });
+    // Restriction on key & right click
+    $('.datepicker-input').keydown(function(e) {
+        var keyCode = e.which;
+        if ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || keyCode === 8 || keyCode === 122 || keyCode === 32 || keyCode == 46) {
+            e.preventDefault();
+        }
+    });
+
+
     // $('#registered_date').daterangepicker({
     //     autoUpdateInput: false,
     //     timePicker: false,

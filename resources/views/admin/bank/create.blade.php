@@ -15,7 +15,7 @@
                         'class' => '',
                         'route' => [$routePrefix.'.'.$createUrl],
                         'name'  => 'createBankForm',
-                        'id'    => 'createBankForm1',
+                        'id'    => 'createBankForm',
                         'files' => true,
                         'novalidate' => true]) }}
 

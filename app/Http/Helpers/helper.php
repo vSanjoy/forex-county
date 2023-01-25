@@ -419,9 +419,9 @@ function changeDateFormat($fieldName, $dateFormat = false) {
 */
 function changeDateFormatFromUnixTimestamp($dateValue, $dateFormat = false) {
     if ($dateFormat) {
-        return Carbon::createFromTimestamp($dateValue)->format($dateFormat);
+        return \Carbon\Carbon::createFromTimestamp($dateValue)->format($dateFormat);
     } else {
-        return Carbon::createFromTimestamp($dateValue)->format('Y-m-d H:i');
+        return \Carbon\Carbon::createFromTimestamp($dateValue)->format('Y-m-d H:i');
     }    
 }
 

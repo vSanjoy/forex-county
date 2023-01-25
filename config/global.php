@@ -27,7 +27,7 @@ return [
                                             'Account'           => 100,
                                             'User'              => 215,
                                             'SubAdmin'          => 215,
-                                            'Country'           => 50,
+                                            'Country'           => 100,
                                             'Advertiser'        => 215,
                                             'Agent'             => 215,
                                         ],
@@ -36,7 +36,7 @@ return [
                                             'Account'           => 100,
                                             'User'              => 215,
                                             'SubAdmin'          => 215,
-                                            'Country'           => 50,
+                                            'Country'           => 100,
                                             'Advertiser'        => 215,
                                             'Agent'             => 215,
                                         ],
@@ -48,5 +48,6 @@ return [
 
     // Country, Currency
     'NO_YES_DROPDOWN'                   => ['N' => 'No', 'Y' => 'Yes'],
-    'AVAILABLE_TRANSFER_METHODS'        => ['1' => 'Bank Deposit', '2' => 'Cash Pickup', '3' => 'Swift']
+    'AVAILABLE_TRANSFER_METHODS'        => ['1' => 'Bank Deposit', '2' => 'Cash Pickup', '3' => 'Swift'],
+    'FEE_TYPE_DROPDOWN'                 => ['F' => 'Flat', 'P' => 'Percentage'],
 ];

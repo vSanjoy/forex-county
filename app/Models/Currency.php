@@ -42,7 +42,7 @@ class Currency extends Model
         * Return Value  : 
     */
     public function countryDetails() {
-        return $this->belongsTo('App\Models\Country', 'country_id');
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
 }

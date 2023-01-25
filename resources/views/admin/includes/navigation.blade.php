@@ -1,7 +1,7 @@
 @php
 $cmsRoutes      = ['cms.list','cms.create','cms.edit'];
 $countryRoutes  = ['country.list','country.create','country.edit'];
-$currencyRoutes = ['currency.list','currency.create','currency.edit'];
+$currencyRoutes = ['currency.list','currency.create','currency.edit','currency.transfer-fees.transfer-fees-list','currency.transfer-fees.transfer-fees-create','currency.transfer-fees.transfer-fees-edit'];
 
 // Current page route
 $currentPageRoute = explode('admin.', Route::currentRouteName());
@@ -10,6 +10,8 @@ if (count($currentPageRoute) > 0) :
 else :
     $currentPage = Route::currentRouteName();
 endif;
+
+// dd($currentPage, $currencyRoutes);
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -79,14 +81,14 @@ endif;
             </ul>
         </li>
         <!-- / Country -->
-        <!-- Currency -->
+        <!-- Currency & Transfer Fees -->
         <li class="menu-item @if (in_array($currentPage, $currencyRoutes))active open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon bx bx-money'></i>
                 <div data-i18n="Currency">{{ __('custom_admin.label_currency') }}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if ($currentPage === 'currency.list')active @endif">
+                <li class="menu-item @if ($currentPage === 'currency.list' || $currentPage === 'currency.transfer-fees.transfer-fees-list')active @endif">
                     <a href="{{ route('admin.currency.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
                     </a>
@@ -98,7 +100,7 @@ endif;
                 </li>
             </ul>
         </li>
-        <!-- / Currency -->
+        <!-- / Currency & Transfer Fees -->
 
 
     </ul>

@@ -49,7 +49,7 @@ class CountryController extends Controller
     public function __construct($data = null) {
         parent::__construct();
 
-        $this->management  = trans('custom_admin.label_country');
+        $this->management  = __('custom_admin.label_country');
         $this->model        = new Country();
 
         // Assign breadcrumb
@@ -70,8 +70,8 @@ class CountryController extends Controller
     */
     public function list() {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_country_list'),
-            'panelTitle'    => trans('custom_admin.label_country_list'),
+            'pageTitle'     => __('custom_admin.label_country_list'),
+            'panelTitle'    => __('custom_admin.label_country_list'),
             'pageType'      => 'LISTPAGE'
         ];
 
@@ -87,7 +87,7 @@ class CountryController extends Controller
 
             return view($this->viewFolderPath.'.list', $data);
         } catch (Exception $e) {
-            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
             return to_route($this->routePrefix.'.account.dashboard');
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
@@ -106,8 +106,8 @@ class CountryController extends Controller
     */
     public function ajaxListRequest(Request $request) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_country_list'),
-            'panelTitle'    => trans('custom_admin.label_country_list')
+            'pageTitle'     => __('custom_admin.label_country_list'),
+            'panelTitle'    => __('custom_admin.label_country_list')
         ];
 
         try {
@@ -196,8 +196,8 @@ class CountryController extends Controller
     */
     public function create(Request $request) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_create_country'),
-            'panelTitle'    => trans('custom_admin.label_create_country'),
+            'pageTitle'     => __('custom_admin.label_create_country'),
+            'panelTitle'    => __('custom_admin.label_create_country'),
             'pageType'      => 'CREATEPAGE'
         ];
 
@@ -211,13 +211,13 @@ class CountryController extends Controller
                     'image'                     => 'required|mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE')
                 );
                 $validationMessages = array(
-                    'countryname.required'          => trans('custom_admin.error_country_name'),
-                    'countryname.unique'            => trans('custom_admin.error_country_unique'),
-                    'code.required'                 => trans('custom_admin.error_code'),
-                    'countrycode.required'          => trans('custom_admin.error_countrycode'),
-                    'country_code_for_phone.required'=> trans('custom_admin.error_country_code_for_phone'),
-                    'image.required'                => trans('custom_admin.error_image'),
-                    'image.mimes'                   => trans('custom_admin.error_image_mimes')
+                    'countryname.required'          => __('custom_admin.error_country_name'),
+                    'countryname.unique'            => __('custom_admin.error_country_unique'),
+                    'code.required'                 => __('custom_admin.error_code'),
+                    'countrycode.required'          => __('custom_admin.error_countrycode'),
+                    'country_code_for_phone.required'=> __('custom_admin.error_country_code_for_phone'),
+                    'image.required'                => __('custom_admin.error_image'),
+                    'image.mimes'                   => __('custom_admin.error_image_mimes')
                 );
                 $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($validator->fails()) {
@@ -226,27 +226,28 @@ class CountryController extends Controller
                     return back()->withInput();
                 } else {
                     $input  = $request->all();
-                    
+
                     // Image upload
                     $image  = $request->file('image');
                     if ($image != '') {
-                        $uploadedImage  = singleImageUpload($this->modelName, $image, 'flag', $this->pageRoute, true);
+                        $flagName       = strtolower(preg_replace('/\s*/', '', $request->code));
+                        $uploadedImage  = singleImageUpload($this->modelName, $image, $flagName, $this->pageRoute, true, false);
                         $input['image'] = $uploadedImage;
                     }
                     $save = $this->model->create($input);
 
                     if ($save) {
-                        $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                        $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix.'.'.$this->listUrl);
                     } else {
-                        $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
+                        $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
                         return back()->withInput();
                     }
                 }
             }
             return view($this->viewFolderPath.'.create', $data);
         } catch (Exception $e) {
-            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
             return to_route($this->routePrefix.'.'.$this->listUrl);
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
@@ -265,8 +266,8 @@ class CountryController extends Controller
     */
     public function edit(Request $request, Country $country) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_edit_country'),
-            'panelTitle'    => trans('custom_admin.label_edit_country'),
+            'pageTitle'     => __('custom_admin.label_edit_country'),
+            'panelTitle'    => __('custom_admin.label_edit_country'),
             'pageType'      => 'EDITPAGE'
         ];
 
@@ -276,23 +277,23 @@ class CountryController extends Controller
             
             if ($request->isMethod('PUT')) {
                 if ($country->id == null) {
-                    $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+                    $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
                     return redirect()->route($this->pageRoute.'.'.$this->listUrl);
                 }
                 $validationCondition = array(
-                    'countryname'               => 'required|unique:'.($this->model)->getTable().',page_name,'.$country->id.',id,deleted_at,NULL',
+                    'countryname'               => 'required|unique:'.($this->model)->getTable().',countryname,'.$country->id.',id,deleted_at,NULL',
                     'code'                      => 'required|max:2',
                     'countrycode'               => 'required',
                     'country_code_for_phone'    => 'required',
                     'image'                     => 'mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE')
                 );
                 $validationMessages = array(
-                    'countryname.required'          => trans('custom_admin.error_country_name'),
-                    'countryname.unique'            => trans('custom_admin.error_country_unique'),
-                    'code.required'                 => trans('custom_admin.error_code'),
-                    'countrycode.required'          => trans('custom_admin.error_countrycode'),
-                    'country_code_for_phone.required'=> trans('custom_admin.error_country_code_for_phone'),
-                    'image.mimes'                   => trans('custom_admin.error_image_mimes')
+                    'countryname.required'          => __('custom_admin.error_country_name'),
+                    'countryname.unique'            => __('custom_admin.error_country_unique'),
+                    'code.required'                 => __('custom_admin.error_code'),
+                    'countrycode.required'          => __('custom_admin.error_countrycode'),
+                    'country_code_for_phone.required'=> __('custom_admin.error_country_code_for_phone'),
+                    'image.mimes'                   => __('custom_admin.error_image_mimes')
                 );
                 $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($validator->fails()) {
@@ -304,7 +305,7 @@ class CountryController extends Controller
                     $image          = $request->file('image');
                     $previousImage  = null;
                     $unlinkStatus   = false;
-                    
+
                     // Image upload
                     $image              = $request->file('image');
                     if ($image != '') {
@@ -312,23 +313,24 @@ class CountryController extends Controller
                             $previousImage  = $details['image'];
                             $unlinkStatus   = true;
                         }
-                        $uploadedImage  = singleImageUpload($this->modelName, $image, 'flag', $this->pageRoute, true, $previousImage, $unlinkStatus);
-                        $input['image']= $uploadedImage;
+                        $flagName       = strtolower(preg_replace('/\s*/', '', $request->code));
+                        $uploadedImage  = singleImageUpload($this->modelName, $image, $flagName, $this->pageRoute, true, false, $previousImage, $unlinkStatus);
+                        $input['image'] = $uploadedImage;
                     }
                     $update = $details->update($input);
 
                     if ($update) {
-                        $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                        $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix.'.'.$this->listUrl);
                     } else {
-                        $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
+                        $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
                         return back()->withInput();
                     }
                 }
             }
             return view($this->viewFolderPath.'.edit', $data);
         } catch (Exception $e) {
-            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
             return redirect()->route($this->routePrefix.'.'.$this->listUrl);
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
@@ -346,31 +348,30 @@ class CountryController extends Controller
         * Return Value  : Returns json
     */
     public function status(Request $request, Country $country) {
-        $title      = trans('custom_admin.message_error');
-        $message    = trans('custom_admin.error_something_went_wrong');
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
             if ($request->ajax()) {
-                $details = $country;
-                if ($details != null) {
-                    if ($details->status == 1) {
-                        $details->status = '0';
-                        $details->save();
+                if ($country != null) {
+                    if ($country->status == 1) {
+                        $country->status = '0';
+                        $country->save();
                         
-                        $title      = trans('custom_admin.message_success');
-                        $message    = trans('custom_admin.success_status_updated_successfully');
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
-                    } else if ($details->status == 0) {
-                        $details->status = '1';
-                        $details->save();
+                    } else if ($country->status == 0) {
+                        $country->status = '1';
+                        $country->save();
     
-                        $title      = trans('custom_admin.message_success');
-                        $message    = trans('custom_admin.success_status_updated_successfully');
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
                     }
                 } else {
-                    $message = trans('custom_admin.error_invalid');
+                    $message = __('custom_admin.error_invalid');
                 }
                 
             }
@@ -392,24 +393,23 @@ class CountryController extends Controller
         * Return Value  : Returns json
     */
     public function delete(Request $request, Country $country) {
-        $title      = trans('custom_admin.message_error');
-        $message    = trans('custom_admin.error_something_went_wrong');
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
             if ($request->ajax()) {
-                $details = $country;
-                if ($details != null) {
-                    $delete = $details->delete();
+                if ($country != null) {
+                    $delete = $country->delete();
                     if ($delete) {
-                        $title      = trans('custom_admin.message_success');
-                        $message    = trans('custom_admin.success_data_deleted_successfully');
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_data_deleted_successfully');
                         $type       = 'success';
                     } else {
-                        $message    = trans('custom_admin.error_took_place_while_deleting');
+                        $message    = __('custom_admin.error_took_place_while_deleting');
                     }
                 } else {
-                    $message = trans('custom_admin.error_invalid');
+                    $message = __('custom_admin.error_invalid');
                 }
             }
         } catch (Exception $e) {
@@ -419,5 +419,4 @@ class CountryController extends Controller
         }        
         return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
     }
-
 }

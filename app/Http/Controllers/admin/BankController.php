@@ -170,15 +170,16 @@ class BankController extends Controller
         $countries = Country::all(['id', 'countryname']);
         try {
             if ($request->isMethod('POST')) {
-
                 $validationCondition = array(
-                    'bank_name' => 'required|unique:' . ($this->model)->getTable() . ',bank_name,NULL,id,deleted_at,NULL',
-                    'bank_code' => 'required|unique:' . ($this->model)->getTable() . ',bank_code,NULL,id,deleted_at,NULL',
+                    'bank_name'  => 'required|unique:'.($this->model)->getTable().',bank_name,NULL,id,deleted_at,NULL,country_id,'.$request->input('country_id'),
+                    'bank_code'  => 'required|unique:'.($this->model)->getTable().',bank_code,NULL,id,deleted_at,NULL,country_id,'.$request->input('country_id'),
                     'bank_image' => 'required|mimes:' . config('global.IMAGE_FILE_TYPES') . '|max:' . config('global.IMAGE_MAX_UPLOAD_SIZE')
                 );
                 $validationMessages = array(
-                    'bank_name.required' => trans('custom_admin.error_bank_name'),
-                    'bank_name.unique' => trans('custom_admin.error_bank_name_unique'),
+                    'bank_name.required'=> trans('custom_admin.error_bank_name'),
+                    'bank_name.unique'  => trans('custom_admin.error_bank_name_unique'),
+                    'bank_code.required'=> trans('custom_admin.error_bank_code'),
+                    'bank_code.unique'  => trans('custom_admin.error_bank_code_unique'),
                     'bank_image.required' => trans('custom_admin.error_image'),
                     'bank_image.mimes' => trans('custom_admin.error_image_mimes')
                 );
@@ -271,14 +272,27 @@ class BankController extends Controller
                     $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
                     return redirect()->route($this->pageRoute.'.'.$this->listUrl);
                 }
+                // $validationCondition = array(
+                //     'bank_name' => ['required', Rule::unique('banks')->ignore($bank->id)],
+                //     'bank_code' => ['required', Rule::unique('banks')->ignore($bank->id)],
+                //     'bank_image' => 'mimes:' . config('global.IMAGE_FILE_TYPES') . '|max:' . config('global.IMAGE_MAX_UPLOAD_SIZE')
+                // );
+                // $validationMessages = array(
+                //     'bank_name.required' => trans('custom_admin.error_bank_name'),
+                //     'bank_name.unique' => trans('custom_admin.error_bank_name_unique'),
+                //     'bank_image.mimes' => trans('custom_admin.error_image_mimes')
+                // );
+
                 $validationCondition = array(
-                    'bank_name' => ['required', Rule::unique('banks')->ignore($bank->id)],
-                    'bank_code' => ['required', Rule::unique('banks')->ignore($bank->id)],
+                    'bank_name'  => 'required|unique:'.($this->model)->getTable().',bank_name,'.$bank->id.',id,deleted_at,NULL,country_id,'.$request->input('country_id'),
+                    'bank_code'  => 'required|unique:'.($this->model)->getTable().',bank_code,'.$bank->id.',id,deleted_at,NULL,country_id,'.$request->input('country_id'),
                     'bank_image' => 'mimes:' . config('global.IMAGE_FILE_TYPES') . '|max:' . config('global.IMAGE_MAX_UPLOAD_SIZE')
                 );
                 $validationMessages = array(
                     'bank_name.required' => trans('custom_admin.error_bank_name'),
                     'bank_name.unique' => trans('custom_admin.error_bank_name_unique'),
+                    'bank_code.required' => trans('custom_admin.error_bank_code'),
+                    'bank_code.unique' => trans('custom_admin.error_bank_code_unique'),
                     'bank_image.mimes' => trans('custom_admin.error_image_mimes')
                 );
 

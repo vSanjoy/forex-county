@@ -567,7 +567,11 @@ return [
     'error_currency_unique'                         => 'Please enter unique currency.',
     'error_fees'                                    => 'Please enter fees.',
     'error_fees_regex'                              => 'Please enter valid fees (eg. integer or decimal).',
-    'error_fee_type'                                => 'Please select fee type',
+    'error_fee_type'                                => 'Please select fee type.',
+    'error_bank_name'                               => 'Please enter bank name.',
+    'error_bank_name_unique'                        => 'Please enter unique bank name.',
+    'error_bank_code'                               => 'Please enter bank code.',
+    'error_bank_code_unique'                        => 'Please enter unique bank code.',
 
 
 

@@ -23,7 +23,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/fontawesome/fontawesome.css') }}" /> --}}
 
     <!-- Core CSS -->
-    @if (strpos(Route::currentRouteName(), '.list') !== false)
+    @if (strpos(Route::currentRouteName(), '.list') !== false || strpos(Route::currentRouteName(), '.transfer-fees-list') !== false)
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/css/rtl/core.css') }}" class="template-customizer-core-css" />
     @else
     <link rel="stylesheet" href="{{ asset('css/admin/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -119,7 +119,7 @@
 
     <!-- Main JS -->
     <script src="{{ asset('js/admin/main.js') }}"></script>
-
+    
     <!-- Page JS -->
     <script src="{{ asset('js/admin/dashboards-analytics.js') }}"></script>
     
@@ -131,7 +131,7 @@
     <!-- Notify Toastr js -->
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
-    @if (strpos(Route::currentRouteName(), '.list') !== false)        
+    @if (strpos(Route::currentRouteName(), '.list') !== false || strpos(Route::currentRouteName(), '.transfer-fees-list') !== false)
     <!-- DataTables -->
     <link href="{{ asset('css/admin/vendor/libs/datatable/datatables.bootstrap5.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin/vendor/libs/datatable/responsive.bootstrap5.css') }}" rel="stylesheet">
@@ -159,71 +159,73 @@
     @endif
 
     <!-- CKEditor -->
-    @if (strpos(Route::currentRouteName(), '.create') !== false || strpos(Route::currentRouteName(), '.edit') !== false)
+    @if (strpos(Route::currentRouteName(), '.create') !== false || strpos(Route::currentRouteName(), '.edit') !== false || strpos(Route::currentRouteName(), '.transfer-fees-create') !== false || strpos(Route::currentRouteName(), '.transfer-fees-edit') !== false)
     <script src="{{ asset('js/admin/ckeditor.js') }}"></script>
     <script>
     $(function () {
         try {
-            CKEDITOR.ClassicEditor.create(document.getElementById("description"), {
-                toolbar: {
-                    items: [
-                        'findAndReplace', 'selectAll', '|',
-                        'heading', '|',
-                        'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
-                        'bulletedList', 'numberedList', 'outdent', 'indent', 'undo', 'redo', '-', 'fontSize', 'alignment', '|',
-                        'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', '|',
-                        'specialCharacters', 'horizontalLine', 'pageBreak', '|',
-                        'sourceEditing'
-                    ],
-                    shouldNotGroupWhenFull: true
-                },
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+            if (document.getElementById("description")) {
+                CKEDITOR.ClassicEditor.create(document.getElementById("description"), {
+                    toolbar: {
+                        items: [
+                            'findAndReplace', 'selectAll', '|',
+                            'heading', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                            'bulletedList', 'numberedList', 'outdent', 'indent', 'undo', 'redo', '-', 'fontSize', 'alignment', '|',
+                            'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', '|',
+                            'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                            'sourceEditing'
+                        ],
+                        shouldNotGroupWhenFull: true
+                    },
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                        ]
+                    },
+                    placeholder: '',
+                    fontFamily: {
+                        options: [
+                            'default',
+                            'Arial, Helvetica, sans-serif',
+                            'Courier New, Courier, monospace',
+                            'Georgia, serif',
+                            'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                            'Tahoma, Geneva, sans-serif',
+                            'Times New Roman, Times, serif',
+                            'Trebuchet MS, Helvetica, sans-serif',
+                            'Verdana, Geneva, sans-serif'
+                        ],
+                        supportAllValues: true
+                    },
+                    fontSize: {
+                        options: [ 10, 12, 14, 'default', 18, 20, 22, 24, 26, 28, 30 ],
+                        supportAllValues: true
+                    },
+                    ckfinder: {
+                        uploadUrl: "{{route("admin.ckeditor-upload", ["_token" => csrf_token() ])}}",
+                    },
+                    removePlugins: [
+                        'CKBox',
+                        'RealTimeCollaborativeComments',
+                        'RealTimeCollaborativeTrackChanges',
+                        'RealTimeCollaborativeRevisionHistory',
+                        'PresenceList',
+                        'Comments',
+                        'TrackChanges',
+                        'TrackChangesData',
+                        'RevisionHistory',
+                        'Pagination',
+                        'WProofreader'
                     ]
-                },
-                placeholder: '',
-                fontFamily: {
-                    options: [
-                        'default',
-                        'Arial, Helvetica, sans-serif',
-                        'Courier New, Courier, monospace',
-                        'Georgia, serif',
-                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                        'Tahoma, Geneva, sans-serif',
-                        'Times New Roman, Times, serif',
-                        'Trebuchet MS, Helvetica, sans-serif',
-                        'Verdana, Geneva, sans-serif'
-                    ],
-                    supportAllValues: true
-                },
-                fontSize: {
-                    options: [ 10, 12, 14, 'default', 18, 20, 22, 24, 26, 28, 30 ],
-                    supportAllValues: true
-                },
-                ckfinder: {
-                    uploadUrl: "{{route("admin.ckeditor-upload", ["_token" => csrf_token() ])}}",
-                },
-                removePlugins: [
-                    'CKBox',
-                    'RealTimeCollaborativeComments',
-                    'RealTimeCollaborativeTrackChanges',
-                    'RealTimeCollaborativeRevisionHistory',
-                    'PresenceList',
-                    'Comments',
-                    'TrackChanges',
-                    'TrackChangesData',
-                    'RevisionHistory',
-                    'Pagination',
-                    'WProofreader'
-                ]
-            });
+                });
+            }
         } catch {}
     });
     </script>

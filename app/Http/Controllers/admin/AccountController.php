@@ -153,7 +153,7 @@ class AccountController extends Controller
                             $previousFileName   = $adminDetail->profile_pic;
                             $unlinkStatus       = true;
                         }
-                        $uploadedImage  = singleImageUpload($this->modelName, $profilePic, 'account', $this->pageRoute, true, $previousFileName, $unlinkStatus);
+                        $uploadedImage  = singleImageUpload($this->modelName, $profilePic, 'account', $this->pageRoute, true, false, $previousFileName, $unlinkStatus);
                     }
                     $updateAdminData = array(
                         'first_name'    => $request->first_name,
@@ -305,7 +305,7 @@ class AccountController extends Controller
                             $previousLogo           = $websiteSettings['logo'];
                             $unlinkLogoStatus       = true;
                         }
-                        $uploadedLogo               = singleImageUpload('WebsiteSetting', $logo, 'logo', $this->pageRoute, false, $previousLogo, $unlinkLogoStatus);
+                        $uploadedLogo               = singleImageUpload('WebsiteSetting', $logo, 'logo', $this->pageRoute, false, false, $previousLogo, $unlinkLogoStatus);
                         $attributes['logo']         = $uploadedLogo;
                     }
 

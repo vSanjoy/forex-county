@@ -240,10 +240,15 @@ function truncateString($str, $chars, $to_space, $replacement="...") {
     *                   $previousFileName = null, $unlinkStatus = false
     * Return Value  : Uploaded file name
 */
-function singleImageUpload($modelName, $originalImage, $imageName, $uploadedFolder, $thumbImage = false, $previousFileName = null, $unlinkStatus = false) {
+function singleImageUpload($modelName, $originalImage, $imageName, $uploadedFolder, $thumbImage = false, $allowTimeStamps = false, $previousFileName = null, $unlinkStatus = false) {
     $originalFileName   = $originalImage->getClientOriginalName();
     $extension          = pathinfo($originalFileName, PATHINFO_EXTENSION);
-    $fileName           = $imageName.'_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;
+    if ($allowTimeStamps) :
+        $fileName       = $imageName.'_'.strtotime(date('Y-m-d H:i:s')).'.'.$extension;
+    else :
+        $fileName       = $imageName.'.'.$extension;
+    endif;
+    
     $imageResize        = Image::make($originalImage->getRealPath());
 
     // Checking if folder already existed and if not create a new folder

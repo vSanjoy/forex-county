@@ -26,7 +26,7 @@ class Role extends Model
         * Return Value  : 
     */
 	public function permissions() {
-		return $this->hasMany('App\Models\RolePermission', 'role_id');
+		return $this->hasMany(RolePermission::class, 'role_id');
 	}
 
 	/*
@@ -39,7 +39,7 @@ class Role extends Model
         * Return Value  : 
     */
     public function rolePermissionToRolePage() {
-        return $this->belongsToMany('App\Models\RolePage', 'role_permissions', 'role_id', 'page_id');
+        return $this->belongsToMany(RolePage::class, 'role_permissions', 'role_id', 'page_id');
     }
     
 }

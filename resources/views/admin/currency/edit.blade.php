@@ -13,132 +13,146 @@
                     {{ Form::open([
                         'method'=> 'POST',
                         'class' => '',
-                        'route' => [$routePrefix.'.'.$editUrl, customEncryptionDecryption($country->id)],
-                        'name'  => 'updateCountryForm',
-                        'id'    => 'updateCountryForm',
+                        'route' => [$routePrefix.'.'.$editUrl, customEncryptionDecryption($currency->id)],
+                        'name'  => 'updateCurrencyForm',
+                        'id'    => 'updateCurrencyForm',
                         'files' => true,
                         'novalidate' => true]) }}
                         @method('PUT')
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('custom_admin.label_country_name') }}<span class="red_star">*</span></label>
-                                {{ Form::text('countryname', $country->countryname ?? null, [
-                                                                'id' => 'countryname',
-                                                                'class' => 'form-control',
-                                                                'placeholder' => __('custom_admin.placeholder_country_name'),
-                                                                'required' => true ]) }}
+                                <label class="form-label">{{ __('custom_admin.label_country') }}<span class="red_star">*</span></label>
+                                {{ Form::select('country_id', $countries, $currency->country_id ?? null, [
+                                                                                'id' => 'country_id',
+                                                                                'class' => 'form-select',
+                                                                                'placeholder' => __('custom_admin.placeholder_select_country'),
+                                                                                'required' => true,
+                                                                                ]) }}
                             </div>
                             <div class="col-md-6">
-                                <label
-                                    class="form-label">{{ __('custom_admin.label_two_digit_country_code') }}<span class="red_star">*</span></label>
-                                {{ Form::text('code', $country->code ?? null, [
-                                                            'id' => 'code',
+                                <label class="form-label">{{ __('custom_admin.label_title_currency') }}<span class="red_star">*</span></label>
+                                {{ Form::text('currency', $currency->currency ?? null, [
+                                                            'id' => 'currency',
                                                             'class' => 'form-control',
-                                                            'placeholder' => __('custom_admin.placeholder_two_digit_country_code'),
-                                                            'maxlength' => 2,
+                                                            'placeholder' => __('custom_admin.placeholder_currency'),
                                                             'required' => true
                                                             ]) }}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('custom_admin.label_short_three_digit_country_code') }}<span class="red_star">*</span></label>
-                                {{ Form::text('countrycode', $country->countrycode ?? null, [
-                                                                    'id' => 'countrycode',
+                                {{ Form::text('three_digit_currency_code', $currency->three_digit_currency_code ?? null, [
+                                                                    'id' => 'three_digit_currency_code',
                                                                     'class' => 'form-control',
                                                                     'placeholder' => __('custom_admin.placeholder_short_three_digit_country_code'),
                                                                     'maxlength' => 3,
                                                                     'required' => true
                                                                     ]) }}
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ __('custom_admin.label_country_code_for_phone') }}<span class="red_star">*</span></label>
-                                {{ Form::text('country_code_for_phone', $country->country_code_for_phone ?? null, [
-                                                                        'id' => 'country_code_for_phone',
-                                                                        'class' => 'form-control',
-                                                                        'placeholder' => __('custom_admin.placeholder_country_code_for_phone'),
-                                                                        'maxlength' => 5,
-                                                                        'required' => true
-                                                                        ]) }}
-                            </div>
-
+                            
                             <div class="col-md-12 mt-5">
-                                <label class="form-label">{{ __('custom_admin.message_country_create_edit') }}</label>
+                                <label class="form-label">{{ __('custom_admin.message_courrency_manual_exchange_rate') }}</label>
                                 <hr class="mt-0 mb-0">
                             </div>
-
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_account_holder_name_required') }}</label>
-                                {{ Form::select('require_account_holder', ['N' => 'No', 'Y' => 'Yes'], $country->require_account_holder ?? 'Y',
-                                                ['id' => 'require_account_holder', 'class' => 'form-select']) }}
+                        @if ($otherCurrencies)
+                            @foreach ($otherCurrencies as $keyCurrency => $valCurrency)
+                            <div class="col-md-6">
+                                <label class="form-label">{{ $valCurrency->currency. ' ('.$valCurrency->three_digit_currency_code.') - ('.$valCurrency->countryDetails->countryname.')' }}<span class="red_star">*</span></label>
+                                {{ Form::text('exchange_rate_arr['.$valCurrency->id.']', $exchangeRate[$valCurrency->id] ?? null, [
+                                                            'id'=>'exchange_rate'.$valCurrency->id,
+                                                            'class' => 'form-control',
+                                                            'placeholder' => __('custom_admin.placeholder_exchange_rate'),
+                                                            'required' => true
+                                                            ]) }}
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_account_number_required') }}</label>
-                                {{ Form::select('require_account_number', ['N' => 'No', 'Y' => 'Yes'], $country->require_account_number ?? 'Y',
-                                                ['id' => 'require_account_number','class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_iban_number_required') }}</label>
-                                {{ Form::select('require_iban_number', ['N' => 'No', 'Y' => 'Yes'], $country->require_iban_number ?? null,
-                                                ['id' => 'require_iban_number','class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_uk_sort_code_required') }}</label>
-                                {{ Form::select('require_uk_short_code', ['N' => 'No', 'Y' => 'Yes'], $country->require_uk_short_code ?? null,
-                                                ['id' => 'require_uk_short_code', 'class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_ach_routing_number_required') }}</label>
-                                {{ Form::select('require_ach_routing_number', ['N' => 'No', 'Y' => 'Yes'], $country->require_ach_routing_number ?? null,
-                                                ['id' => 'require_ach_routing_number','class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_account_type_required') }}</label>
-                                {{ Form::select('require_account_type', ['N' => 'No', 'Y' => 'Yes'], $country->require_account_type ?? 'N',
-                                                ['id' => 'require_account_type','class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_beneficiary_bank_required') }}</label>
-                                {{ Form::select('require_beneficiary_bank', ['N' => 'No', 'Y' => 'Yes'], $country->require_beneficiary_bank ?? 'Y',
-                                                ['id' => 'require_beneficiary_bank', 'class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_ifsc_code_required') }}</label>
-                                {{ Form::select('require_ifsc_code', ['N' => 'No', 'Y' => 'Yes'], $country->require_ifsc_code ?? 'N',
-                                                ['id' => 'require_ifsc_code','class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_city_required') }}</label>
-                                {{ Form::select('require_city', ['N' => 'No', 'Y' => 'Yes'], $country->require_city ?? 'N',
-                                                ['id' => 'require_city','class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_address_required') }}</label>
-                                {{ Form::select('require_address', ['N' => 'No', 'Y' => 'Yes'], $country->require_address ?? 'N',
-                                                ['id' => 'require_address', 'class' => 'form-select']) }}
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">{{ __('custom_admin.label_is_postal_code_required') }}</label>
-                                {{ Form::select('require_postal_code', ['N' => 'No', 'Y' => 'Yes'], $country->require_postal_code ?? 'N',
-                                                ['id' => 'require_postal_code','class' => 'form-select']) }}
-                            </div>
+                            @endforeach
+                        @endif
                         </div>
                         <hr class="my-4 mx-n4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">{{ __('custom_admin.label_serial_number') }}<span class="red_star">*</span></label>
+                                {{ Form::number('serial_number', $currency->serial_number ?? null, [
+                                                                        'id' => 'serial_number',
+                                                                        'class' => 'form-control',
+                                                                        'placeholder' => __('custom_admin.placeholder_serial_number'),
+                                                                        'tabindex'=> 2,
+                                                                        'min'=> 0,
+                                                                        'required' => true,
+                                                                        ]) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ __('custom_admin.label_is_this_currency_will_be_avaliable_for_sender') }}</label>
+                                {{ Form::select('show_in_sender', config('global.NO_YES_DROPDOWN'), $currency->show_in_sender ?? 'Y', [
+                                                                                                    'id' => 'show_in_sender',
+                                                                                                    'class' => 'form-select'
+                                                                                                    ]) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ __('custom_admin.label_is_this_currency_will_be_avaliable_for_receiver') }}</label>
+                                {{ Form::select('show_in_receiver', config('global.NO_YES_DROPDOWN'), $currency->show_in_receiver ?? 'Y', [
+                                                                                                    'id' => 'show_in_receiver',
+                                                                                                    'class' => 'form-select'
+                                                                                                    ]) }}
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+                                <label class="form-label">{{ __('custom_admin.message_courrency_available_transfer_methods') }}</label>
+                                <hr class="mt-0 mb-0">
+                            </div>
+                            @php
+                            $moneyTransferMethods = config('global.AVAILABLE_TRANSFER_METHODS');
+                            foreach($moneyTransferMethods as $keyMoneyTransferMethods => $valMoneyTransferMethods) :
+                                $checkedFlag = false;
+                                $text1 = $text2 = null;
+                                if (is_array($availableTransferOptions) && array_key_exists($keyMoneyTransferMethods, $availableTransferOptions)) :
+                                    $checkedFlag = true;
+                                    $text1 = $availableTransferOptions[$keyMoneyTransferMethods]['avaliable_in'];
+                                    $text2 = $availableTransferOptions[$keyMoneyTransferMethods]['description'];
+                                endif;
+                            @endphp
+                                <div class="col-md-12">
+                                    <div class="form-check form-check-dark">
+                                        {!! Form::checkbox('available_transfer_option_arr['.$keyMoneyTransferMethods.'][id]', $keyMoneyTransferMethods, $checkedFlag, [
+                                                                                    'class' => 'form-check-input',
+                                                                                    'id'=>'customCheckDark_'.$keyMoneyTransferMethods
+                                                                                    ]) !!}
+                                        <label class="form-check-label" for="customCheckDark_{{ $keyMoneyTransferMethods }}"> {{ $valMoneyTransferMethods }} </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ Form::text('available_transfer_option_arr['.$keyMoneyTransferMethods.'][avaliable_in]', $text1, [
+                                                                    'id' => 'available_transfer_option_avaliable_in_'.$keyMoneyTransferMethods,
+                                                                    'class' => 'form-control',
+                                                                    'placeholder' => __('custom_admin.placeholder_the_money_will_be_available_in_text')
+                                                                    ]) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ Form::textarea('available_transfer_option_arr['.$keyMoneyTransferMethods.'][description]', $text2, [
+                                                                    'id'=>'available_transfer_option_description_'.$keyMoneyTransferMethods,
+                                                                    'class' => 'form-control',
+                                                                    'placeholder' => __('custom_admin.placeholder_short_description'),
+                                                                    'rows' => 2
+                                                                    ]) }}
+                                </div>
+                                <div class="col-md-12 mt-3"></div>
+                            @endforeach
+                        </div>
+
                         <div class="row g-3">
                             <div class="col-md-12 d-flex align-items-start align-items-sm-center gap-3">
                                 @php
 								$image = asset("images/".config('global.NO_IMAGE'));
-								if ($country->image != null && file_exists(public_path('images/uploads/'.$pageRoute.'/'.$country->image))) :
-                                    $image = asset("images/uploads/".$pageRoute."/".$country->image);
+								if ($currency->bank_image != null && file_exists(public_path('images/uploads/'.$pageRoute.'/'.$currency->bank_image))) :
+                                    $image = asset("images/uploads/".$pageRoute."/".$currency->bank_image);
                                 endif;
 								@endphp
-
                                 <div class="preview_img_div_upload position_relative" style="position: relative;">
                                     <img src="{{ $image }}" alt="" class="d-block rounded" height="100" width="100" id="uploadedAvatar"/>
                                     <img id="upload_preview" class="mt-2" style="display: none;"/>
                                 </div>
-
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn rounded-pill btn-dark mb-4" tabindex="0">
-                                        <span class="d-none d-sm-block"><i class='bx bx-upload'></i> {{ __('custom_admin.label_upload_image') }}</span>
+                                        <span class="d-none d-sm-block"><i class='bx bx-upload'></i> {{ __('custom_admin.label_upload_bank_image') }}</span>
                                         <i class="bx bx-upload d-block d-sm-none"></i>
                                         {{ Form::file('image', [
                                                                 'id' => 'upload',
@@ -151,7 +165,7 @@
                             </div>
 
                             <div class="mt-4">
-                                <a class="btn rounded-pill btn-secondary btn-buy-now text-white" id="btn-cancel" href="{{ route($routePrefix.'.account.dashboard') }}"><i class='bx bx-left-arrow-circle'></i> {{ __('custom_admin.btn_cancel') }}</a>
+                                <a class="btn rounded-pill btn-secondary btn-buy-now text-white" id="btn-cancel" href="{{ route($routePrefix.'.'.$listUrl) }}"><i class='bx bx-left-arrow-circle'></i> {{ __('custom_admin.btn_cancel') }}</a>
                                 <button type="submit" class="btn rounded-pill btn-primary float-right" id="btn-updating"><i class='bx bx-save'></i> {{ __('custom_admin.btn_update') }}</button>
                             </div>
                         </div>

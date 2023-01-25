@@ -67,58 +67,77 @@
 
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_account_holder_name_required') }}</label>
-                                {{ Form::select('require_account_holder', config('global.NO_YES_DROPDOWN'), $country->require_account_holder ?? 'Y',
-                                                ['id' => 'require_account_holder', 'class' => 'form-select']) }}
+                                {{ Form::select('require_account_holder', config('global.NO_YES_DROPDOWN'), $country->require_account_holder ?? 'Y', [
+                                                                                                                                        'id' => 'require_account_holder',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_account_number_required') }}</label>
-                                {{ Form::select('require_account_number', config('global.NO_YES_DROPDOWN'), $country->require_account_number ?? 'Y',
-                                                ['id' => 'require_account_number','class' => 'form-select']) }}
+                                {{ Form::select('require_account_number', config('global.NO_YES_DROPDOWN'), $country->require_account_number ?? 'Y', [
+                                                                                                                                        'id' => 'require_account_number',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_iban_number_required') }}</label>
-                                {{ Form::select('require_iban_number', config('global.NO_YES_DROPDOWN'), $country->require_iban_number ?? null,
-                                                ['id' => 'require_iban_number','class' => 'form-select']) }}
+                                {{ Form::select('require_iban_number', config('global.NO_YES_DROPDOWN'), $country->require_iban_number ?? null, [
+                                                                                                                                        'id' => 'require_iban_number','class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_uk_sort_code_required') }}</label>
-                                {{ Form::select('require_uk_short_code', config('global.NO_YES_DROPDOWN'), $country->require_uk_short_code ?? null,
-                                                ['id' => 'require_uk_short_code', 'class' => 'form-select']) }}
+                                {{ Form::select('require_uk_short_code', config('global.NO_YES_DROPDOWN'), $country->require_uk_short_code ?? null, [
+                                                                                                                                        'id' => 'require_uk_short_code', 'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_ach_routing_number_required') }}</label>
-                                {{ Form::select('require_ach_routing_number', config('global.NO_YES_DROPDOWN'), $country->require_ach_routing_number ?? null,
-                                                ['id' => 'require_ach_routing_number','class' => 'form-select']) }}
+                                {{ Form::select('require_ach_routing_number', config('global.NO_YES_DROPDOWN'), $country->require_ach_routing_number ?? null, [
+                                                                                                                                        'id' => 'require_ach_routing_number','class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_account_type_required') }}</label>
-                                {{ Form::select('require_account_type', config('global.NO_YES_DROPDOWN'), $country->require_account_type ?? 'N',
-                                                ['id' => 'require_account_type','class' => 'form-select']) }}
+                                {{ Form::select('require_account_type', config('global.NO_YES_DROPDOWN'), $country->require_account_type ?? 'N', [
+                                                                                                                                        'id' => 'require_account_type',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_beneficiary_bank_required') }}</label>
-                                {{ Form::select('require_beneficiary_bank', config('global.NO_YES_DROPDOWN'), $country->require_beneficiary_bank ?? 'Y',
-                                                ['id' => 'require_beneficiary_bank', 'class' => 'form-select']) }}
+                                {{ Form::select('require_beneficiary_bank', config('global.NO_YES_DROPDOWN'), $country->require_beneficiary_bank ?? 'Y', [
+                                                                                                                                        'id' => 'require_beneficiary_bank',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_ifsc_code_required') }}</label>
-                                {{ Form::select('require_ifsc_code', config('global.NO_YES_DROPDOWN'), $country->require_ifsc_code ?? 'N',
-                                                ['id' => 'require_ifsc_code','class' => 'form-select']) }}
+                                {{ Form::select('require_ifsc_code', config('global.NO_YES_DROPDOWN'), $country->require_ifsc_code ?? 'N', [
+                                                                                                                                        'id' => 'require_ifsc_code',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_city_required') }}</label>
-                                {{ Form::select('require_city', config('global.NO_YES_DROPDOWN'), $country->require_city ?? 'N',
-                                                ['id' => 'require_city','class' => 'form-select']) }}
+                                {{ Form::select('require_city', config('global.NO_YES_DROPDOWN'), $country->require_city ?? 'N', [
+                                                                                                                                'id' => 'require_city',
+                                                                                                                                'class' => 'form-select'
+                                                                                                                                ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_address_required') }}</label>
-                                {{ Form::select('require_address', config('global.NO_YES_DROPDOWN'), $country->require_address ?? 'N',
-                                                ['id' => 'require_address', 'class' => 'form-select']) }}
+                                {{ Form::select('require_address', config('global.NO_YES_DROPDOWN'), $country->require_address ?? 'N', [
+                                                                                                                                        'id' => 'require_address',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">{{ __('custom_admin.label_is_postal_code_required') }}</label>
-                                {{ Form::select('require_postal_code', config('global.NO_YES_DROPDOWN'), $country->require_postal_code ?? 'N',
-                                                ['id' => 'require_postal_code','class' => 'form-select']) }}
+                                {{ Form::select('require_postal_code', config('global.NO_YES_DROPDOWN'), $country->require_postal_code ?? 'N', [
+                                                                                                                                        'id' => 'require_postal_code',
+                                                                                                                                        'class' => 'form-select'
+                                                                                                                                        ]) }}
                             </div>
                         </div>
                         <hr class="my-4 mx-n4">
@@ -151,7 +170,7 @@
                             </div>
 
                             <div class="mt-4">
-                                <a class="btn rounded-pill btn-secondary btn-buy-now text-white" id="btn-cancel" href="{{ route($routePrefix.'.account.dashboard') }}"><i class='bx bx-left-arrow-circle'></i> {{ __('custom_admin.btn_cancel') }}</a>
+                                <a class="btn rounded-pill btn-secondary btn-buy-now text-white" id="btn-cancel" href="{{ route($routePrefix.'.'.$listUrl) }}"><i class='bx bx-left-arrow-circle'></i> {{ __('custom_admin.btn_cancel') }}</a>
                                 <button type="submit" class="btn rounded-pill btn-primary float-right" id="btn-updating"><i class='bx bx-save'></i> {{ __('custom_admin.btn_update') }}</button>
                             </div>
                         </div>

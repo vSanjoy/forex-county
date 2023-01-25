@@ -45,7 +45,9 @@ table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_a
 }
 .form-label, .col-form-label {text-transform: none; font-size: 0.85rem;}
 .notyf__toast.notyf__toast--dismissible.notyf__toast--upper.notyf__toast--error {max-width: 100% !important; background: #ed3e3e !important;}
-
+.image-border{border: 1px solid #ccc; padding: 2px;}
+.btn-small{width: 30px !important; height: 30px !important;}
+.btn-small .bx{font-size: 1.05rem !important;}
 
 
 /*******************

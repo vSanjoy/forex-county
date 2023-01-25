@@ -348,6 +348,18 @@ return [
     'label_serial_number'                           => 'Serial Number',
     'label_is_this_currency_will_be_avaliable_for_sender'=> 'Is this currency will be avaliable for sender',
     'label_is_this_currency_will_be_avaliable_for_receiver'=> 'Is this currency will be avaliable for receiver',
+    'label_upload_bank_image'                       => 'Upload Bank Image',
+    'label_menu_transfer_fees'                      => 'Transfer Fees',
+    'label_transfer_fees_management'                => 'Transfer Fees Management',
+    'label_transfer_fees_list'                      => 'Transfer Fees List',
+    'label_transfer_fees'                           => 'Transfer Fees',
+    'label_create_transfer_fees'                    => 'Create Transfer Fees',
+    'label_edit_transfer_fees'                      => 'Edit Transfer Fees',
+    'label_fees'                                    => 'Fees',
+    'label_fee_type'                                => 'Fee Type',
+    'label_flat'                                    => 'Flat',
+    'label_percentage'                              => 'Percentage',
+    'label_currencies_list'                         => 'Currencies List',
     'label_Sender'=> 'Sender',
     'label_Receiver'=> 'Receiver',
     'label_Transfer_Number'=> 'Transfer Number',
@@ -363,9 +375,9 @@ return [
     'label_create_bank'=> 'Create New Bank',
 
 
-
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
+    'btn_create'                                    => 'Create',
     'btn_save'                                      => 'Save',
     'btn_submit'                                    => 'Submit',
     'btn_submitting'                                => 'Submitting',
@@ -421,6 +433,12 @@ return [
     'placeholder_country_code_for_phone'            => 'Enter country code for phone',
     'placeholder_exchange_rate'                     => 'Enter exchange rate',
     'placeholder_currency'                          => 'Enter currency',
+    'placeholder_serial_number'                     => 'Enter serial number',
+    'placeholder_the_money_will_be_available_in_text'=>'The money will be avalibe in text',
+    'placeholder_short_description'                 => 'Enter short description',
+    'placeholder_select_country'                    => 'Select country',
+    'placeholder_fees'                              => 'Enter fees',
+    'placeholder_fee_type'                          => 'Select fee type',
     'placeholder_serial_number'                     => 'Enter Serial number',
     'placeholder_bank_name'                     => 'Bank Name',
 
@@ -544,7 +562,12 @@ return [
     'error_country_id'                              => 'Please select country.',
     'error_currency'                                => 'Please enter currency.',
     'error_three_digit_currency_code'               => 'Please enter three digit currency code.',
+    'error_three_digit_currency_code_unique'        => 'Please enter unique three digit currency code.',
     'error_serial_number'                           => 'Please enter serial number.',
+    'error_currency_unique'                         => 'Please enter unique currency.',
+    'error_fees'                                    => 'Please enter fees.',
+    'error_fees_regex'                              => 'Please enter valid fees (eg. integer or decimal).',
+    'error_fee_type'                                => 'Please select fee type',
 
 
 
@@ -604,6 +627,7 @@ return [
     'message_enter_phone'                           => 'Enter your phone',
     'message_country_create_edit'                   => 'Select which details required for bank account add',
     'message_courrency_manual_exchange_rate'        => 'Manual Exchange Rate',
+    'message_courrency_available_transfer_methods'  => 'Available Transfer Option',
 
     // Success
     'success_data_added_successfully'               => 'Data has been added successfully.',

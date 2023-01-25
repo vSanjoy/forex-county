@@ -213,7 +213,7 @@ class CmsController extends Controller
                     // Featured image upload
                     $featuredImage  = $request->file('featured_image');
                     if ($featuredImage != '') {
-                        $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'featured_image', $this->pageRoute, false);
+                        $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'featured_image', $this->pageRoute, false, false);
                         $input['featured_image']= $uploadedFeaturedImage;
                     }
                     $save = $this->model->create($input);
@@ -290,7 +290,7 @@ class CmsController extends Controller
                     // Featured image upload
                     $featuredImage              = $request->file('featured_image');
                     if ($featuredImage != '') {
-                        $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'featured_image', $this->pageRoute, false);
+                        $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'featured_image', $this->pageRoute, false, false);
                         $input['featured_image']= $uploadedFeaturedImage;
                     }
                     $update = $details->update($input);
@@ -330,18 +330,17 @@ class CmsController extends Controller
 
         try {
             if ($request->ajax()) {
-                $details = $cms;
-                if ($details != null) {
-                    if ($details->status == 1) {
-                        $details->status = '0';
-                        $details->save();
+                if ($cms != null) {
+                    if ($cms->status == 1) {
+                        $cms->status = '0';
+                        $cms->save();
                         
                         $title      = trans('custom_admin.message_success');
                         $message    = trans('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
-                    } else if ($details->status == 0) {
-                        $details->status = '1';
-                        $details->save();
+                    } else if ($cms->status == 0) {
+                        $cms->status = '1';
+                        $cms->save();
     
                         $title      = trans('custom_admin.message_success');
                         $message    = trans('custom_admin.success_status_updated_successfully');
@@ -376,9 +375,8 @@ class CmsController extends Controller
 
         try {
             if ($request->ajax()) {
-                $details = $cms;
-                if ($details != null) {
-                    $delete = $details->delete();
+                if ($cms != null) {
+                    $delete = $cms->delete();
                     if ($delete) {
                         $title      = trans('custom_admin.message_success');
                         $message    = trans('custom_admin.success_data_deleted_successfully');

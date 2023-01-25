@@ -107,19 +107,19 @@ $.validator.addMethod("valid_youtube_url", function(value, element) {
 });
 
 // Ckeditor
-// $.validator.addMethod("ckrequired", function (value, element) {  
-//     var idname = $(element).attr('id');  
-//     var editor = CKEDITOR.instances[idname];  
-//     var ckValue = GetTextFromHtml(editor.getData()).replace(/<[^>]*>/gi, '').trim();  
-//     if (ckValue.length === 0) {  
-//         //if empty or trimmed value then remove extra spacing to current control  
-//         $(element).val(ckValue);
-//     } else {  
-//         //If not empty then leave the value as it is  
-//         $(element).val(editor.getData());  
-//     }  
-//     return $(element).val().length > 0;  
-// }, "Please enter description.");
+$.validator.addMethod("ckrequired", function (value, element) {  
+    var idname = $(element).attr('id');  
+    var editor = CKEDITOR.instances[idname];  
+    var ckValue = GetTextFromHtml(editor.getData()).replace(/<[^>]*>/gi, '').trim();  
+    if (ckValue.length === 0) {  
+        //if empty or trimmed value then remove extra spacing to current control  
+        $(element).val(ckValue);
+    } else {  
+        //If not empty then leave the value as it is  
+        $(element).val(editor.getData());  
+    }  
+    return $(element).val().length > 0;  
+}, "Please enter description.");
   
 function GetTextFromHtml(html) {  
     var dv = document.createElement("DIV");
@@ -1263,6 +1263,229 @@ $(document).ready(function() {
         }
     });
     // End :: Country Form //
+    
+    // Start :: Currency Form //
+    $("#createCurrencyForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'country_id': {
+                required: true
+            },
+            'currency': {
+                required: true
+            },
+            'three_digit_currency_code': {
+                required: true
+            },
+        },
+        messages: {
+            'country_id': {
+                required: "Please select country.",
+            },
+            'code': {
+                required: "Please enter currency.",
+            },
+            'three_digit_currency_code': {
+                required: "Please enter three digit country code.",
+            },
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+    
+    $("#updateCurrencyForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'country_id': {
+                required: true
+            },
+            'currency': {
+                required: true
+            },
+            'three_digit_currency_code': {
+                required: true
+            },
+        },
+        messages: {
+            'country_id': {
+                required: "Please select country.",
+            },
+            'code': {
+                required: "Please enter currency.",
+            },
+            'three_digit_currency_code': {
+                required: "Please enter three digit country code.",
+            },
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+    // End :: Currency Form //
+    
+    // Start :: Transfer fees Form //
+    $("#createTransferFeesForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'title': {
+                required: true
+            },
+            'fees': {
+                required: true,
+                valid_amount: true
+            },
+            'fee_type': {
+                required: true
+            }
+        },
+        messages: {
+            'title': {
+                required: "Please enter title.",
+            },
+            'fees': {
+                required: "Please enter fees.",
+                valid_amount: "Please enter valid fees (eg. integer or decimal)."
+            },
+            'fee_type': {
+                required: "Please select fee type.",
+            }
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            if ($(element).attr('id') == 'description') {
+                error.insertAfter($(element).parents('div#description-div'));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+    $("#updateTransferFeesForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'title': {
+                required: true
+            },
+            'fees': {
+                required: true,
+                valid_amount: true
+            },
+            'fee_type': {
+                required: true
+            }
+        },
+        messages: {
+            'title': {
+                required: "Please enter title.",
+            },
+            'fees': {
+                required: "Please enter fees.",
+                valid_amount: "Please enter valid fees (eg. integer or decimal)."
+            },
+            'fee_type': {
+                required: "Please select fee type.",
+            }
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            if ($(element).attr('id') == 'description') {
+                error.insertAfter($(element).parents('div#description-div'));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function(form) {
+            $('#btn-updating').html(btnUpdatingPreloader);
+            $('#btn-updating').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+    // End :: Transfer fees Form //
     
 
     /***************************** Start :: Data table and Common Functionalities ****************************/

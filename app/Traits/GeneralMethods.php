@@ -20,52 +20,47 @@ trait GeneralMethods
         $this->breadcrumb = $breadcrumb = [
             'LISTPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => '']
             ],
             'CREATEPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => trans('custom_admin.label_create'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => __('custom_admin.label_create'), 'url' => '']
             ],
             'EDITPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => trans('custom_admin.label_edit'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => __('custom_admin.label_edit'), 'url' => '']
             ],
             'VIEWPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => $this->management . ' '.trans('custom_admin.label_view'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => $this->management . ' '.__('custom_admin.label_view'), 'url' => '']
             ],
             'SORTPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => trans('custom_admin.label_sort'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => __('custom_admin.label_sort'), 'url' => '']
             ],
             'DETAILPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => $this->management . ' '.trans('custom_admin.label_details'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => $this->management . ' '.__('custom_admin.label_details'), 'url' => '']
             ],
             'GALLERYPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => trans('custom_admin.label_gallery'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => __('custom_admin.label_gallery'), 'url' => '']
             ],
             'ALLBOOKINGSPAGE' =>
             [
-                ['label' => trans('custom_admin.label_all_bookings'), 'url' => '']
+                ['label' => __('custom_admin.label_all_bookings'), 'url' => '']
             ],
             'RESETPASSWORDPAGE' =>
             [
-                ['label' => $this->management . ' '.trans('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
-                ['label' => $this->management . ' '.trans('custom_admin.label_reset_password'), 'url' => '']
+                ['label' => $this->management . ' '.__('custom_admin.label_list'), 'url' => $this->listUrl ? \URL::route($this->routePrefix.'.'.$this->listUrl) : ''],
+                ['label' => $this->management . ' '.__('custom_admin.label_reset_password'), 'url' => '']
             ],
-            // 'CHANGEPASSWORDPAGE' =>
-            // [
-            //     ['label' => $this->management . ' List', 'url' => $this->listUrl ? \URL::route($this->listUrl) : ''],
-            //     ['label' => $this->management . ' Change Password', 'url' => 'THIS']
-            // ]
         ];
     }
 

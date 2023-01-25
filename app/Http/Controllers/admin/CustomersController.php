@@ -222,7 +222,7 @@ class CustomersController extends Controller
                     $profilePic         = $request->file('profile_pic');
                     $uploadedImage      = '';
                     if ($profilePic != '') {
-                        $uploadedImage  = singleImageUpload($this->modelName, $profilePic, 'customer', $this->pageRoute, true); // If thumb true, mention size in global.php
+                        $uploadedImage  = singleImageUpload($this->modelName, $profilePic, 'customer', $this->pageRoute, true, false); // If thumb true, mention size in global.php
                     }
 
                     if ($request->full_name == trim($request->full_name) && strpos($request->full_name, ' ') !== false) {
@@ -325,7 +325,7 @@ class CustomersController extends Controller
                                 $previousFileName           = $details['profile_pic'];
                                 $unlinkStatus               = true;
                             }
-                            $uploadedImage                  = singleImageUpload($this->modelName, $profilePic, 'customer', $this->pageRoute, true, $previousFileName, $unlinkStatus);
+                            $uploadedImage                  = singleImageUpload($this->modelName, $profilePic, 'customer', $this->pageRoute, true, false, $previousFileName, $unlinkStatus);
                             $updateData['profile_pic']      = $uploadedImage;
                         }
 

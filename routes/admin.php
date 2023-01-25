@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\admin\BankController;
-use App\Http\Controllers\admin\CountryController;
-use App\Http\Controllers\admin\MoneyTransferController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Controllers
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\AccountController;
 use App\Http\Controllers\admin\CmsController;
+use App\Http\Controllers\admin\CountryController;
+use App\Http\Controllers\admin\CurrencyController;
+use App\Http\Controllers\admin\BankController;
+use App\Http\Controllers\admin\MoneyTransferController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +87,20 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::put('/edit/{currency}', 'edit');
                     Route::get('/status/{currency}', 'status')->name('change-status');
                     Route::delete('/delete/{currency}', 'delete')->name('delete');
+
+                    Route::prefix('transfer-fees')->name('transfer-fees.')->group(function () {
+                        Route::get('/list/{currency}', 'transferFeesList')->name('transfer-fees-list');
+                        Route::post('/ajax-list-request', 'ajaxTransferFeesListRequest')->name('ajax-list-request');
+                        Route::get('/create/{currency}', 'transferFeesCreate')->name('transfer-fees-create');
+                        Route::post('/create/{currency}', 'transferFeesCreate');
+                        Route::get('/edit/{transferFee}', 'transferFeesEdit')->name('transfer-fees-edit');
+                        Route::put('/edit/{transferFee}', 'transferFeesEdit');
+                        Route::get('/status/{transferFee}', 'transferFeesStatus')->name('transfer-fees-change-status');
+                        Route::delete('/delete/{transferFee}', 'transferFeesDelete')->name('transfer-fees-delete');
+                    });
+                    
+                    
+                    
                 });
             });
 

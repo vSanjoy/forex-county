@@ -360,6 +360,20 @@ return [
     'label_flat'                                    => 'Flat',
     'label_percentage'                              => 'Percentage',
     'label_currencies_list'                         => 'Currencies List',
+    'label_Sender'=> 'Sender',
+    'label_Receiver'=> 'Receiver',
+    'label_Transfer_Number'=> 'Transfer Number',
+    'label_Transfer_Details'=> 'Transfer Details',
+    'label_User_Payment_Status'=> 'User Payment Status',
+    'label_Forexcountry_Transfer_Status'=> 'Forexcountry Transfer Status',
+    'label_money_transfer_list'=> 'Manage Money Transfers',
+    'label_money_transfer'=> 'Money Transfers',
+    'label_bank_name'=> 'Bank Name',
+    'label_bank_code'=> 'Bank Code',
+    'label_bank'=> 'Manage Bank',
+    'label_bank_list'=> 'Manage Banks',
+    'label_create_bank'=> 'Create New Bank',
+
 
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',
@@ -425,6 +439,8 @@ return [
     'placeholder_select_country'                    => 'Select country',
     'placeholder_fees'                              => 'Enter fees',
     'placeholder_fee_type'                          => 'Select fee type',
+    'placeholder_serial_number'                     => 'Enter Serial number',
+    'placeholder_bank_name'                     => 'Bank Name',
 
 
     // Errors

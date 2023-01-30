@@ -32,6 +32,8 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
             Route::patch('/', 'login')->name('login');
             Route::get('/forgot-password', 'forgotPassword')->name('forgot-password');
             Route::patch('/forgot-password', 'forgotPassword')->name('forgot-password');
+            Route::get('/reset-password/{token}', 'resetPassword')->name('reset-password');
+            Route::patch('/reset-password/{token}', 'resetPassword')->name('reset-password');
         });
     });
     Route::post('/ckeditor-upload', [CmsController::class, 'upload'])->name('ckeditor-upload');

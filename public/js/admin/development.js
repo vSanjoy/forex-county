@@ -107,24 +107,24 @@ $.validator.addMethod("valid_youtube_url", function(value, element) {
 });
 
 // Ckeditor
-$.validator.addMethod("ckrequired", function (value, element) {  
-    var idname = $(element).attr('id');  
-    var editor = CKEDITOR.instances[idname];  
-    var ckValue = GetTextFromHtml(editor.getData()).replace(/<[^>]*>/gi, '').trim();  
-    if (ckValue.length === 0) {  
-        //if empty or trimmed value then remove extra spacing to current control  
+$.validator.addMethod("ckrequired", function (value, element) {
+    var idname = $(element).attr('id');
+    var editor = CKEDITOR.instances[idname];
+    var ckValue = GetTextFromHtml(editor.getData()).replace(/<[^>]*>/gi, '').trim();
+    if (ckValue.length === 0) {
+        //if empty or trimmed value then remove extra spacing to current control
         $(element).val(ckValue);
-    } else {  
-        //If not empty then leave the value as it is  
-        $(element).val(editor.getData());  
-    }  
-    return $(element).val().length > 0;  
+    } else {
+        //If not empty then leave the value as it is
+        $(element).val(editor.getData());
+    }
+    return $(element).val().length > 0;
 }, "Please enter description.");
-  
-function GetTextFromHtml(html) {  
+
+function GetTextFromHtml(html) {
     var dv = document.createElement("DIV");
-    dv.innerHTML = html;  
-    return dv.textContent || dv.innerText || "";  
+    dv.innerHTML = html;
+    return dv.textContent || dv.innerText || "";
 }
 
 $(document).ready(function() {
@@ -145,7 +145,7 @@ $(document).ready(function() {
     $('.password-checker').on('keyup', function () {
         var getVal = $(this).val();
         var dataAttrId = $(this).data('pcid');
-        
+
         if (getVal != '') {
             if (/^[a-zA-Z_\-]+$/.test(getVal)) {  // weak
                 $('#'+dataAttrId).html('<div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"></div>');
@@ -216,7 +216,7 @@ $(document).ready(function() {
         }
     });
     // End :: Admin Login Form //
-    
+
     // Start :: Forgot Password Form //
     $("#forgotPasswordForm").validate({
         ignore: [],
@@ -306,8 +306,9 @@ $(document).ready(function() {
             error.insertAfter(element);
         },
         submitHandler: function(form) {
-            $('#btn-processing').html(btnSavingPreloader);
+            $('#btn-processing').html(btnUpdatingPreloader);
             $('#btn-processing').attr('disabled', true);
+            $('#btn-login').addClass('pointer-none');
             form.submit();
         }
     });
@@ -1136,7 +1137,7 @@ $(document).ready(function() {
                 error.insertAfter($(element).parents('div.form-group'));
             } else {
                 error.insertAfter(element);
-            }            
+            }
         },
         submitHandler: function(form) {
             $('#btn-processing').html(btnSavingPreloader);
@@ -1204,7 +1205,7 @@ $(document).ready(function() {
             form.submit();
         }
     });
-    
+
     $("#updateCountryForm").validate({
         ignore: [],
         debug: false,
@@ -1263,7 +1264,7 @@ $(document).ready(function() {
         }
     });
     // End :: Country Form //
-    
+
     // Start :: Currency Form //
     $("#createCurrencyForm").validate({
         ignore: [],
@@ -1316,7 +1317,7 @@ $(document).ready(function() {
             form.submit();
         }
     });
-    
+
     $("#updateCurrencyForm").validate({
         ignore: [],
         debug: false,
@@ -1369,7 +1370,7 @@ $(document).ready(function() {
         }
     });
     // End :: Currency Form //
-    
+
     // Start :: Transfer fees Form //
     $("#createTransferFeesForm").validate({
         ignore: [],
@@ -1539,7 +1540,7 @@ $(document).ready(function() {
             form.submit();
         }
     });
-    
+
     $("#updateBankForm").validate({
         ignore: [],
         debug: false,
@@ -1592,7 +1593,7 @@ $(document).ready(function() {
         }
     });
     // End :: Bank Form //
-    
+
 
     /***************************** Start :: Data table and Common Functionalities ****************************/
     // Start :: Check / Un-check all for Admin Bulk Action (DO NOT EDIT / DELETE) //
@@ -1831,7 +1832,7 @@ function listActions(routePrefix, actionRoute, id, actionType, dTable) {
     } else {
         message = somethingWrongMessage;
     }
-    
+
     if (actionUrl != '') {
         swal.fire({
             text: message,
@@ -1883,7 +1884,7 @@ function bulkActions(routePrefix, actionRoute, selectedIds, actionType, dTable) 
     });
 
     var message = actionUrl = '';
-    
+
     if (actionRoute != '') {
         actionUrl = adminPanelUrl+'/'+routePrefix+'/'+actionRoute;
     }
@@ -1901,7 +1902,7 @@ function bulkActions(routePrefix, actionRoute, selectedIds, actionType, dTable) 
     } else {
         message = somethingWrongMessage;
     }
-    
+
     if (actionUrl != '') {
         swal.fire({
             text: message,
@@ -1971,7 +1972,7 @@ function galleryAction(routePrefix, actionRoute, id, albumId, rowId, actionType,
     } else {
         message = somethingWrongMessage;
     }
-    
+
     if (actionUrl != '') {
         swal.fire({
             text: message,
@@ -2005,7 +2006,7 @@ function galleryAction(routePrefix, actionRoute, id, albumId, rowId, actionType,
                             } else if (actionType == 'set-default') {
                                 $('.delete_block_'+rowId).remove();
                                 window.location.reload();
-                            }                            
+                            }
                         } else {
                             notyf.error(response.message);
                         }
@@ -2042,7 +2043,7 @@ $(document).on('click', '.delete-uploaded-preview-image', function() {
     }
 
     message = confirmDeleteMessage;
-    
+
     if (actionUrl != '') {
         swal.fire({
             text: message,
@@ -2106,9 +2107,9 @@ $(document).on('click', '.delete-uploaded-cropped-image', function() {
     if (primaryId != '' && routePrefix != '') {
         actionUrl = adminPanelUrl+'/'+routePrefix+'/'+'delete-uploaded-image';
     }
-    
+
     message = confirmDeleteMessage;
-    
+
     if (actionUrl != '') {
         swal.fire({
             text: message,
@@ -2160,7 +2161,7 @@ $(document).on('click', '.delete-uploaded-cropped-image', function() {
 // Start :: Slug generation on key up event //
 $('.slug-generation').focusout(function () {
     var modelName   = $(this).data('model');
-    var getTitle    = $(this).val();    
+    var getTitle    = $(this).val();
     var id          = '';
     if ($('#id').length) {
         var id = $('#id').val();
@@ -2201,7 +2202,7 @@ function sweetalertMessageRender(target, message, type, confirm = false) {
         icon: type,
         title: 'warning!',
         text: message,
-        
+
     };
     if (confirm) {
         options['showCancelButton'] = true;
@@ -2211,7 +2212,7 @@ function sweetalertMessageRender(target, message, type, confirm = false) {
     return Swal.fire(options)
     .then((result) => {
         if (confirm == true && result.value) {
-            window.location.href = target.getAttribute('data-href'); 
+            window.location.href = target.getAttribute('data-href');
         } else {
             return (false);
         }
@@ -2228,7 +2229,7 @@ $(document).on('click', '.clickToCopy', function(e) {
         e.clipboardData.setData('text/plain', copyText);
         e.preventDefault();
     }, true);
-  
+
     document.execCommand('copy');
 
     // Create an instance of Notyf

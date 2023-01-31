@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Controllers
@@ -119,6 +120,19 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
 
             Route::controller(MoneyTransferController::class)->group(function () {
                 Route::prefix('money-transfer')->name('money-transfer.')->group(function () {
+                    Route::get('/list', 'list')->name('list');
+                    Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/create', 'create');
+                    Route::get('/edit/{bank}', 'edit')->name('edit');
+                    Route::put('/edit/{bank}', 'edit');
+                    Route::get('/status/{bank}', 'status')->name('change-status');
+                    Route::delete('/delete/{bank}', 'delete')->name('delete');
+                });
+            });
+
+            Route::controller(UserController::class)->group(function () {
+                Route::prefix('user')->name('user.')->group(function () {
                     Route::get('/list', 'list')->name('list');
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');

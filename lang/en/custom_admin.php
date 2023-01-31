@@ -388,6 +388,14 @@ return [
     'label_from'                                    => 'From',
     'label_to'                                      => 'To',
     'label_transfer_date'                           => 'Transfer Date',
+    'label_user'                                    => 'Users',
+    'label_user_list'                                 => 'Manage Users',
+    'label_username'                                 => 'Username',
+    'label_user_type'                                 => 'User Type',
+    'label_newsletter_subscription'                       => 'Newsletter Subscription',
+    'label_email_verified'                          => 'Email Verified?',
+    'label_blockpass_verified'                          => 'Blockpass Verified?',
+
 
     // Buttons
     'btn_toggle_navigation'                         => 'Toggle Navigation',

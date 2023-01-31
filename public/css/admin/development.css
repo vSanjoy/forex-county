@@ -51,6 +51,27 @@ table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_a
 .filter-header-title {font-size: 1.125rem; color: var(--bs-card-cap-color);}
 .mtm-20{margin-top: -20px;}
 .mt-15{margin-top: 15px;}
+.permission-title div {float: right;}
+
+/* -------------- Role Permission ----------------- */
+ul,li {list-style: none; padding: 0;}
+.permission-content .checkAll{cursor: pointer;}
+.permission-content {overflow: hidden; padding: 12px 10px; border: 1px solid #e0e0e0; border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem;}
+.permission-content li {width: 20%;float: left; margin-bottom: 15px;}
+.permission-content li span {margin-left: 0px; font-weight: normal;}
+.background-white {background: #ffffff !important;}
+.permission-title {background: #e2e3e5; color: #383d41; padding: 10px; margin-top: 15px; overflow: hidden;border-top-left-radius: .25rem; border-top-right-radius: .25rem;}
+.permission-title div {float: right;}
+.permission-title div span {float: right; margin-left: 0px; color: #ffffff; font-weight: normal;}
+.permission-title div input {}
+.permission-title h2 {margin: 0; font-size: 15px; float: left; font-weight: normal; padding-top: 4px;}
+.permission-title .all-select{float: right; margin-left: 0px; color: #212529; font-weight: normal;}
+.add-edit-permission-wrap .col-md-12:last-child {margin-bottom: 12px;}
+.add-edit-permission-wrap>.permission-title {background: #fff}
+.individual_section{padding: 0;}
+.va-top{vertical-align: middle;}
+.cursor-pointer{cursor: pointer;}
+/* -------------- Role Permission ----------------- */
 
 
 /*******************

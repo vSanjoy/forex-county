@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\CountryController;
 use App\Http\Controllers\admin\CurrencyController;
 use App\Http\Controllers\admin\BankController;
 use App\Http\Controllers\admin\MoneyTransferController;
+use App\Http\Controllers\admin\RoleController;
 
 
 /*
@@ -64,7 +65,6 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::put('/edit/{cms}', 'edit');
                     Route::get('/status/{cms}', 'status')->name('change-status');
                     Route::delete('/delete/{cms}', 'delete')->name('delete');
-
                 });
             });
             Route::controller(CountryController::class)->group(function () {
@@ -79,7 +79,6 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::delete('/delete/{country}', 'delete')->name('delete');
                 });
             });
-
             Route::controller(CurrencyController::class)->group(function () {
                 Route::prefix('currency')->name('currency.')->group(function () {
                     Route::get('/list', 'list')->name('list');
@@ -129,6 +128,20 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::delete('/delete/{bank}', 'delete')->name('delete');
                 });
             });
+
+            Route::controller(RoleController::class)->group(function () {
+                Route::prefix('role')->name('role.')->group(function () {
+                    Route::get('/list', 'list')->name('list');
+                    Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/create', 'create');
+                    Route::get('/edit/{role}', 'edit')->name('edit');
+                    Route::put('/edit/{role}', 'edit');
+                    Route::get('/status/{role}', 'status')->name('change-status');
+                    Route::delete('/delete/{role}', 'delete')->name('delete');
+                });
+            });
+            
         });
     });
 

@@ -42,12 +42,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function userDetail()
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
+
     /*
         * Function name : setPasswordAttribute
         * Purpose       : To get hash password
         * Author        :
         * Created Date  :
-        * Modified Date : 
+        * Modified Date :
         * Input Params  : $pass
         * Return Value  : Hashed value
     */
@@ -60,7 +66,7 @@ class User extends Authenticatable
         * Purpose       : To get capitalized value
         * Author        :
         * Created Date  :
-        * Modified Date : 
+        * Modified Date :
         * Input Params  : $pass
         * Return Value  : Capitalized value
     */
@@ -73,8 +79,8 @@ class User extends Authenticatable
         * Purpose       : To get roles
         * Author        :
         * Created Date  :
-        * Modified Date : 
-        * Input Params  : 
+        * Modified Date :
+        * Input Params  :
         * Return Value  :
     */
     public function role() {
@@ -86,9 +92,9 @@ class User extends Authenticatable
         * Purpose       : To get role permissions
         * Author        :
         * Created Date  :
-        * Modified Date : 
-        * Input Params  : 
-        * Return Value  : 
+        * Modified Date :
+        * Input Params  :
+        * Return Value  :
     */
     public function checkRolePermission() {
         return $this->belongsTo('App\Models\Role', 'role_id')->where('is_admin','1');
@@ -99,9 +105,9 @@ class User extends Authenticatable
         * Purpose       : To get all role permissions for a admin
         * Author        :
         * Created Date  :
-        * Modified Date : 
-        * Input Params  : 
-        * Return Value  : 
+        * Modified Date :
+        * Input Params  :
+        * Return Value  :
     */
     public function allRolePermissionForUser() {
         return $this->hasMany('App\Models\RolePermission', 'role_id', 'role_id');
@@ -112,9 +118,9 @@ class User extends Authenticatable
         * Purpose       : To get user roles
         * Author        :
         * Created Date  :
-        * Modified Date : 
-        * Input Params  : 
-        * Return Value  : 
+        * Modified Date :
+        * Input Params  :
+        * Return Value  :
     */
     public function userRoles() {
         return $this->belongsToMany('App\Models\Role', 'App\Models\UserRole', 'user_id', 'role_id');

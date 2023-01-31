@@ -4,6 +4,7 @@ $countryRoutes      = ['admin.country.list','admin.country.create','admin.countr
 $currencyRoutes     = ['admin.currency.list','admin.currency.create','admin.currency.edit','admin.currency.transfer-fees.transfer-fees-list','admin.currency.transfer-fees.transfer-fees-create','admin.currency.transfer-fees.transfer-fees-edit'];
 $bankRoutes         = ['admin.bank.list','admin.bank.create','admin.bank.edit'];
 $moneyTransferRoutes= ['admin.money-transfer.list'];
+$userRoutes          = ['admin.user.list'];
 
 // Current page route
 // $currentPageRoute = explode('admin.', Route::currentRouteName());
@@ -140,6 +141,22 @@ $currentPage = Route::currentRouteName();
             </ul>
         </li>
         <!-- / Money Transfer -->
+
+        <!-- User Transfer -->
+        <li class="menu-item @if (in_array($currentPage, $userRoutes))active open @endif">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class='menu-icon tf-icons bx bxs-user'></i>
+                <div data-i18n="Cms">{{ __('custom_admin.label_user') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item @if(request()->routeIs('admin.user.list')) active @endif">
+                    <a href="{{ route('admin.user.list') }}" class="menu-link">
+                        <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- / User Transfer -->
 
     </ul>
 </aside>

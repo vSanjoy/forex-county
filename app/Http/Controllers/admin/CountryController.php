@@ -50,7 +50,7 @@ class CountryController extends Controller
         parent::__construct();
 
         $this->management  = __('custom_admin.label_country');
-        $this->model        = new Country();
+        $this->model       = new Country();
 
         // Assign breadcrumb
         $this->assignBreadcrumb();
@@ -165,10 +165,10 @@ class CountryController extends Controller
                             if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
                                 $editLink = route($this->routePrefix.'.'.$this->editUrl, customEncryptionDecryption($row->id));
 
-                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-primary"><i class="bx bx-edit"></i></a>';
+                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-outline-primary btn-small" title="'.__('custom_admin.label_edit').'"><i class="bx bx-edit"></i></a>';
                             }
                             if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'"><i class="bx bx-trash"></i></a>';
+                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
                             }
                             return $btn;
                         })

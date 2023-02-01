@@ -49,7 +49,7 @@ class CmsController extends Controller
     public function __construct($data = null) {
         parent::__construct();
 
-        $this->management  = trans('custom_admin.label_cms');
+        $this->management  = __('custom_admin.label_cms');
         $this->model        = new Cms();
 
         // Assign breadcrumb
@@ -70,8 +70,8 @@ class CmsController extends Controller
     */
     public function list(Request $request) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_cms_list'),
-            'panelTitle'    => trans('custom_admin.label_cms_list'),
+            'pageTitle'     => __('custom_admin.label_cms_list'),
+            'panelTitle'    => __('custom_admin.label_cms_list'),
             'pageType'      => 'LISTPAGE'
         ];
 
@@ -87,7 +87,7 @@ class CmsController extends Controller
 
             return view($this->viewFolderPath.'.list', $data);
         } catch (Exception $e) {
-            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
             return to_route($this->routePrefix.'.account.dashboard');
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
@@ -105,8 +105,8 @@ class CmsController extends Controller
         * Return Value  : Returns cms data
     */
     public function ajaxListRequest(Request $request) {
-        $data['pageTitle'] = trans('custom_admin.label_cms_list');
-        $data['panelTitle']= trans('custom_admin.label_cms_list');
+        $data['pageTitle'] = __('custom_admin.label_cms_list');
+        $data['panelTitle']= __('custom_admin.label_cms_list');
 
         try {
             if ($request->ajax()) {
@@ -153,10 +153,10 @@ class CmsController extends Controller
                             if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
                                 $editLink = route($this->routePrefix.'.'.$this->editUrl, customEncryptionDecryption($row->id));
 
-                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-primary"><i class="bx bx-edit"></i></a>';
+                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-outline-primary btn-small" title="'.__('custom_admin.label_edit').'"><i class="bx bx-edit"></i></a>';
                             }
                             if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'"><i class="bx bx-trash"></i></a>';
+                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
                             }
                             return $btn;
                         })
@@ -184,8 +184,8 @@ class CmsController extends Controller
     */
     public function create(Request $request, $id = null) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_create_cms'),
-            'panelTitle'    => trans('custom_admin.label_create_cms'),
+            'pageTitle'     => __('custom_admin.label_create_cms'),
+            'panelTitle'    => __('custom_admin.label_create_cms'),
             'pageType'      => 'CREATEPAGE'
         ];
 
@@ -197,10 +197,10 @@ class CmsController extends Controller
                     'featured_image'=> 'mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE')
                 );
                 $validationMessages = array(
-                    'page_name.required'    => trans('custom_admin.error_page_name'),
-                    'page_name.unique'      => trans('custom_admin.error_name_unique'),
-                    'title.required'        => trans('custom_admin.error_title'),
-                    'featured_image.mimes'  => trans('custom_admin.error_image_mimes')
+                    'page_name.required'    => __('custom_admin.error_page_name'),
+                    'page_name.unique'      => __('custom_admin.error_name_unique'),
+                    'title.required'        => __('custom_admin.error_title'),
+                    'featured_image.mimes'  => __('custom_admin.error_image_mimes')
                 );
                 $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($validator->fails()) {
@@ -219,17 +219,17 @@ class CmsController extends Controller
                     $save = $this->model->create($input);
 
                     if ($save) {
-                        $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                        $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix.'.'.$this->listUrl);
                     } else {
-                        $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
+                        $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
                         return back()->withInput();
                     }
                 }
             }
             return view($this->viewFolderPath.'.create', $data);
         } catch (Exception $e) {
-            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
             return to_route($this->routePrefix.'.'.$this->listUrl);
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
@@ -248,8 +248,8 @@ class CmsController extends Controller
     */
     public function edit(Request $request, Cms $cms) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_edit_cms'),
-            'panelTitle'    => trans('custom_admin.label_edit_cms'),
+            'pageTitle'     => __('custom_admin.label_edit_cms'),
+            'panelTitle'    => __('custom_admin.label_edit_cms'),
             'pageType'      => 'EDITPAGE'
         ];
 
@@ -259,7 +259,7 @@ class CmsController extends Controller
             
             if ($request->isMethod('PUT')) {
                 if ($cms->id == null) {
-                    $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+                    $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
                     return redirect()->route($this->pageRoute.'.'.$this->listUrl);
                 }
                 $validationCondition = array(
@@ -268,10 +268,10 @@ class CmsController extends Controller
                     'featured_image'=> 'mimes:'.config('global.IMAGE_FILE_TYPES').'|max:'.config('global.IMAGE_MAX_UPLOAD_SIZE'),
                 );
                 $validationMessages = array(
-                    'page_name.required'    => trans('custom_admin.error_page_name'),
-                    'page_name.unique'      => trans('custom_admin.error_name_unique'),
-                    'title.required'        => trans('custom_admin.error_title'),
-                    'featured_image.mimes'  => trans('custom_admin.error_image_mimes'),
+                    'page_name.required'    => __('custom_admin.error_page_name'),
+                    'page_name.unique'      => __('custom_admin.error_name_unique'),
+                    'title.required'        => __('custom_admin.error_title'),
+                    'featured_image.mimes'  => __('custom_admin.error_image_mimes'),
                 );
                 $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
                 if ($validator->fails()) {
@@ -296,17 +296,17 @@ class CmsController extends Controller
                     $update = $details->update($input);
 
                     if ($update) {
-                        $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                        $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix.'.'.$this->listUrl);
                     } else {
-                        $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
+                        $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
                         return back()->withInput();
                     }
                 }
             }
             return view($this->viewFolderPath.'.edit', $data);
         } catch (Exception $e) {
-            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
             return redirect()->route($this->routePrefix.'.'.$this->listUrl);
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
@@ -324,8 +324,8 @@ class CmsController extends Controller
         * Return Value  : Returns json
     */
     public function status(Request $request, Cms $cms) {
-        $title      = trans('custom_admin.message_error');
-        $message    = trans('custom_admin.error_something_went_wrong');
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
@@ -335,19 +335,19 @@ class CmsController extends Controller
                         $cms->status = '0';
                         $cms->save();
                         
-                        $title      = trans('custom_admin.message_success');
-                        $message    = trans('custom_admin.success_status_updated_successfully');
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
                     } else if ($cms->status == 0) {
                         $cms->status = '1';
                         $cms->save();
     
-                        $title      = trans('custom_admin.message_success');
-                        $message    = trans('custom_admin.success_status_updated_successfully');
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
                     }
                 } else {
-                    $message = trans('custom_admin.error_invalid');
+                    $message = __('custom_admin.error_invalid');
                 }
                 
             }
@@ -369,8 +369,8 @@ class CmsController extends Controller
         * Return Value  : Returns json
     */
     public function delete(Request $request, Cms $cms) {
-        $title      = trans('custom_admin.message_error');
-        $message    = trans('custom_admin.error_something_went_wrong');
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
@@ -378,14 +378,14 @@ class CmsController extends Controller
                 if ($cms != null) {
                     $delete = $cms->delete();
                     if ($delete) {
-                        $title      = trans('custom_admin.message_success');
-                        $message    = trans('custom_admin.success_data_deleted_successfully');
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_data_deleted_successfully');
                         $type       = 'success';
                     } else {
-                        $message    = trans('custom_admin.error_took_place_while_deleting');
+                        $message    = __('custom_admin.error_took_place_while_deleting');
                     }
                 } else {
-                    $message = trans('custom_admin.error_invalid');
+                    $message = __('custom_admin.error_invalid');
                 }
             }
         } catch (Exception $e) {

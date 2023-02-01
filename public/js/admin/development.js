@@ -1531,7 +1531,11 @@ $(document).ready(function() {
             }
         },
         errorPlacement: function(error, element) {
-            error.insertAfter(element);
+            if ($(element).attr('id') == 'country_id') {
+                error.insertAfter($(element).parents('div.form-select2'));
+            } else {
+                error.insertAfter(element);
+            }
         },
         submitHandler: function(form) {
             $('#btn-saving').html(btnSavingPreloader);

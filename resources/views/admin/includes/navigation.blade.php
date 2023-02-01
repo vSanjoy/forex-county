@@ -4,7 +4,7 @@ $countryRoutes      = ['admin.country.list','admin.country.create','admin.countr
 $currencyRoutes     = ['admin.currency.list','admin.currency.create','admin.currency.edit','admin.currency.transfer-fees.transfer-fees-list','admin.currency.transfer-fees.transfer-fees-create','admin.currency.transfer-fees.transfer-fees-edit'];
 $bankRoutes         = ['admin.bank.list','admin.bank.create','admin.bank.edit'];
 $moneyTransferRoutes= ['admin.money-transfer.list'];
-$userRoutes          = ['admin.user.list'];
+$userRoutes          = ['admin.user.list','admin.user.create'];
 
 // Current page route
 // $currentPageRoute = explode('admin.', Route::currentRouteName());
@@ -152,6 +152,11 @@ $currentPage = Route::currentRouteName();
                 <li class="menu-item @if(request()->routeIs('admin.user.list')) active @endif">
                     <a href="{{ route('admin.user.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item @if(request()->routeIs('admin.user.create')) active @endif">
+                    <a href="{{ route('admin.user.create') }}" class="menu-link">
+                        <div data-i18n="Without menu">{{ __('custom_admin.label_create') }}</div>
                     </a>
                 </li>
             </ul>

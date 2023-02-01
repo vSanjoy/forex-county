@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,10 +18,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded = [
+        'id'
     ];
 
     /**
@@ -47,18 +46,11 @@ class User extends Authenticatable
         return $this->hasOne(UserDetail::class);
     }
 
-
-    /*
-        * Function name : setPasswordAttribute
-        * Purpose       : To get hash password
-        * Author        :
-        * Created Date  :
-        * Modified Date :
-        * Input Params  : $pass
-        * Return Value  : Hashed value
-    */
-    public function setPasswordAttribute($pass) {
-        $this->attributes['password'] = \Hash::make($pass);
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => bcrypt($value),
+        );
     }
 
     /*

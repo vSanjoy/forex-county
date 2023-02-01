@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Traits\GeneralMethods;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -164,6 +167,71 @@ class UserController extends Controller
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
             return '';
+        }
+    }
+
+    public function create(Request $request)
+    {
+        $data = [
+            'pageTitle' => trans('custom_admin.label_create_user'),
+            'panelTitle' => trans('custom_admin.label_create_user'),
+            'pageType' => 'CREATEPAGE'
+        ];
+        $countries = Country::all(['id', 'countryname']);
+        try {
+            if ($request->isMethod('POST')) {
+                $validationCondition = array(
+                    'user_type' => ['required'],
+                    'first_name' => ['required'],
+                    'last_name' => ['required'],
+                    'email'  => ['required', 'unique:users'],
+                    'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+                    'country_code' => ['required'],
+                    'phone_no' => ['required'],
+                    'country' => ['required'],
+                    'address' => ['required'],
+                    'city' => ['required'],
+                    'postcode' => ['required'],
+                    'blockpass_recordid' => ['required'],
+                    'blockpass_refid' => ['required'],
+                );
+                $validationMessages = array(
+                    'first_name.required'=> trans('custom_admin.error_first_name'),
+                    'last_name.required'=> trans('custom_admin.error_last_name'),
+                    'email.required'=> trans('custom_admin.error_email'),
+                    'email.unique'=> trans('custom_admin.error_email_unique'),
+                    'password.required'=> trans('custom_admin.error_password'),
+                    'country_code.required'=> trans('custom_admin.error_ph_country_code'),
+                    'phone_no.required'=> trans('custom_admin.error_phone_no'),
+                    'country.required'=> trans('custom_admin.error_country'),
+                    'address.required'=> trans('custom_admin.error_address'),
+                    'city.required'=> trans('custom_admin.error_city'),
+                    'postcode.required'=> trans('custom_admin.error_postcode'),
+                    'blockpass_recordid.required'=> trans('custom_admin.error_blockpass_recordid'),
+                    'blockpass_refid.required'=> trans('custom_admin.error_blockpass_refid'),
+                );
+                $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($validator->fails()) {
+                    $validationFailedMessages = validationMessageBeautifier($validator->messages()->getMessages());
+                    $this->generateNotifyMessage('error', $validationFailedMessages, false);
+                    return back()->withInput();
+                } else {
+                    $userAttributes = $validator->safe()->only(['first_name', 'last_name', 'email', 'password', 'phone_no','address']);
+                    $detailAttributes = $validator->safe()->except(['first_name', 'last_name', 'email', 'password', 'phone_no','address']);
+                    $userId = User::create($userAttributes)->id;
+                    $detailAttributes['user_id'] = $userId;
+                    UserDetail::create($detailAttributes);
+                    $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                    return to_route($this->routePrefix . '.' . $this->listUrl);
+                }
+            }
+            return view($this->viewFolderPath . '.create', $data)->with(['countries' => $countries]);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            return to_route($this->routePrefix . '.' . $this->listUrl);
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return to_route($this->routePrefix . '.' . $this->listUrl);
         }
     }
 

@@ -9,6 +9,8 @@ class UserDetail extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function countryDetail()
     {
         return $this->belongsTo(Country::class, 'country');

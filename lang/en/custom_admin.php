@@ -389,12 +389,18 @@ return [
     'label_to'                                      => 'To',
     'label_transfer_date'                           => 'Transfer Date',
     'label_user'                                    => 'Users',
-    'label_user_list'                                 => 'Manage Users',
-    'label_username'                                 => 'Username',
-    'label_user_type'                                 => 'User Type',
-    'label_newsletter_subscription'                       => 'Newsletter Subscription',
+    'label_user_list'                               => 'Manage Users',
+    'label_username'                                => 'Username',
+    'label_user_type'                               => 'User Type',
+    'label_newsletter_subscription'                 => 'Newsletter Subscription',
     'label_email_verified'                          => 'Email Verified?',
-    'label_blockpass_verified'                          => 'Blockpass Verified?',
+    'label_blockpass_verified'                      => 'Blockpass Verified?',
+    'label_ph_country_code'                         => 'Country Code for Phone',
+    'label_city'                                    => 'City',
+    'label_postcode'                                => 'Postcode',
+    'label_blockpass_recordid'                      => 'Blockpass Recordid',
+    'label_blockpass_refid'                         => 'Blockpass Refid',
+    'label_create_user'                             => 'Create User',
 
 
     // Buttons
@@ -462,7 +468,16 @@ return [
     'placeholder_fees'                              => 'Enter fees',
     'placeholder_fee_type'                          => 'Select fee type',
     'placeholder_serial_number'                     => 'Enter Serial number',
-    'placeholder_bank_name'                     => 'Bank Name',
+    'placeholder_bank_name'                         => 'Enter Bank Name',
+    'placeholder_first_name'                        => 'Enter First Name',
+    'placeholder_last_name'                         => 'Enter Last Name',
+    'placeholder_email'                             => 'Enter Email',
+    'placeholder_phone'                             => 'Enter Phone',
+    'placeholder_city'                              => 'Enter City',
+    'placeholder_postcode'                          => 'Enter Postcode',
+    'placeholder_ph_country_code'                   => 'Enter Country Code for Phone',
+    'placeholder_blockpass_recordid'                => 'Enter Blockpass Recordid',
+    'placeholder_blockpass_refid'                   => 'Enter Blockpass Refid',
 
 
     // Errors

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('profile_pic')->nullable();
             $table->text('address')->nullable();
-            $table->integer('role_id')->nullable();
+            $table->integer('role_id')->default(1);
             $table->rememberToken();
             $table->string('auth_token')->nullable();
             $table->string('device_token')->nullable();

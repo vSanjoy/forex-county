@@ -30,7 +30,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('custom_admin.placeholder_first_name') }}<span class="red_star">*</span></label>
+                                <label class="form-label">{{ __('custom_admin.label_first_name') }}<span class="red_star">*</span></label>
                                 {{ Form::text('first_name', null, [
                                                             'id' => 'first_name',
                                                             'class' => 'form-control',
@@ -67,16 +67,16 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">@lang('custom_admin.label_confirm_password')<span class="red_star">*</span></label>
-                                {{ Form::password('confirm_password', array(
-                                         'id' => 'confirm_password',
+                                {{ Form::password('password_confirmation', array(
+                                         'id' => 'password_confirmation',
                                          'class' => 'form-control',
                                          'placeholder' => '············',
                                          'required' => true )) }}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('custom_admin.label_ph_country_code') }}<span class="red_star">*</span></label>
-                                {{ Form::text('ph_country_code', null, [
-                                                                    'id' => 'ph_country_code',
+                                {{ Form::text('country_code', null, [
+                                                                    'id' => 'country_code',
                                                                     'class' => 'form-control',
                                                                     'placeholder' => __('custom_admin.placeholder_ph_country_code'),
                                                                     'required' => true

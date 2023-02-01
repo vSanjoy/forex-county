@@ -1614,12 +1614,12 @@ $(document).ready(function() {
                 required: true,
                 valid_password: true,
             },
-            confirm_password: {
+            password_confirmation : {
                 required: true,
                 valid_password: true,
                 equalTo: "#password"
             },
-            'ph_country_code': {
+            'country_code': {
                 required: true
             },
             'phone_no': {
@@ -1650,7 +1650,7 @@ $(document).ready(function() {
                 required: "Please enter new password.",
                 valid_password: "Min. 8, alphanumeric and special character."
             },
-            confirm_password: {
+            password_confirmation : {
                 required: "Please enter confirm password",
                 valid_password: "Min. 8, alphanumeric and special character.",
                 equalTo: "Password should be same as new password.",
@@ -1667,7 +1667,7 @@ $(document).ready(function() {
             'email': {
                 required: "email required.",
             },
-            'ph_country_code': {
+            'country_code': {
                 required: "country code for phone required",
             },
             'phone_no': {

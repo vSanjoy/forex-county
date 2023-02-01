@@ -5,11 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Traits\GeneralMethods;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -180,15 +180,13 @@ class UserController extends Controller
         $countries = Country::all(['id', 'countryname']);
         try {
             if ($request->isMethod('POST')) {
-
                 $validationCondition = array(
                     'user_type' => ['required'],
                     'first_name' => ['required'],
                     'last_name' => ['required'],
-                    'email'  => ['required', Rule::unique('users')->ignore($this->id)],
-                    'password' => ['required', 'confirmed',
-                        Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
-                    'ph_country_code' => ['required'],
+                    'email'  => ['required', 'unique:users'],
+                    'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+                    'country_code' => ['required'],
                     'phone_no' => ['required'],
                     'country' => ['required'],
                     'address' => ['required'],
@@ -203,7 +201,7 @@ class UserController extends Controller
                     'email.required'=> trans('custom_admin.error_email'),
                     'email.unique'=> trans('custom_admin.error_email_unique'),
                     'password.required'=> trans('custom_admin.error_password'),
-                    'ph_country_code.required'=> trans('custom_admin.error_ph_country_code'),
+                    'country_code.required'=> trans('custom_admin.error_ph_country_code'),
                     'phone_no.required'=> trans('custom_admin.error_phone_no'),
                     'country.required'=> trans('custom_admin.error_country'),
                     'address.required'=> trans('custom_admin.error_address'),
@@ -218,14 +216,13 @@ class UserController extends Controller
                     $this->generateNotifyMessage('error', $validationFailedMessages, false);
                     return back()->withInput();
                 } else {
-                    $save = $this->model->create($request->all());
-                    if ($save) {
-                        $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
-                        return to_route($this->routePrefix . '.' . $this->listUrl);
-                    } else {
-                        $this->generateNotifyMessage('error', trans('custom_admin.error_took_place_while_updating'), false);
-                        return back()->withInput();
-                    }
+                    $userAttributes = $validator->safe()->only(['first_name', 'last_name', 'email', 'password', 'phone_no','address']);
+                    $detailAttributes = $validator->safe()->except(['first_name', 'last_name', 'email', 'password', 'phone_no','address']);
+                    $userId = User::create($userAttributes)->id;
+                    $detailAttributes['user_id'] = $userId;
+                    UserDetail::create($detailAttributes);
+                    $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                    return to_route($this->routePrefix . '.' . $this->listUrl);
                 }
             }
             return view($this->viewFolderPath . '.create', $data)->with(['countries' => $countries]);

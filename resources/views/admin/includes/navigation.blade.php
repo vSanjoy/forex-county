@@ -113,7 +113,7 @@ $currentPage = Route::currentRouteName();
                 <div data-i18n="Cms">{{ __('custom_admin.label_banks') }}</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if(request()->routeIs('admin.bank.create')) active @endif">
+                <li class="menu-item @if(request()->routeIs('admin.bank.list')) active @endif">
                     <a href="{{ route('admin.bank.list') }}" class="menu-link">
                         <div data-i18n="Without menu">{{ __('custom_admin.label_list') }}</div>
                     </a>

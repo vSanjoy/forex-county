@@ -55,7 +55,7 @@ $(document).ready(function() {
 	        order: [
 				[0, 'desc']
 			],
-			pageLength: 10,
+			pageLength: 25,
 			lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, '{{trans("custom_admin.label_all")}}']],
 			fnDrawCallback: function(settings) {
 				if (settings._iDisplayLength == -1 || settings._iDisplayLength > settings.fnRecordsDisplay()) {

@@ -55,7 +55,10 @@
     {{-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css'> --}}
     <link href="{{ asset('css/admin/vendor/libs/datepicker/datepicker-bs5.css') }}" rel="stylesheet">
     @endif
-      
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('css/admin/vendor/libs/select2/select2.min.css') }}">
+
     <!-- Development css -->
     <link href="{{ asset('css/admin/development.css') }}" rel="stylesheet">
 </head>
@@ -250,15 +253,21 @@
         const datepicker = new Datepicker(elem, {
             format: 'dd/mm/yyyy', // UK format
         });
-    }      
-
+    }
     const elem = document.getElementById('range');
     const dateRangePicker = new DateRangePicker(elem, {
         format: 'mm/dd/yyyy',
     });
     </script>
-
     @endif
+
+    <!-- Select2 -->
+    <script src="{{ asset('js/admin/vendor/libs/select2/select2.full.min.js') }}"></script>
+    <script type="text/javascript">    
+    $(function () {
+        $('.select2').select2();
+    });
+    </script>    
 
     @stack('scripts')
 

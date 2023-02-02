@@ -137,10 +137,10 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::post('/ajax-list-request', 'ajaxListRequest')->name('ajax-list-request');
                     Route::get('/create', 'create')->name('create');
                     Route::post('/create', 'create');
-                    Route::get('/edit/{bank}', 'edit')->name('edit');
-                    Route::put('/edit/{bank}', 'edit');
-                    Route::get('/status/{bank}', 'status')->name('change-status');
-                    Route::delete('/delete/{bank}', 'delete')->name('delete');
+                    Route::get('/edit/{user}', 'edit')->name('edit');
+                    Route::put('/edit/{user}', 'edit');
+                    Route::get('/status/{user}', 'status')->name('change-status');
+                    Route::delete('/delete/{user}', 'delete')->name('delete');
                 });
             });
         });

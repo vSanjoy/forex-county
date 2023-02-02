@@ -53,6 +53,10 @@ class User extends Authenticatable
         );
     }
 
+    public function resolveRouteBinding($value, $field = null) {
+        return $this->where('id', customEncryptionDecryption($value, 'decrypt'))->firstOrFail();
+    }
+
     /*
         * Function name : getFirstNameAttribute
         * Purpose       : To get capitalized value

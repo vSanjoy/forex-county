@@ -348,4 +348,32 @@ class UserController extends Controller
         }
     }
 
+    public function delete(Request $request, User $user) {
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
+        $type       = 'error';
+
+        try {
+            if ($request->ajax()) {
+                if ($user != null) {
+                    $delete = $user->delete();
+                    if ($delete) {
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_data_deleted_successfully');
+                        $type       = 'success';
+                    } else {
+                        $message    = __('custom_admin.error_took_place_while_deleting');
+                    }
+                } else {
+                    $message = __('custom_admin.error_invalid');
+                }
+            }
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Throwable $e) {
+            $message = $e->getMessage();
+        }
+        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
 }

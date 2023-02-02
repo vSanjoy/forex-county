@@ -10,6 +10,7 @@ use App\Traits\GeneralMethods;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -191,7 +192,7 @@ class UserController extends Controller
                     'country' => ['required'],
                     'address' => ['required'],
                     'city' => ['required'],
-                    'postcode' => ['required'],
+                    'post_code' => ['required'],
                     'blockpass_recordid' => ['required'],
                     'blockpass_refid' => ['required'],
                 );
@@ -206,7 +207,7 @@ class UserController extends Controller
                     'country.required'=> trans('custom_admin.error_country'),
                     'address.required'=> trans('custom_admin.error_address'),
                     'city.required'=> trans('custom_admin.error_city'),
-                    'postcode.required'=> trans('custom_admin.error_postcode'),
+                    'post_code.required'=> trans('custom_admin.error_postcode'),
                     'blockpass_recordid.required'=> trans('custom_admin.error_blockpass_recordid'),
                     'blockpass_refid.required'=> trans('custom_admin.error_blockpass_refid'),
                 );
@@ -232,6 +233,118 @@ class UserController extends Controller
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
             return to_route($this->routePrefix . '.' . $this->listUrl);
+        }
+    }
+
+    public function status(Request $request, User $user)
+    {
+        $title = trans('custom_admin.message_error');
+        $message = trans('custom_admin.error_something_went_wrong');
+        $type = 'error';
+
+        try {
+            if ($request->ajax()) {
+                if ($user != null) {
+                    if ($user->status == 1) {
+                        $user->status = '0';
+                        $user->save();
+
+                        $title = trans('custom_admin.message_success');
+                        $message = trans('custom_admin.success_status_updated_successfully');
+                        $type = 'success';
+                    } else if ($user->status == 0) {
+                        $user->status = '1';
+                        $user->save();
+
+                        $title = trans('custom_admin.message_success');
+                        $message = trans('custom_admin.success_status_updated_successfully');
+                        $type = 'success';
+                    }
+                } else {
+                    $message = trans('custom_admin.error_invalid');
+                }
+
+            }
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Throwable $e) {
+            $message = $e->getMessage();
+        }
+        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
+    public function edit(Request $request, User $user) {
+        $data = [
+            'pageTitle'     => trans('custom_admin.label_edit_user'),
+            'panelTitle'    => trans('custom_admin.label_edit_user'),
+            'pageType'      => 'EDITPAGE'
+        ];
+
+        try {
+            $data['countries'] = Country::all(['id', 'countryname']);
+            $data['user'] = $user;
+            $data['details'] = $details = $user;
+
+            if ($request->isMethod('PUT')) {
+                if ($user->id == null) {
+                    $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+                    return redirect()->route($this->pageRoute.'.'.$this->listUrl);
+                }
+                $validationCondition = array(
+                    'user_type' => ['required'],
+                    'first_name' => ['required'],
+                    'last_name' => ['required'],
+                    'email'  => ['required', Rule::unique('users')->ignore($user)],
+                    'country_code' => ['required'],
+                    'phone_no' => ['required'],
+                    'country' => ['required'],
+                    'address' => ['required'],
+                    'city' => ['required'],
+                    'post_code' => ['required'],
+                    'blockpass_recordid' => ['required'],
+                    'blockpass_refid' => ['required'],
+                );
+                $validationMessages = array(
+                    'first_name.required'=> trans('custom_admin.error_first_name'),
+                    'last_name.required'=> trans('custom_admin.error_last_name'),
+                    'email.required'=> trans('custom_admin.error_email'),
+                    'email.unique'=> trans('custom_admin.error_email_unique'),
+                    'country_code.required'=> trans('custom_admin.error_ph_country_code'),
+                    'phone_no.required'=> trans('custom_admin.error_phone_no'),
+                    'country.required'=> trans('custom_admin.error_country'),
+                    'address.required'=> trans('custom_admin.error_address'),
+                    'city.required'=> trans('custom_admin.error_city'),
+                    'post_code.required'=> trans('custom_admin.error_postcode'),
+                    'blockpass_recordid.required'=> trans('custom_admin.error_blockpass_recordid'),
+                    'blockpass_refid.required'=> trans('custom_admin.error_blockpass_refid'),
+                );
+
+                $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
+                $validator->sometimes('password',
+                    [Password::min(8)->letters()->mixedCase()->numbers()->symbols(), 'confirmed'], function ($input) {
+                    return $input->password != null;
+                });
+
+                if ($validator->fails()) {
+                    $validationFailedMessages = validationMessageBeautifier($validator->messages()->getMessages());
+                    $this->generateNotifyMessage('error', $validationFailedMessages, false);
+                    return redirect()->back()->withInput();
+                } else {
+                    $userAttributes = $validator->safe()->only(['first_name', 'last_name', 'email','password', 'phone_no','address']);
+                    $detailAttributes = $validator->safe()->except(['first_name', 'last_name', 'email','password', 'phone_no','address']);
+                    $details->update($userAttributes);
+                    $details->userDetail->update($detailAttributes);
+                    $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
+                    return to_route($this->routePrefix.'.'.$this->listUrl);
+                }
+            }
+            return view($this->viewFolderPath.'.edit', $data);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
+            return redirect()->route($this->routePrefix.'.'.$this->listUrl);
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return redirect()->route($this->routePrefix.'.'.$this->listUrl);
         }
     }
 

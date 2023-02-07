@@ -148,10 +148,10 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                         Route::post('/ajax-list-request/{user}', 'ajaxRecipientListRequest')->name('ajax-list-request');
                         Route::get('/create/{user}', 'recipientCreate')->name('recipient-create');
                         Route::post('/create/{user}', 'recipientCreate');
-                        Route::get('/edit/{user}', 'recipientEdit')->name('recipient-edit');
-                        Route::put('/edit/{user}', 'recipientEdit');
-                        Route::get('/status/{user}', 'recipientStatus')->name('recipient-change-status');
-                        Route::delete('/delete/{user}', 'recipientDelete')->name('recipient-delete');
+                        Route::get('/edit/{recipient}', 'recipientEdit')->name('recipient-edit');
+                        Route::put('/edit/{recipient}', 'recipientEdit');
+                        Route::get('/status/{recipient}', 'recipientStatus')->name('recipient-change-status');
+                        Route::delete('/delete/{recipient}', 'recipientDelete')->name('recipient-delete');
                     });
                 });
             });

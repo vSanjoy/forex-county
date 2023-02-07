@@ -77,14 +77,14 @@ $(document).ready(function() {
 	$(document).on('click', '.status', function() {
 		var id 			= $(this).data('id');
 		var actionType 	= $(this).data('action-type');
-		listActions('currency/transfer-fees', 'status', id, actionType, dTable);
+		listActions('user/recipient', 'status', id, actionType, dTable);
 	});
 
 	// Delete section
 	$(document).on('click', '.delete', function() {
 		var id = $(this).data('id');
 		var actionType 	= $(this).data('action-type');
-		listActions('currency/transfer-fees', 'delete', id, actionType, dTable);
+		listActions('user/recipient', 'delete', id, actionType, dTable);
 	});
 	@endif
 

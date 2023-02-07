@@ -575,58 +575,62 @@ class UserController extends Controller
         * Input Params  : Request $request, TransferFee $transferFee = model binding
         * Return Value  : Returns data
     */
-    public function recipientEdit(Request $request, TransferFee $transferFee) {
+    public function recipientEdit(Request $request, Recipient $recipient) {
         $data = [
-            'pageTitle'     => __('custom_admin.label_edit_currency'),
-            'panelTitle'    => __('custom_admin.label_edit_currency'),
+            'pageTitle'     => __('custom_admin.label_edit_recipient'),
+            'panelTitle'    => __('custom_admin.label_edit_recipient'),
             'pageType'      => 'EDITPAGE'
         ];
 
         try {
-            $data['transferFee']    = $transferFee;
+            $data['recipient']    = $recipient;
 
             if ($request->isMethod('PUT')) {
-                if ($transferFee->id == null) {
+                if ($recipient->id == null) {
                     $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
-                    return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+                    return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($recipient->user_id));
                 }
+
                 $validationCondition = array(
-                    'title'     => 'required|unique:'.(new TransferFee)->getTable().',title,'.$transferFee->id.',id,deleted_at,NULL,country_id,'.$transferFee->country_id,
-                    'fees'      => 'required|regex:'.config('global.VALID_AMOUNT_REGEX'),
-                    'fee_type'  => 'required'
+                    'email_address' => ['required', 'email'],
+                    'account_holder_name' => ['required'],
+                    'account_number' => ['required'],
+                    'type' => ['required'],
                 );
+
                 $validationMessages = array(
-                    'title.required'    => __('custom_admin.error_title'),
-                    'title.unique'      => __('custom_admin.error_title_unique'),
-                    'fees.required'     => __('custom_admin.error_fees'),
-                    'fees.regex'        => __('custom_admin.error_fees_regex'),
-                    'fee_type.required' => __('custom_admin.error_price_regx')
+                    'email_address.required'    => __('custom_admin.error_email'),
+                    'account_holder_name.required'     => __('custom_admin.account_holder_name'),
+                    'account_number.required'     => __('custom_admin.account_number'),
+                    'type.required'     => __('custom_admin.type'),
                 );
+
                 $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
+
                 if ($validator->fails()) {
                     $validationFailedMessages = validationMessageBeautifier($validator->messages()->getMessages());
                     $this->generateNotifyMessage('error', $validationFailedMessages, false);
                     return redirect()->back()->withInput();
                 } else {
                     $input  = $request->all();
-                    $update = $transferFee->update($input);
+                    $update = $recipient->update($input);
 
                     if ($update) {
                         $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
-                        return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+                        return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($recipient->user_id));
                     } else {
                         $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
                         return back()->withInput();
                     }
                 }
             }
-            return view($this->viewFolderPath.'.transfer_fees_edit', $data);
+            return view($this->viewFolderPath.'.recipient_edit', $data)->with(['countries' => Country::all()]);
         } catch (Exception $e) {
             $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
-            return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+            return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($recipient->id));
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
-            return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+            return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($recipient->id));
         }
     }
 
@@ -639,24 +643,24 @@ class UserController extends Controller
         * Input Params  : Request $request, TransferFee $transferFee = model binding
         * Return Value  : Returns json
     */
-    public function transferFeesStatus(Request $request, TransferFee $transferFee) {
+    public function recipientStatus(Request $request, Recipient $recipient) {
         $title      = __('custom_admin.message_error');
         $message    = __('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
             if ($request->ajax()) {
-                if ($transferFee != null) {
-                    if ($transferFee->status == 1) {
-                        $transferFee->status = '0';
-                        $transferFee->save();
+                if ($recipient != null) {
+                    if ($recipient->status == 1) {
+                        $recipient->status = '0';
+                        $recipient->save();
 
                         $title      = __('custom_admin.message_success');
                         $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
-                    } else if ($transferFee->status == 0) {
-                        $transferFee->status = '1';
-                        $transferFee->save();
+                    } else if ($recipient->status == 0) {
+                        $recipient->status = '1';
+                        $recipient->save();
 
                         $title      = __('custom_admin.message_success');
                         $message    = __('custom_admin.success_status_updated_successfully');
@@ -683,15 +687,15 @@ class UserController extends Controller
         * Input Params  : Request $request, TransferFee $transferFee = model binding
         * Return Value  : Returns json
     */
-    public function transferFeesDelete(Request $request, TransferFee $transferFee) {
+    public function recipientDelete(Request $request, Recipient $recipient) {
         $title      = __('custom_admin.message_error');
         $message    = __('custom_admin.error_something_went_wrong');
         $type       = 'error';
 
         try {
             if ($request->ajax()) {
-                if ($transferFee != null) {
-                    $delete = $transferFee->delete();
+                if ($recipient != null) {
+                    $delete = $recipient->delete();
                     if ($delete) {
                         $title      = __('custom_admin.message_success');
                         $message    = __('custom_admin.success_data_deleted_successfully');

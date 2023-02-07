@@ -405,6 +405,16 @@ return [
     'label_create_user'                             => 'Create User',
     'label_account_holder_name'                     => 'Account Holder Name',
     'label_ac_no'                                   => 'Account Number',
+    'label_business_name'                           => 'Business Name',
+    'label_account_holder'                          => 'Account Holder',
+    'label_account_number'                          => 'Account Number',
+    'label_iban_number'                             => 'Iban Number',
+    'label_uk_shortcode'                            => 'UK Short Code',
+    'label_ach_routing_number'                      => 'Ach Routing Number',
+    'label_account_type'                            => 'Account Type',
+    'label_beneficiary_bank'                        => 'Beneficiary Bank',
+    'label_ifsc_code'                               => 'IFSC Code',
+    'label_postal_code'                             => 'Post Code',
 
 
     // Buttons
@@ -482,6 +492,15 @@ return [
     'placeholder_ph_country_code'                   => 'Enter Country Code for Phone',
     'placeholder_blockpass_recordid'                => 'Enter Blockpass Recordid',
     'placeholder_blockpass_refid'                   => 'Enter Blockpass Refid',
+    'placeholder_business_name'                     => 'Enter Business Name',
+    'placeholder_account_holder'                    => 'Enter Account Holder',
+    'placeholder_account_number'                    => 'Enter Account Number',
+    'placeholder_iban_number'                       => 'Enter IBAN Number',
+    'placeholder_uk_shortcode'                      => 'Enter UK Shortcode',
+    'placeholder_ach_routing_number'                => 'Enter Ach Routing Number',
+    'placeholder_beneficiary_bank'                  => 'Enter Beneficiary Bank',
+    'placeholder_ifsc_code'                         => 'Enter IFSC Code',
+    'placeholder_postal_code'                       => 'Enter Post Code',
 
 
     // Errors

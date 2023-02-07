@@ -10,4 +10,8 @@ class Recipient extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function resolveRouteBinding($value, $field = null) {
+        return $this->where('id', customEncryptionDecryption($value, 'decrypt'))->firstOrFail();
+    }
 }

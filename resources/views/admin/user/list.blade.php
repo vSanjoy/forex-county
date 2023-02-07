@@ -26,7 +26,7 @@
                                     <th>@lang('custom_admin.label_email_verified')</th>
                                     <th>@lang('custom_admin.label_blockpass_verified')</th>
                                     <th class="row_status">@lang('custom_admin.label_status')</th>
-                                    <th class="actions">@lang('custom_admin.label_action')</th>
+                                    <th class="more_actions">@lang('custom_admin.label_action')</th>
                                 </tr>
                             </thead>
                             <tbody>

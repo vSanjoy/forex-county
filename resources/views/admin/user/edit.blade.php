@@ -97,7 +97,7 @@
                                 </label>
                                 <select name="country" id="country" class="form-select">
                                     @foreach($countries AS $country)
-                                        <option value="{{ $country->id}}" @if($user->country == $country->id) {{ 'selected' }} @endif >{{ $country->countryname }}</option>
+                                        <option value="{{ $country->id}}" @if($user->userDetail->country == $country->id) {{ 'selected' }} @endif >{{ $country->countryname }}</option>
                                     @endforeach
                                 </select>
                             </div>

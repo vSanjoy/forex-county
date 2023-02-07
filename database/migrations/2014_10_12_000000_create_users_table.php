@@ -27,11 +27,11 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('profile_pic')->nullable();
             $table->text('address')->nullable();
-            $table->integer('role_id')->nullable();
+            $table->integer('role_id')->default(1);
             $table->rememberToken();
             $table->string('auth_token')->nullable();
             $table->string('device_token')->nullable();
-            $table->integer('verification_code')->nullable()->comment('Verification code for registration');
+            $table->text('verification_code')->nullable();
             $table->integer('otp')->nullable()->comment('OTP for verification for forgot password');
             $table->enum('type', ['SA','A','U','C','AG'])->default('U')->comment('SA=>Super Admin, A=>Sub Admin, U=>User, C=>Customer, AG=>Agent');
             $table->enum('agree', ['N','Y'])->default('Y')->comment('N=>No, Y=>Yes');

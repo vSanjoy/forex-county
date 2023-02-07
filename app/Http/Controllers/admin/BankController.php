@@ -1,4 +1,11 @@
 <?php
+/*****************************************************/
+# Company Name      :
+# Author            :
+# Created Date      : 
+# Page/Class name   : BankController
+# Purpose           : Bank Management
+/*****************************************************/
 
 namespace App\Http\Controllers\admin;
 
@@ -35,13 +42,12 @@ class BankController extends Controller
         * Purpose       : It sets some public variables for being accessed throughout this
         *                   controller and its related view pages
         * Author        :
-        * Created Date  : 18/01/2023
+        * Created Date  : 
         * Modified date :
         * Input Params  : Void
         * Return Value  : Mixed
     */
-    public function __construct($data = null)
-    {
+    public function __construct($data = null) {
         parent::__construct();
 
         $this->management = trans('custom_admin.label_bank');
@@ -54,9 +60,16 @@ class BankController extends Controller
         $this->assignShareVariables();
     }
 
-    public function list(Request $request)
-    {
-
+    /*
+        * Function name : list
+        * Purpose       : This function is for the listing and searching
+        * Author        :
+        * Created Date  : 
+        * Modified date :
+        * Input Params  : Request $request
+        * Return Value  : Returns to the list page
+    */
+    public function list(Request $request) {
         $data = [
             'pageTitle' => trans('custom_admin.label_bank_list'),
             'panelTitle' => trans('custom_admin.label_bank_list'),
@@ -83,8 +96,16 @@ class BankController extends Controller
         }
     }
 
-    public function ajaxListRequest(Request $request)
-    {
+    /*
+        * Function name : ajaxListRequest
+        * Purpose       : This function is for the reutrn ajax data
+        * Author        :
+        * Created Date  : 
+        * Modified date :
+        * Input Params  : Request $request
+        * Return Value  : Returnsdata
+    */
+    public function ajaxListRequest(Request $request) {
         $data = [
             'pageTitle' => trans('custom_admin.label_bank_list'),
             'panelTitle' => trans('custom_admin.label_bank_list')
@@ -92,7 +113,6 @@ class BankController extends Controller
 
         try {
             if ($request->ajax()) {
-
                 $data = $this->model->get();
                 // Start :: Manage restriction
                 $isAllow = false;
@@ -138,10 +158,10 @@ class BankController extends Controller
                         if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
                             $editLink = route($this->routePrefix . '.' . $this->editUrl, customEncryptionDecryption($row->id));
 
-                            $btn .= '<a href="' . $editLink . '" class="btn rounded-pill btn-icon btn-primary"><i class="bx bx-edit"></i></a>';
+                            $btn .= '<a href="' . $editLink . '" class="btn rounded-pill btn-icon btn-outline-primary btn-small" title="'.__('custom_admin.label_edit').'"><i class="bx bx-edit"></i></a>';
                         }
                         if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 delete" data-action-type="delete" data-id="' . customEncryptionDecryption($row->id) . '"><i class="bx bx-trash"></i></a>';
+                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="' . customEncryptionDecryption($row->id) . '" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
                         }
                         return $btn;
                     })
@@ -158,17 +178,25 @@ class BankController extends Controller
         }
     }
 
-    public function create(Request $request)
-    {
-
-
+    /*
+        * Function name : create
+        * Purpose       : This function is to create page
+        * Author        :
+        * Created Date  : 
+        * Modified date :
+        * Input Params  : Request $request
+        * Return Value  : Returns data
+    */
+    public function create(Request $request) {
         $data = [
             'pageTitle' => trans('custom_admin.label_create_bank'),
             'panelTitle' => trans('custom_admin.label_create_bank'),
             'pageType' => 'CREATEPAGE'
         ];
-        $countries = Country::all(['id', 'countryname']);
+        
         try {
+            $data['countries']  = Country::where(['status' => '1'])->pluck('countryname', 'id');
+
             if ($request->isMethod('POST')) {
                 $validationCondition = array(
                     'bank_name'  => 'required|unique:'.($this->model)->getTable().',bank_name,NULL,id,deleted_at,NULL,country_id,'.$request->input('country_id'),
@@ -196,9 +224,7 @@ class BankController extends Controller
                         $uploadedImage = singleImageUpload($this->modelName, $image, 'bank_image', $this->pageRoute, false);
                         $input['bank_image'] = $uploadedImage;
                     }
-
                     $save = $this->model->create($input);
-
                     if ($save) {
                         $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix . '.' . $this->listUrl);
@@ -208,7 +234,7 @@ class BankController extends Controller
                     }
                 }
             }
-            return view($this->viewFolderPath . '.create', $data)->with(['countries' => $countries]);
+            return view($this->viewFolderPath . '.create', $data);
         } catch (Exception $e) {
             $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
             return to_route($this->routePrefix . '.' . $this->listUrl);
@@ -218,55 +244,26 @@ class BankController extends Controller
         }
     }
 
-    public function status(Request $request, Bank $bank)
-    {
-        $title = trans('custom_admin.message_error');
-        $message = trans('custom_admin.error_something_went_wrong');
-        $type = 'error';
-
-        try {
-            if ($request->ajax()) {
-                if ($bank != null) {
-                    if ($bank->status == 1) {
-                        $bank->status = '0';
-                        $bank->save();
-
-                        $title = trans('custom_admin.message_success');
-                        $message = trans('custom_admin.success_status_updated_successfully');
-                        $type = 'success';
-                    } else if ($bank->status == 0) {
-                        $bank->status = '1';
-                        $bank->save();
-
-                        $title = trans('custom_admin.message_success');
-                        $message = trans('custom_admin.success_status_updated_successfully');
-                        $type = 'success';
-                    }
-                } else {
-                    $message = trans('custom_admin.error_invalid');
-                }
-
-            }
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-        } catch (\Throwable $e) {
-            $message = $e->getMessage();
-        }
-        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
-    }
-
+    /*
+        * Function name : edit
+        * Purpose       : This function is to edit
+        * Author        :
+        * Created Date  : 
+        * Modified date :
+        * Input Params  : Request $request, Bank $bank = model binding
+        * Return Value  : Returns data
+    */
     public function edit(Request $request, Bank $bank) {
         $data = [
-            'pageTitle'     => trans('custom_admin.label_edit_cms'),
-            'panelTitle'    => trans('custom_admin.label_edit_cms'),
+            'pageTitle'     => trans('custom_admin.label_edit_bank'),
+            'panelTitle'    => trans('custom_admin.label_edit_bank'),
             'pageType'      => 'EDITPAGE'
         ];
 
         try {
-            $data['countries'] = Country::all(['id', 'countryname']);
+            $data['countries']  = Country::where(['status' => '1'])->pluck('countryname', 'id');
             $data['bank'] = $bank;
-            $data['details'] = $details = $bank;
-
+            
             if ($request->isMethod('PUT')) {
                 if ($bank->id == null) {
                     $this->generateNotifyMessage('error', trans('custom_admin.error_something_went_wrong'), false);
@@ -311,10 +308,9 @@ class BankController extends Controller
                     // Featured image upload
                     if ($featuredImage != '') {
                         $uploadedFeaturedImage  = singleImageUpload($this->modelName, $featuredImage, 'bank_image', $this->pageRoute, false);
-                        $input['bank_image']= $uploadedFeaturedImage;
+                        $input['bank_image']    = $uploadedFeaturedImage;
                     }
-                    $update = $details->update($input);
-
+                    $update = $bank->update($input);
                     if ($update) {
                         $this->generateNotifyMessage('success', trans('custom_admin.success_data_updated_successfully'), false);
                         return to_route($this->routePrefix.'.'.$this->listUrl);
@@ -333,4 +329,87 @@ class BankController extends Controller
             return redirect()->route($this->routePrefix.'.'.$this->listUrl);
         }
     }
+
+    /*
+        * Function name : status
+        * Purpose       : This function is to status
+        * Author        :
+        * Created Date  : 
+        * Modified date :
+        * Input Params  : Request $request, Bank $bank = model binding
+        * Return Value  : Returns json
+    */
+    public function status(Request $request, Bank $bank) {
+        $title = trans('custom_admin.message_error');
+        $message = trans('custom_admin.error_something_went_wrong');
+        $type = 'error';
+
+        try {
+            if ($request->ajax()) {
+                if ($bank != null) {
+                    if ($bank->status == 1) {
+                        $bank->status = '0';
+                        $bank->save();
+
+                        $title = trans('custom_admin.message_success');
+                        $message = trans('custom_admin.success_status_updated_successfully');
+                        $type = 'success';
+                    } else if ($bank->status == 0) {
+                        $bank->status = '1';
+                        $bank->save();
+
+                        $title = trans('custom_admin.message_success');
+                        $message = trans('custom_admin.success_status_updated_successfully');
+                        $type = 'success';
+                    }
+                } else {
+                    $message = trans('custom_admin.error_invalid');
+                }
+
+            }
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Throwable $e) {
+            $message = $e->getMessage();
+        }
+        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
+    /*
+        * Function name : delete
+        * Purpose       : This function is to delete record
+        * Author        :
+        * Created Date  : 
+        * Modified date :
+        * Input Params  : Request $request, Bank $bank = model binding
+        * Return Value  : Returns json
+    */
+    public function delete(Request $request, Bank $bank) {
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
+        $type       = 'error';
+
+        try {
+            if ($request->ajax()) {
+                if ($bank != null) {
+                    $delete = $bank->delete();
+                    if ($delete) {
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_data_deleted_successfully');
+                        $type       = 'success';
+                    } else {
+                        $message    = __('custom_admin.error_took_place_while_deleting');
+                    }
+                } else {
+                    $message = __('custom_admin.error_invalid');
+                }
+            }
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Throwable $e) {
+            $message = $e->getMessage();
+        }        
+        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
 }

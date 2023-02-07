@@ -168,15 +168,15 @@ class CurrencyController extends Controller
                             if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
                                 $editLink = route($this->routePrefix.'.'.$this->editUrl, customEncryptionDecryption($row->id));
 
-                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-primary btn-small"><i class="bx bx-edit"></i></a>';
+                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-outline-primary btn-small" title="'.__('custom_admin.label_edit').'"><i class="bx bx-edit"></i></a>';
                             }
                             if ($isAllow || in_array($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees', $allowedRoutes)) {
                                 $transferFeesLink = route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($row->id));
 
-                                $btn .= ' <a href="'.$transferFeesLink.'" class="btn rounded-pill btn-icon btn-warning ms-1 btn-small"><i class="bx bx-money"></i></a>';
+                                $btn .= ' <a href="'.$transferFeesLink.'" class="btn rounded-pill btn-icon btn-outline-info btn-small ms-1" title="'.__('custom_admin.label_transfer_fee').'"><i class="bx bx-money"></i></a>';
                             }
                             if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 delete btn-small" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'"><i class="bx bx-trash"></i></a>';
+                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
                             }
                             return $btn;
                         })
@@ -517,8 +517,8 @@ class CurrencyController extends Controller
     */
     public function ajaxTransferFeesListRequest(Request $request, Currency $currency) {
         $data = [
-            'pageTitle'     => __('custom_admin.label_transfer_fees_list'),
-            'panelTitle'    => __('custom_admin.label_transfer_fees_list')
+            'pageTitle' => __('custom_admin.label_transfer_fees_list'),
+            'panelTitle'=> __('custom_admin.label_transfer_fees_list')
         ];
 
         try {
@@ -569,10 +569,10 @@ class CurrencyController extends Controller
                             if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
                                 $editLink = route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-edit', [customEncryptionDecryption($row->id)]);
 
-                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-primary btn-small"><i class="bx bx-edit"></i></a>';
+                                $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-outline-primary btn-small" title="'.__('custom_admin.label_edit').'"><i class="bx bx-edit"></i></a>';
                             }
                             if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 delete btn-small" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'"><i class="bx bx-trash"></i></a>';
+                                $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
                             }
                             return $btn;
                         })

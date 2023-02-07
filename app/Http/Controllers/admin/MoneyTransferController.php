@@ -23,6 +23,7 @@ class MoneyTransferController extends Controller
     public $listRequestUrl  = 'money-transfer.ajax-list-request';
     public $createUrl       = 'money-transfer.create';
     public $editUrl         = 'money-transfer.edit';
+    public $viewUrl         = 'money-transfer.view';
     public $statusUrl       = 'money-transfer.change-status';
     public $deleteUrl       = 'money-transfer.delete';
     public $viewFolderPath  = 'admin.money-transfer';
@@ -188,13 +189,13 @@ class MoneyTransferController extends Controller
                     })
                     ->addColumn('action', function ($row) use ($isAllow, $allowedRoutes) {
                         $btn = '';
-                        if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
-                            $editLink = route($this->routePrefix.'.'.$this->editUrl, customEncryptionDecryption($row->id));
+                        if ($isAllow || in_array($this->viewUrl, $allowedRoutes)) {
+                            $viewUrl = route($this->routePrefix.'.'.$this->viewUrl, customEncryptionDecryption($row->id));
 
-                            $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-primary btn-small"><i class="bx bx-edit"></i></a>';
+                            $btn .= '<a href="'.$viewUrl.'" class="btn rounded-pill btn-icon btn-outline-info btn-small" title="'.__('custom_admin.label_view').'"><i class="bx bxs-bullseye"></i></a>';
                         }
                         if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 btn-small delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'"><i class="bx bx-trash"></i></a>';
+                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
                         }
                         return $btn;
                     })

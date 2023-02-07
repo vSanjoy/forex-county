@@ -20,15 +20,14 @@
                         'novalidate' => true]) }}
 
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">{{ __('custom_admin.label_country_name') }}
-                                    <span class="red_star">*</span>
-                                </label>
-                                <select name="country_id" id="country_id" class="form-select">
-                                    @foreach($countries AS $country)
-                                        <option value="{{ $country->id}}">{{ $country->countryname }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="col-md-6 form-select2">
+                                <label class="form-label">{{ __('custom_admin.label_country_name') }}<span class="red_star">*</span></label>
+                                {{ Form::select('country_id', $countries, null, [
+                                                                                'id' => 'country_id',
+                                                                                'class' => 'form-select select2',
+                                                                                'placeholder' => __('custom_admin.placeholder_select_country'),
+                                                                                'required' => true,
+                                                                                ]) }}
                             </div>
                             <div class="col-md-6">
                                 <label

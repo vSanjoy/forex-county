@@ -1533,7 +1533,11 @@ $(document).ready(function() {
             }
         },
         errorPlacement: function(error, element) {
-            error.insertAfter(element);
+            if ($(element).attr('id') == 'country_id') {
+                error.insertAfter($(element).parents('div.form-select2'));
+            } else {
+                error.insertAfter(element);
+            }
         },
         submitHandler: function(form) {
             $('#btn-saving').html(btnSavingPreloader);
@@ -1595,6 +1599,239 @@ $(document).ready(function() {
         }
     });
     // End :: Bank Form //
+
+    $("#createUserForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'user_type': {
+                required: true
+            },
+            'first_name': {
+                required: true
+            },
+            'last_name': {
+                required: true
+            },
+            'email': {
+                required: true
+            },
+            password: {
+                required: true,
+                valid_password: true,
+            },
+            password_confirmation : {
+                required: true,
+                valid_password: true,
+                equalTo: "#password"
+            },
+            'country_code': {
+                required: true
+            },
+            'phone_no': {
+                required: true
+            },
+            'country': {
+                required: true
+            },
+            'address': {
+                required: true
+            },
+            'city': {
+                required: true
+            },
+            'postcode': {
+                required: true
+            },
+            'blockpass_recordid': {
+                required: true
+            },
+            'blockpass_refid': {
+                required: true
+            },
+
+        },
+        messages: {
+            password: {
+                required: "Please enter new password.",
+                valid_password: "Min. 8, alphanumeric and special character."
+            },
+            password_confirmation : {
+                required: "Please enter confirm password",
+                valid_password: "Min. 8, alphanumeric and special character.",
+                equalTo: "Password should be same as new password.",
+            },
+            'user_type': {
+                required: "Please select user type.",
+            },
+            'first_name': {
+                required: "firstname required.",
+            },
+            'last_name': {
+                required: "lastname required.",
+            },
+            'email': {
+                required: "email required.",
+            },
+            'country_code': {
+                required: "country code for phone required",
+            },
+            'phone_no': {
+                required: "phone number is required",
+            },
+            'country': {
+                required: "select country",
+            },
+            'address': {
+                required: "address required",
+            },
+            'city': {
+                required: "city required",
+            },
+            'postcode': {
+                required: "postcode required",
+            },
+            'blockpass_recordid': {
+                required: "blockpass_recordid required",
+            },
+            'blockpass_refid': {
+                required: "blockpass_refid required",
+            },
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
+
+    $("#updateUserForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'user_type': {
+                required: true
+            },
+            'first_name': {
+                required: true
+            },
+            'last_name': {
+                required: true
+            },
+            'email': {
+                required: true
+            },
+            'country_code': {
+                required: true
+            },
+            'phone_no': {
+                required: true
+            },
+            'country': {
+                required: true
+            },
+            'address': {
+                required: true
+            },
+            'city': {
+                required: true
+            },
+            'postcode': {
+                required: true
+            },
+            'blockpass_recordid': {
+                required: true
+            },
+            'blockpass_refid': {
+                required: true
+            },
+
+        },
+        messages: {
+
+            'user_type': {
+                required: "Please select user type.",
+            },
+            'first_name': {
+                required: "firstname required.",
+            },
+            'last_name': {
+                required: "lastname required.",
+            },
+            'email': {
+                required: "email required.",
+            },
+            'country_code': {
+                required: "country code for phone required",
+            },
+            'phone_no': {
+                required: "phone number is required",
+            },
+            'country': {
+                required: "select country",
+            },
+            'address': {
+                required: "address required",
+            },
+            'city': {
+                required: "city required",
+            },
+            'postcode': {
+                required: "postcode required",
+            },
+            'blockpass_recordid': {
+                required: "blockpass_recordid required",
+            },
+            'blockpass_refid': {
+                required: "blockpass_refid required",
+            },
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-updating').html(btnSavingPreloader);
+            $('#btn-updating').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
 
 
     /***************************** Start :: Data table and Common Functionalities ****************************/

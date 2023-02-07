@@ -3,7 +3,7 @@
         <a href="{{ route($routePrefix.'.account.dashboard') }}" class="">{{ __('custom_admin.label_dashboard') }}</a> /
     </span>
     <span class="text-muted fw-light">
-        <a href="{{ route($routePrefix.'.'.$listUrl) }}" class="">{{ __('custom_admin.label_currencies_list') }}</a> / 
+        <a href="{{ route($routePrefix.'.'.$listUrl) }}" class="">{{ __('custom_admin.label_currency_list') }}</a> / 
     </span>
     {{ $pageTitle }}    
 </h6>

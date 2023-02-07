@@ -115,7 +115,7 @@ class RoleController extends Controller
 
         try {
             if ($request->ajax()) {
-                $data = $this->model->get();
+                $data   = $this->model->where('id', '!=', '1')->get();
 
                 // Start :: Manage restriction
                 $isAllow = false;

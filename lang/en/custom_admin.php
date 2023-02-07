@@ -70,7 +70,7 @@ return [
     'label_sub_admin_role'                          => 'Role',
     'label_role_list'                               => 'Role List',
     'label_role'                                    => 'Roles',
-    'label_add_role'                                => 'Add Role',
+    'label_create_role'                             => 'Create Role',
     'label_edit_role'                               => 'Edit Role',
     'label_role_name'                               => 'Role Name',
     'label_full_name'                               => 'Full Name',

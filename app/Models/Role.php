@@ -16,6 +16,12 @@ class Role extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = ['id'];
+
+    public function resolveRouteBinding($value, $field = null) {
+        return $this->where('id', customEncryptionDecryption($value, 'decrypt'))->firstOrFail();
+    }
+
 	/*
         * Function name : permissions
         * Purpose       : To get permissions

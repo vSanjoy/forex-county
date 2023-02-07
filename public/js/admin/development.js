@@ -1831,6 +1831,63 @@ $(document).ready(function() {
         }
     });
 
+    $("#createRecipientForm").validate({
+        ignore: [],
+        debug: false,
+        rules: {
+            'email_address': {
+                required: true
+            },
+            'type': {
+                required: true
+            },
+            'account_holder_name': {
+                required: true
+            },
+            'account_number': {
+                required: true
+            }
+        },
+        messages: {
+            'email_address': {
+                required: "Email required.",
+            },
+            'type': {
+                required: "Select Type ",
+            },
+            'account_holder_name': {
+                required: "Account holder name required.",
+            },
+            'account_number': {
+                required: "Account number required.",
+            }
+        },
+        errorClass: 'error invalid-feedback',
+        errorElement: 'div',
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
+        invalidHandler: function(form, validator) {
+            var numberOfInvalids = validator.numberOfInvalids();
+            if (numberOfInvalids) {
+                overallErrorMessage = numberOfInvalids == 1 ? pleaseFillOneField : pleaseFillMoreFieldFirst + numberOfInvalids + pleaseFillMoreFieldLast;
+            } else {
+                overallErrorMessage = '';
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('#btn-saving').html(btnSavingPreloader);
+            $('#btn-saving').attr('disabled', true);
+            $('#btn-cancel').addClass('pointer-none');
+            form.submit();
+        }
+    });
 
     /***************************** Start :: Data table and Common Functionalities ****************************/
     // Start :: Check / Un-check all for Admin Bulk Action (DO NOT EDIT / DELETE) //

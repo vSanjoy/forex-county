@@ -403,6 +403,8 @@ return [
     'label_blockpass_recordid'                      => 'Blockpass Recordid',
     'label_blockpass_refid'                         => 'Blockpass Refid',
     'label_create_user'                             => 'Create User',
+    'label_account_holder_name'                     => 'Account Holder Name',
+    'label_ac_no'                                   => 'Account Number',
 
 
     // Buttons

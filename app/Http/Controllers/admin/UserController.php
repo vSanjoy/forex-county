@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Country;
+use App\Models\Recipient;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Traits\GeneralMethods;
@@ -151,10 +152,15 @@ class UserController extends Controller
                         if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
                             $editLink = route($this->routePrefix . '.' . $this->editUrl, customEncryptionDecryption($row->id));
 
-                            $btn .= '<a href="' . $editLink . '" class="btn rounded-pill btn-icon btn-primary"><i class="bx bx-edit"></i></a>';
+                            $btn .= '<a href="' . $editLink . '" class="btn rounded-pill btn-icon btn-outline-primary btn-sm"><i class="bx bx-edit"></i></a>';
+                        }
+                        if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
+                            $recipientLink = route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($row->id));
+
+                            $btn .= '<a href="' . $recipientLink . '" class="btn rounded-pill btn-icon btn-outline-primary btn-sm ms-1">R</a>';
                         }
                         if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-danger ms-1 delete" data-action-type="delete" data-id="' . customEncryptionDecryption($row->id) . '"><i class="bx bx-trash"></i></a>';
+                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-sm ms-1 delete" data-action-type="delete" data-id="' . customEncryptionDecryption($row->id) . '"><i class="bx bx-trash"></i></a>';
                         }
                         return $btn;
                     })
@@ -357,6 +363,335 @@ class UserController extends Controller
             if ($request->ajax()) {
                 if ($user != null) {
                     $delete = $user->delete();
+                    if ($delete) {
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_data_deleted_successfully');
+                        $type       = 'success';
+                    } else {
+                        $message    = __('custom_admin.error_took_place_while_deleting');
+                    }
+                } else {
+                    $message = __('custom_admin.error_invalid');
+                }
+            }
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Throwable $e) {
+            $message = $e->getMessage();
+        }
+        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
+
+
+    /********************************************* Recipient Fees *********************************************/
+    /*
+        * Function name : transferFeesList
+        * Purpose       : This function is for the listing and searching
+        * Author        :
+        * Created Date  : 24/01/2023
+        * Modified date :
+        * Input Params  : Request $request
+        * Return Value  : Returns to the transfer fees list page
+    */
+    public function recipientList(User $user) {
+        $data = [
+            'pageTitle'     => __('custom_admin.label_transfer_fees_list'),
+            'panelTitle'    => __('custom_admin.label_transfer_fees_list'),
+            'pageType'      => 'TRANSFERFEESLISTPAGE'
+        ];
+
+        try {
+            // Start :: Manage restriction
+            $data['isAllow']    = false;
+            $restrictions       = checkingAllowRouteToUser($this->pageRoute.'.');
+            if ($restrictions['is_super_admin']) {
+                $data['isAllow'] = true;
+            }
+            $data['allowedRoutes'] = $restrictions['allow_routes'];
+            // End :: Manage restriction
+            $data['user']   = $user;
+
+            return view($this->viewFolderPath.'.recipient_list', $data);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
+            return to_route($this->routePrefix.'.account.dashboard');
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return to_route($this->routePrefix.'.account.dashboard');
+        }
+    }
+
+    /*
+        * Function name : ajaxTransferFeesListRequest
+        * Purpose       : This function is for the reutrn ajax data
+        * Author        :
+        * Created Date  : 24/01/2023
+        * Modified date :
+        * Input Params  : Request $request
+        * Return Value  : Returnsdata
+    */
+    public function ajaxRecipientListRequest(Request $request, User $user) {
+        $data = [
+            'pageTitle' => __('custom_admin.label_user_list'),
+            'panelTitle'=> __('custom_admin.label_user_list')
+        ];
+
+        try {
+            if ($request->ajax()) {
+                $data = $user->recipient;
+                // Start :: Manage restriction
+                $isAllow = false;
+                $restrictions   = checkingAllowRouteToUser($this->pageRoute.'.');
+                if ($restrictions['is_super_admin']) {
+                    $isAllow = true;
+                }
+                $allowedRoutes  = $restrictions['allow_routes'];
+                // End :: Manage restriction
+
+                return Datatables::of($data, $isAllow, $allowedRoutes)
+                    ->addIndexColumn()
+                    ->addColumn('account_holder_name', function ($row) {
+                        return $row->account_holder_name ?? null;
+                    })
+                    ->addColumn('email_address', function ($row) {
+                        return $row->email_address ?? null;
+                    })
+                    ->addColumn('account_number', function ($row) {
+                        return $row->account_number ?? null;
+                    })
+                    ->addColumn('updated_at', function ($row) {
+                        return $row->updated_at ?? null;
+                    })
+                    ->addColumn('status', function ($row) use ($isAllow, $allowedRoutes) {
+                        if ($isAllow || in_array($this->statusUrl, $allowedRoutes)) {
+                            if ($row->status == '1') {
+                                $status = ' <a href="javascript:void(0)" data-id="'.customEncryptionDecryption($row->id).'" data-action-type="inactive" class="status"><span class="badge rounded-pill bg-success">'.__('custom_admin.label_active').'</span></a>';
+                            } else {
+                                $status = ' <a href="javascript:void(0)" data-id="'.customEncryptionDecryption($row->id).'" data-action-type="active" class="status"><span class="badge rounded-pill bg-danger">'.__('custom_admin.label_inactive').'</span></a>';
+                            }
+                        } else {
+                            if ($row->status == '1') {
+                                $status = ' <a data-microtip-position="top" role="" aria-label="'.__('custom_admin.label_active').'" class="custom_font"><span class="badge rounded-pill bg-success">'.__('custom_admin.label_active').'</span></a>';
+                            } else {
+                                $status = ' <a data-microtip-position="top" role="" aria-label="'.__('custom_admin.label_active').'" class="custom_font"><span class="badge rounded-pill bg-danger">'.__('custom_admin.label_inactive').'</span></a>';
+                            }
+                        }
+                        return $status;
+                    })
+                    ->addColumn('action', function ($row) use ($isAllow, $allowedRoutes) {
+                        $btn = '';
+                        if ($isAllow || in_array($this->editUrl, $allowedRoutes)) {
+                            $editLink = route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-edit', [customEncryptionDecryption($row->id)]);
+
+                            $btn .= '<a href="'.$editLink.'" class="btn rounded-pill btn-icon btn-outline-primary btn-small" title="'.__('custom_admin.label_edit').'"><i class="bx bx-edit"></i></a>';
+                        }
+                        if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
+                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-small ms-1 delete" data-action-type="delete" data-id="'.customEncryptionDecryption($row->id).'" title="'.__('custom_admin.label_delete').'"><i class="bx bx-trash"></i></a>';
+                        }
+                        return $btn;
+                    })
+                    ->rawColumns(['countryname','status','action'])
+                    ->make(true);
+            }
+            return view($this->viewFolderPath.'.recipient_list');
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return '';
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return '';
+        }
+    }
+
+    /*
+        * Function name : transferFeesCreate
+        * Purpose       : This function is to create page
+        * Author        :
+        * Created Date  : 24/01/2023
+        * Modified date :
+        * Input Params  : Request $request, Currency $currency
+        * Return Value  : Returns data
+    */
+    public function recipientCreate(Request $request, User $user) {
+        $data = [
+            'pageTitle'     => __('custom_admin.label_create_transfer_fees'),
+            'panelTitle'    => __('custom_admin.label_create_transfer_fees'),
+            'pageType'      => 'TRANSFERFEESCREATEPAGE',
+            'user'          => $user
+        ];
+
+        try {
+            $data['user']   = $user;
+
+            if ($request->isMethod('POST')) {
+                $validationCondition = array(
+                    'email_address' => ['required', 'email'],
+                    'account_holder_name' => ['required'],
+                    'account_number' => ['required'],
+                    'type' => ['required'],
+
+                );
+                $validationMessages = array(
+                    'email_address.required'    => __('custom_admin.error_email'),
+                    'account_holder_name.required'     => __('custom_admin.account_holder_name'),
+                    'account_number.required'     => __('custom_admin.account_number'),
+                    'type.required'     => __('custom_admin.type'),
+                );
+                $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($validator->fails()) {
+                    $validationFailedMessages = validationMessageBeautifier($validator->messages()->getMessages());
+                    $this->generateNotifyMessage('error', $validationFailedMessages, false);
+                    return back()->withInput();
+                } else {
+                    $input = $request->all();
+                    $input['user_id'] = $user->id;
+                    $save = Recipient::create($input);
+                    if ($save) {
+                        $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
+                        return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($user->id));
+                    } else {
+                        $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
+                        return back()->withInput();
+                    }
+                }
+            }
+            return view($this->viewFolderPath.'.recipient_create', $data)->with(['countries' => Country::all()]);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
+            return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($user->id));
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return to_route($this->routePrefix.'.'.$this->pageRoute.'.recipient.recipient-list', customEncryptionDecryption($user->id));
+        }
+    }
+
+    /*
+        * Function name : transferFeesEdit
+        * Purpose       : This function is to edit
+        * Author        :
+        * Created Date  : 24/01/2023
+        * Modified date :
+        * Input Params  : Request $request, TransferFee $transferFee = model binding
+        * Return Value  : Returns data
+    */
+    public function recipientEdit(Request $request, TransferFee $transferFee) {
+        $data = [
+            'pageTitle'     => __('custom_admin.label_edit_currency'),
+            'panelTitle'    => __('custom_admin.label_edit_currency'),
+            'pageType'      => 'EDITPAGE'
+        ];
+
+        try {
+            $data['transferFee']    = $transferFee;
+
+            if ($request->isMethod('PUT')) {
+                if ($transferFee->id == null) {
+                    $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
+                    return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+                }
+                $validationCondition = array(
+                    'title'     => 'required|unique:'.(new TransferFee)->getTable().',title,'.$transferFee->id.',id,deleted_at,NULL,country_id,'.$transferFee->country_id,
+                    'fees'      => 'required|regex:'.config('global.VALID_AMOUNT_REGEX'),
+                    'fee_type'  => 'required'
+                );
+                $validationMessages = array(
+                    'title.required'    => __('custom_admin.error_title'),
+                    'title.unique'      => __('custom_admin.error_title_unique'),
+                    'fees.required'     => __('custom_admin.error_fees'),
+                    'fees.regex'        => __('custom_admin.error_fees_regex'),
+                    'fee_type.required' => __('custom_admin.error_price_regx')
+                );
+                $validator = \Validator::make($request->all(), $validationCondition, $validationMessages);
+                if ($validator->fails()) {
+                    $validationFailedMessages = validationMessageBeautifier($validator->messages()->getMessages());
+                    $this->generateNotifyMessage('error', $validationFailedMessages, false);
+                    return redirect()->back()->withInput();
+                } else {
+                    $input  = $request->all();
+                    $update = $transferFee->update($input);
+
+                    if ($update) {
+                        $this->generateNotifyMessage('success', __('custom_admin.success_data_updated_successfully'), false);
+                        return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+                    } else {
+                        $this->generateNotifyMessage('error', __('custom_admin.error_took_place_while_updating'), false);
+                        return back()->withInput();
+                    }
+                }
+            }
+            return view($this->viewFolderPath.'.transfer_fees_edit', $data);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
+            return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return to_route($this->routePrefix.'.'.$this->pageRoute.'.transfer-fees.transfer-fees-list', customEncryptionDecryption($transferFee->currency_id));
+        }
+    }
+
+    /*
+        * Function name : transferFeesStatus
+        * Purpose       : This function is to status
+        * Author        :
+        * Created Date  : 24/01/2023
+        * Modified date :
+        * Input Params  : Request $request, TransferFee $transferFee = model binding
+        * Return Value  : Returns json
+    */
+    public function transferFeesStatus(Request $request, TransferFee $transferFee) {
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
+        $type       = 'error';
+
+        try {
+            if ($request->ajax()) {
+                if ($transferFee != null) {
+                    if ($transferFee->status == 1) {
+                        $transferFee->status = '0';
+                        $transferFee->save();
+
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_status_updated_successfully');
+                        $type       = 'success';
+                    } else if ($transferFee->status == 0) {
+                        $transferFee->status = '1';
+                        $transferFee->save();
+
+                        $title      = __('custom_admin.message_success');
+                        $message    = __('custom_admin.success_status_updated_successfully');
+                        $type       = 'success';
+                    }
+                } else {
+                    $message = __('custom_admin.error_invalid');
+                }
+            }
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        } catch (\Throwable $e) {
+            $message = $e->getMessage();
+        }
+        return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
+    }
+
+    /*
+        * Function name : transferFeesDelete
+        * Purpose       : This function is to delete record
+        * Author        :
+        * Created Date  : 23/01/2023
+        * Modified date :
+        * Input Params  : Request $request, TransferFee $transferFee = model binding
+        * Return Value  : Returns json
+    */
+    public function transferFeesDelete(Request $request, TransferFee $transferFee) {
+        $title      = __('custom_admin.message_error');
+        $message    = __('custom_admin.error_something_went_wrong');
+        $type       = 'error';
+
+        try {
+            if ($request->ajax()) {
+                if ($transferFee != null) {
+                    $delete = $transferFee->delete();
                     if ($delete) {
                         $title      = __('custom_admin.message_success');
                         $message    = __('custom_admin.success_data_deleted_successfully');

@@ -140,7 +140,11 @@
     <!-- Notify Toastr js -->
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
-    @if (strpos(Route::currentRouteName(), '.list') !== false || strpos(Route::currentRouteName(), '.transfer-fees-list') !== false)
+    @if (
+            strpos(Route::currentRouteName(), '.list') !== false ||
+            strpos(Route::currentRouteName(), '.transfer-fees-list') !== false ||
+            strpos(Route::currentRouteName(), '.recipient-list') !== false
+        )
     <!-- DataTables -->
     <link href="{{ asset('css/admin/vendor/libs/datatable/datatables.bootstrap5.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin/vendor/libs/datatable/responsive.bootstrap5.css') }}" rel="stylesheet">

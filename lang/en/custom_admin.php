@@ -632,6 +632,8 @@ return [
     'error_bank_name_unique'                        => 'Please enter unique bank name.',
     'error_bank_code'                               => 'Please enter bank code.',
     'error_bank_code_unique'                        => 'Please enter unique bank code.',
+    'error_has_a_currency'                          => 'Has a currency',
+    'error_has_a_bank'                              => 'Has a bank',
 
 
 

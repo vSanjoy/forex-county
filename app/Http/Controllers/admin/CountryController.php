@@ -10,7 +10,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\Country;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
@@ -121,7 +123,7 @@ class CountryController extends Controller
                     $isAllow = true;
                 }
                 $allowedRoutes  = $restrictions['allow_routes'];
-                // End :: Manage restriction                
+                // End :: Manage restriction
 
                 return Datatables::of($data, $isAllow, $allowedRoutes)
                         ->addIndexColumn()
@@ -274,7 +276,7 @@ class CountryController extends Controller
         try {
             $data['country']    = $country;
             $data['details']    = $details = $country;
-            
+
             if ($request->isMethod('PUT')) {
                 if ($country->id == null) {
                     $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
@@ -358,14 +360,14 @@ class CountryController extends Controller
                     if ($country->status == 1) {
                         $country->status = '0';
                         $country->save();
-                        
+
                         $title      = __('custom_admin.message_success');
                         $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
                     } else if ($country->status == 0) {
                         $country->status = '1';
                         $country->save();
-    
+
                         $title      = __('custom_admin.message_success');
                         $message    = __('custom_admin.success_status_updated_successfully');
                         $type       = 'success';
@@ -373,13 +375,13 @@ class CountryController extends Controller
                 } else {
                     $message = __('custom_admin.error_invalid');
                 }
-                
+
             }
         } catch (Exception $e) {
             $message = $e->getMessage();
         } catch (\Throwable $e) {
             $message = $e->getMessage();
-        }        
+        }
         return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
     }
 
@@ -399,24 +401,28 @@ class CountryController extends Controller
 
         try {
             if ($request->ajax()) {
-                if ($country != null) {
-                    $delete = $country->delete();
-                    if ($delete) {
-                        $title      = __('custom_admin.message_success');
-                        $message    = __('custom_admin.success_data_deleted_successfully');
-                        $type       = 'success';
-                    } else {
-                        $message    = __('custom_admin.error_took_place_while_deleting');
+                if(! Bank::where('country_id', $country->id)->count()) {
+                    if(! Currency::where('country_id', $country->id)->count()) {
+                        $delete = $country->delete();
+                        if ($delete) {
+                            $title      = __('custom_admin.message_success');
+                            $message    = __('custom_admin.success_data_deleted_successfully');
+                            $type       = 'success';
+                        } else {
+                            $message    = __('custom_admin.error_took_place_while_deleting');
+                        }
+                    }else{
+                        $message = __('custom_admin.error_has_a_currency');
                     }
-                } else {
-                    $message = __('custom_admin.error_invalid');
+                }else{
+                    $message = __('custom_admin.error_has_a_bank');
                 }
             }
         } catch (Exception $e) {
             $message = $e->getMessage();
         } catch (\Throwable $e) {
             $message = $e->getMessage();
-        }        
+        }
         return response()->json(['title' => $title, 'message' => $message, 'type' => $type]);
     }
 }

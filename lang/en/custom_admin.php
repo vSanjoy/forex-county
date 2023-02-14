@@ -415,6 +415,7 @@ return [
     'label_beneficiary_bank'                        => 'Beneficiary Bank',
     'label_ifsc_code'                               => 'IFSC Code',
     'label_postal_code'                             => 'Post Code',
+    'label_view_money_transfer'                     => 'Money Transfer Details',
 
 
     // Buttons

@@ -12,8 +12,8 @@ use App\Models\WebsiteSetting;
 /*
     * Function name : getAppName
     * Purpose       : This function is to return app name
-    * Input Params  : 
-    * Return Value  : 
+    * Input Params  :
+    * Return Value  :
 */
 function getAppName() {
     return 'Forex County';
@@ -22,8 +22,8 @@ function getAppName() {
 /*
     * Function name : getAppName
     * Purpose       : This function is to return app name
-    * Input Params  : 
-    * Return Value  : 
+    * Input Params  :
+    * Return Value  :
 */
 function getBaseUrl() {
     $baseUrl = url('/');
@@ -185,7 +185,7 @@ function generateSortNumber($model = null, $id = null) {
         $gettingLastSortedCount = $model::select('sort')->where('id','<>',$id)->whereNull('deleted_at')->orderBy('sort','desc')->first();
     } else {
         $gettingLastSortedCount = $model::select('sort')->whereNull('deleted_at')->orderBy('sort','desc')->first();
-    }        
+    }
     $newSort = isset($gettingLastSortedCount->sort) ? ($gettingLastSortedCount->sort + 1) : 0;
 
     return $newSort;
@@ -224,12 +224,12 @@ function excerpts($text, $limit = 5, $type = null) {
 */
 function truncateString($str, $chars, $to_space, $replacement="...") {
     if($chars > strlen($str)) return $str;
- 
+
     $str = substr($str, 0, $chars);
     $space_pos = strrpos($str, " ");
-    if($to_space && $space_pos >= 0) 
+    if($to_space && $space_pos >= 0)
         $str = substr($str, 0, strrpos($str, " "));
- 
+
     return($str . $replacement);
  }
 
@@ -248,7 +248,7 @@ function singleImageUpload($modelName, $originalImage, $imageName, $uploadedFold
     else :
         $fileName       = $imageName.'.'.$extension;
     endif;
-    
+
     $imageResize        = Image::make($originalImage->getRealPath());
 
     // Checking if folder already existed and if not create a new folder
@@ -273,7 +273,7 @@ function singleImageUpload($modelName, $originalImage, $imageName, $uploadedFold
         });
         $imageResize->save($thumbDirectoryPath.'/'.$fileName);
     }
-    
+
     if ($unlinkStatus && $previousFileName != null) {
         if (file_exists($directoryPath.'/'.$previousFileName)) {
             $largeImagePath = $directoryPath.'/'.$previousFileName;
@@ -351,7 +351,7 @@ function unlinkFiles($fileName, $uploadedFolder, $thumbFile = false) {
     if ($fileName != '') {
         $directoryPath      = public_path('images/uploads/'.$uploadedFolder);
         $thumbDirectoryPath = public_path('images/uploads/'.$uploadedFolder.'/thumbs');
-        
+
         if (file_exists($directoryPath.'/'.$fileName)) {
             $largeFilePath = $directoryPath.'/'.$fileName;
             @unlink($largeFilePath);
@@ -360,14 +360,14 @@ function unlinkFiles($fileName, $uploadedFolder, $thumbFile = false) {
                 @unlink($thumbFilePath);
             }
         }
-    }    
+    }
     return true;
 }
 
 /*
     * Function name : getCurrentDateTime
     * Purpose       : This function is to get current date time
-    * Input Params  : 
+    * Input Params  :
     * Return Value  : Date and Time
 */
 function getCurrentDateTime() {
@@ -377,10 +377,10 @@ function getCurrentDateTime() {
 /*
     * Function name : getCurrentFullDateTime
     * Purpose       : This function is to get current date time
-    * Author        : 
+    * Author        :
     * Created Date  : 19-05-2021
-    * Modified Date : 
-    * Input Params  : 
+    * Modified Date :
+    * Input Params  :
     * Return Value  : Date and Time
 */
 function getCurrentFullDateTime() {
@@ -390,7 +390,7 @@ function getCurrentFullDateTime() {
 /*
     * Function name : getCurrentDateTimeWithoutAmPm
     * Purpose       : This function is to get current date time without am/pm
-    * Input Params  : 
+    * Input Params  :
     * Return Value  : Date and Time
 */
 function getCurrentDateTimeWithoutAmPm() {
@@ -422,13 +422,13 @@ function changeDateFormatFromUnixTimestamp($dateValue, $dateFormat = false) {
         return \Carbon\Carbon::createFromTimestamp($dateValue)->format($dateFormat);
     } else {
         return \Carbon\Carbon::createFromTimestamp($dateValue)->format('Y-m-d H:i');
-    }    
+    }
 }
 
 /*
     * Function name : dayParts
     * Purpose       : This function is to get morning/afternoon/evening
-    * Input Params  : 
+    * Input Params  :
     * Return Value  : Data
 */
 function dayParts() {
@@ -448,7 +448,7 @@ function dayParts() {
     * Return Value  : Meta details
 */
 function getMetaDetails($table = null, $where = '') {
-    if ($table == 'cms') {        
+    if ($table == 'cms') {
         $metaDetails = Cms::where('id', $where)->first();
         $metaData['title']              = $metaDetails['meta_title'] != '' ? $metaDetails['page_name'].' | '.$metaDetails['meta_title'] : $metaDetails['page_name'];
         $metaData['metaKeywords']       = $metaDetails['meta_keywords'] ?? null;
@@ -468,7 +468,7 @@ function getMetaDetails($table = null, $where = '') {
                         selected fields
     * Author        :
     * Created Date  :
-    * Modified Date : 
+    * Modified Date :
     * Input Params  : Void
     * Return Value  : Array
 */
@@ -486,9 +486,9 @@ function getSiteSettingsWithSelectFields($selectedFields) {
     * Purpose       : This function is to return price 2 decimal places
     * Author        :
     * Created Date  :
-    * Modified Date : 
-    * Input Params  : 
-    * Return Value  : 
+    * Modified Date :
+    * Input Params  :
+    * Return Value  :
 */
 function formatToTwoDecimalPlaces($data) {
     return number_format((float)$data, 2, '.', '');
@@ -499,20 +499,20 @@ function formatToTwoDecimalPlaces($data) {
     * Purpose       : This function is to return price rounding off
     * Author        :
     * Created Date  :
-    * Modified Date : 
-    * Input Params  : 
-    * Return Value  : 
+    * Modified Date :
+    * Input Params  :
+    * Return Value  :
 */
 function priceRoundOff(float $price) {
     $price = number_format((float)$price, 2, '.', '');
-    
+
     $priceArr = explode('.', $price);
     $beforeDecimal = $priceArr[0];
     $afterDecimal = $priceArr[1];
     $lastDigit = substr($afterDecimal, -1);
     $lastDigit1 = substr($afterDecimal, -1);
     $firstDigit = substr($afterDecimal, 0, 1);
-    
+
     if ($lastDigit >= 3 && $lastDigit <=7) {
         $lastDigit = 5;
         $price = $beforeDecimal.".".$firstDigit.$lastDigit;
@@ -528,9 +528,9 @@ function priceRoundOff(float $price) {
     * Purpose       : This function is to return unique id
     * Author        :
     * Created Date  :
-    * Modified Date : 
-    * Input Params  : 
-    * Return Value  : 
+    * Modified Date :
+    * Input Params  :
+    * Return Value  :
 */
 function generateUniqueId() {
     $timeNow        = date("his");
@@ -543,9 +543,9 @@ function generateUniqueId() {
     * Purpose       : This function is to return total hours
     * Author        :
     * Created Date  :
-    * Modified Date : 
-    * Input Params  : 
-    * Return Value  : 
+    * Modified Date :
+    * Input Params  :
+    * Return Value  :
 */
 function hoursAndMins($time, $format = '%01d.%01d') {
     if (strpos($time, '/') !== false) {
@@ -568,14 +568,14 @@ function hoursAndMins($time, $format = '%01d.%01d') {
             $hours = floor($explodedTime[1] / 60);
             $minutes = ($explodedTime[1] % 60);
             $secondSession = sprintf($format, $hours, $minutes).' '.trans('custom.label_hours');
-            
+
             return $firstSession.'/'.$secondSession;
         }
         else if ($explodedTime[0] > 60 && $explodedTime[1] > 60) {
             $hours = floor($explodedTime[0] / 60);
             $minutes = ($explodedTime[0] % 60);
             $firstSession = sprintf($format, $hours, $minutes);
-            
+
             $hours1 = floor($explodedTime[1] / 60);
             $minutes1 = ($explodedTime[1] % 60);
             $secondSession = sprintf($format, $hours1, $minutes1);
@@ -595,7 +595,7 @@ function hoursAndMins($time, $format = '%01d.%01d') {
         } else {
             return $time.' '.trans('custom.label_minutes');
         }
-    }   
+    }
 }
 
 
@@ -604,9 +604,9 @@ function hoursAndMins($time, $format = '%01d.%01d') {
 /*
     * Function name : generateResponseBody
     * Purpose       : This function is to generate response body
-    * Author        : 
-    * Created Date  : 
-    * Modified Date : 
+    * Author        :
+    * Created Date  :
+    * Modified Date :
     * Input Params  : $code, $data, $success = true, $errorCode = null
     * Return Value  : Structured response body
 */
@@ -637,22 +637,22 @@ function generateResponseBody($code, $data, $message, $apiStatus = true, $status
         $explodedCode   = explode('#',$code);
         $finalCode      = $explodedCode[0];
         $functionName   = $explodedCode[1];
-        
+
         $result['publish']['api_code']      = $finalCode;
         $result['publish']['api_function']  = $functionName;
     }
 
     $response['response'] = $result;
-   
+
     return $response;
 }
 
 /*
     * Function name : generateResponseBodyForSignInSignUp
     * Purpose       : This function is to generate response body for sign up / sign in
-    * Author        : 
-    * Created Date  : 
-    * Modified Date : 
+    * Author        :
+    * Created Date  :
+    * Modified Date :
     * Input Params  : $code, $data, $message, $apiStatus = true, $statusCode = null, $encryptedUserData = ''
     * Return Value  : Structured response body
 */
@@ -688,23 +688,23 @@ function generateResponseBodyForSignInSignUp($code, $data, $message, $apiStatus 
         $explodedCode   = explode('#',$code);
         $finalCode      = $explodedCode[0];
         $functionName   = $explodedCode[1];
-        
+
         $result['publish']['api_code']      = $finalCode;
         $result['publish']['api_function']  = $functionName;
     }
 
     $response['response'] = $result;
-   
+
     return $response;
 }
 
 /*
     * Function name : getFunctionNameFromRequestUrl
     * Purpose       : This function is to return structured function name
-    * Author        : 
-    * Created Date  : 
-    * Modified Date : 
-    * Input Params  : 
+    * Author        :
+    * Created Date  :
+    * Modified Date :
+    * Input Params  :
     * Return Value  : Structured function name
 */
 function getFunctionNameFromRequestUrl() {
@@ -721,9 +721,9 @@ function getFunctionNameFromRequestUrl() {
     * Purpose       : This function is get and set language
     * Author        :
     * Created Date  :
-    * Modified Date : 
+    * Modified Date :
     * Input Params  : $request
-    * Return Value  : 
+    * Return Value  :
 */
 function toSetAndGetLocale($request) {
     $requestLanguage = $request->header('x-lang');
@@ -739,11 +739,11 @@ function toSetAndGetLocale($request) {
     * Purpose       : This function is get user from header
     * Author        :
     * Created Date  :
-    * Modified Date : 
+    * Modified Date :
     * Input Params  : $request
-    * Return Value  : 
+    * Return Value  :
 */
-function getUserFromHeader($request) {   
+function getUserFromHeader($request) {
     $headers            = $request->header();
     $authenticatedToken = $headers['x-access-token'][0];
     $userData           = User::where('auth_token', $authenticatedToken)->first();
@@ -755,9 +755,9 @@ function getUserFromHeader($request) {
     * Purpose       : This function is get user from header
     * Author        :
     * Created Date  :
-    * Modified Date : 
+    * Modified Date :
     * Input Params  : $request
-    * Return Value  : 
+    * Return Value  :
 */
 function dateDiffInDaysNights($startDateTime, $endDateTime) {
     $startDateTime  = new DateTime($startDateTime);
@@ -812,7 +812,7 @@ function dateDiffInDaysNights($startDateTime, $endDateTime) {
     * Author        :
     * Created Date  :
     * Modified date :
-    * Input Params  : 
+    * Input Params  :
     * Return Value  : 4 digit verification code
 */
 function generateVerificationCode() {
@@ -848,4 +848,32 @@ function getAdminType($type) {
         default:
             return 'Customer';
     }
+}
+
+function transferStatus($status)
+{
+    if ($status == '0') :
+        return __('custom_admin.label_pending');
+    elseif ($status == '1') :
+        return __('custom_admin.label_completed');
+    elseif ($status == '2') :
+        return __('custom_admin.label_more_details_required');
+    elseif ($status == '3') :
+        return __('custom_admin.label_cancelled');
+    elseif ($status == '4') :
+        return __('custom_admin.label_proceed_to_pay');
+    else :
+        return __('custom_admin.label_in_verification');
+    endif;
+}
+
+function paymentStatus($status)
+{
+    if ($status == 'P') :
+        return __('custom_admin.label_paid');
+    elseif ($status == 'U') :
+        return __('custom_admin.label_unpaid');
+    else :
+        return __('custom_admin.label_paid_but_in_verification');
+    endif;
 }

@@ -133,9 +133,9 @@ class MoneyTransferController extends Controller
                 // To date
                 if ($filterByToDate) {
                     $data = $data->where('transfer_datetime', '<=', $toFormattedDate);
-                }                
+                }
 
-                $data = $data->orderBy('id','DESC')->get();                
+                $data = $data->orderBy('id','DESC')->get();
 
                 // Start :: Manage restriction
                 $isAllow = false;
@@ -209,6 +209,25 @@ class MoneyTransferController extends Controller
         } catch (\Throwable $e) {
             $this->generateNotifyMessage('error', $e->getMessage(), false);
             return '';
+        }
+    }
+
+    public function edit(Request $request, MoneyTransfer $money) {
+        $data = [
+            'pageTitle'     => __('custom_admin.label_view_money_transfer'),
+            'panelTitle'    => __('custom_admin.label_view_money_transfer'),
+            'pageType'      => 'EDITPAGE'
+        ];
+
+        try {
+            $data['moneyTransfer']    = $money;
+            return view($this->viewFolderPath.'.view', $data);
+        } catch (Exception $e) {
+            $this->generateNotifyMessage('error', __('custom_admin.error_something_went_wrong'), false);
+            return redirect()->route($this->routePrefix.'.'.$this->listUrl);
+        } catch (\Throwable $e) {
+            $this->generateNotifyMessage('error', $e->getMessage(), false);
+            return redirect()->route($this->routePrefix.'.'.$this->listUrl);
         }
     }
 }

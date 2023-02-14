@@ -128,7 +128,7 @@ Route::group(['namespace'=>'admin', 'prefix'=>'adminpanel', 'as'=>'admin.'], fun
                     Route::put('/edit/{bank}', 'edit');
                     Route::get('/status/{bank}', 'status')->name('change-status');
                     Route::delete('/delete/{bank}', 'delete')->name('delete');
-                    Route::get('/view/{bank}', 'edit')->name('view');
+                    Route::get('/view/{money}', 'edit')->name('view');
                 });
             });
 

@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('api')->namespace('api')->prefix("v1")->group(function () {
+//     Route::get('/', 'HomeController@index')->name('api_index');
+//     Route::get('/generate-token', 'HomeController@generateToken')->name('api_generate_token');
+//     Route::get('/page/{id}', 'HomeController@pageContent')->name('api_get_page_content');
+//     Route::post('/signout', 'UserController@signOut')->name('api_signout');
+    
+    
+//     Route::middleware('api.token')->group(function () {
+//         // Auth
+//         Route::post('/sign-up', 'UserController@signUp')->name('api_sign_up');
+//         Route::post('/sign-in', 'UserController@signIn')->name('api_sign_in');
+        
+//     });
+
+// });
+
+Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'api.'], function() {
+    Route::get('/', 'HomeController@index')->name('api_index');
 });
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

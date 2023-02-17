@@ -4,12 +4,12 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
-            <div class="col-lg-8 mb-4 order-0">
+            <div class="col-lg-12 mb-4 order-0">
                 <div class="card">
                     <div class="d-flex align-items-end row">
                         <div class="col-sm-7">
                             <div class="card-body">
-                                <h5 class="card-title text-primary">{{ dayParts() }} {{ Auth::guard('admin')->user()->first_name }}! 🎉</h5>
+                                <h5 class="card-title text-primary">{{ __('custom_admin.label_hello') }} {{ Auth::guard('admin')->user()->first_name }}! 🎉</h5>
                                 <p class="mb-4">
                                     {{ __('custom_admin.message_welcome_to_admin_panel', [ 'websiteTitle' => $websiteSettings->website_title ]) }}
                                 </p>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 order-1">
+            {{-- <div class="col-lg-4 col-md-4 order-1">
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-6 mb-4">
                         <div class="card">
@@ -74,9 +74,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- Total Revenue -->
-            <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+            {{-- <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                 <div class="card">
                     <div class="row row-bordered g-0">
                         <div class="col-md-8">
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!--/ Total Revenue -->
-            <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
+            {{-- <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                 <div class="row">
                     <div class="col-6 mb-4">
                         <div class="card">
@@ -202,9 +202,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <!-- Order Statistics -->
             <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
                 <div class="card h-100">
@@ -471,7 +471,7 @@
                 </div>
             </div>
             <!--/ Transactions -->
-        </div>
+        </div> --}}
     </div>
 
 @endsection

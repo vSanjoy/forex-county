@@ -76,7 +76,7 @@
                 </div>
                 <div class="mb-3">
                     <button class="btn rounded-pill btn-primary d-grid w-100" id="btn-processing" type="submit">
-                        <i class='bx bx-log-in'></i> {{ __('custom_admin.label_sign_in') }}
+                        <i class='bx bx-log-in-circle'></i> <box-icon type='solid' name='log-in-circle'></box-icon> {{ __('custom_admin.label_sign_in') }}
                     </button>
                 </div>
             {{ Form::close() }}

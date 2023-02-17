@@ -66,7 +66,8 @@
                     </li>
                     <li>
                         <a class="dropdown-item" href="{{ route('admin.auth.logout') }}">
-                            <i class="bx bx-power-off me-2"></i>
+                            {{-- <i class="bx bx-power-off me-2"></i> --}}
+                            <i class='bx bx-log-out-circle me-2'></i>
                             <span class="align-middle">{{ __('custom_admin.label_log_out') }}</span>
                         </a>
                     </li>

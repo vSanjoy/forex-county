@@ -87,7 +87,7 @@ $currentPage = Route::currentRouteName();
         </li>
         <!-- / Country -->
         <!-- Currency & Transfer Fees -->
-        <li class="menu-item @if (in_array($currentPage, $currencyRoutes))active open @endif">
+        {{-- <li class="menu-item @if (in_array($currentPage, $currencyRoutes))active open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon bx bx-money'></i>
                 <div data-i18n="Currency">{{ __('custom_admin.label_currency') }}</div>
@@ -104,10 +104,10 @@ $currentPage = Route::currentRouteName();
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <!-- / Currency & Transfer Fees -->
         <!-- Bank -->
-        <li class="menu-item @if (in_array($currentPage, $bankRoutes))active open @endif">
+        {{-- <li class="menu-item @if (in_array($currentPage, $bankRoutes))active open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bxs-bank'></i>
                 <div data-i18n="Cms">{{ __('custom_admin.label_banks') }}</div>
@@ -124,10 +124,10 @@ $currentPage = Route::currentRouteName();
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <!-- / Bank -->
         <!-- Money Transfer -->
-        <li class="menu-item @if (in_array($currentPage, $moneyTransferRoutes))active open @endif">
+        {{-- <li class="menu-item @if (in_array($currentPage, $moneyTransferRoutes))active open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bxs-credit-card'></i>
                 <div data-i18n="Cms">{{ __('custom_admin.label_money_transfer') }}</div>
@@ -139,11 +139,11 @@ $currentPage = Route::currentRouteName();
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <!-- / Money Transfer -->
 
         <!-- User Transfer -->
-        <li class="menu-item @if (in_array($currentPage, $userRoutes))active open @endif">
+        {{-- <li class="menu-item @if (in_array($currentPage, $userRoutes))active open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class='menu-icon tf-icons bx bxs-user'></i>
                 <div data-i18n="Cms">{{ __('custom_admin.label_user') }}</div>
@@ -160,7 +160,7 @@ $currentPage = Route::currentRouteName();
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <!-- / User Transfer -->
 
     </ul>

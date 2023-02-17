@@ -17,8 +17,8 @@ function imagePreview(input, imagePreviewId) {
 			notyf.error("{{ __('custom_admin.error_max_size_image') }}");
 		} else {
 			var fileName = input.files[0].name;
-			var extension = fileName.substring(fileName.lastIndexOf('.') + 1);		
-			if (extension == 'jpeg' || extension == 'jpg' || extension == 'gif' || extension == 'png' || extension == 'bmp') {
+			var extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+			if (extension == 'jpeg' || extension == 'jpg' || extension == 'gif' || extension == 'png' || extension == 'bmp' || extension == 'webp' || extension == 'WebP') {
 				var reader = new FileReader();
 				reader.onload = function (e) {
 					$('#image_holder_'+imagePreviewId).html('<img id="image_preview" class="mt-2" style="display: none;" />');

@@ -19,8 +19,8 @@ return [
     'MAX_UPLOAD_IMAGE_SIZE'             => '5242880',                               // 1048576 => 1 mb, maximum upload size, used in javascript
     'IMAGE_MAX_UPLOAD_SIZE'             => 5120,                                    // Image upload max size (5mb) used in php
     'FILE_MAX_UPLOAD_SIZE'              => 3072,                                    // File upload max size (3mb) used in php
-    'IMAGE_FILE_TYPES'                  => 'jpeg,jpg,png,svg,bmp,WebP',             // Allowed image file types
-    'IMAGE_FILE_TYPES_ARRAY'            => ['jpeg,jpg,png,svg,bmp,WebP'],
+    'IMAGE_FILE_TYPES'                  => 'jpeg,jpg,png,svg,bmp,webp',             // Allowed image file types
+    'IMAGE_FILE_TYPES_ARRAY'            => ['jpeg,jpg,png,svg,bmp,webp'],
     'IMAGE_CONTAINER'                   => 300,                                     // Image container for cropping
     'THUMB_IMAGE_WIDTH'                 => [
                                             'Category'          => 100,              // Category,Testimonial ... => This name should be same as Model name

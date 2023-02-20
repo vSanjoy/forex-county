@@ -32,6 +32,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'api.'], function() {
     Route::get('/', 'HomeController@index')->name('api_index');
+    Route::get('/generate-token', 'HomeController@generateToken')->name('api_generate_token');
+    // Country
+    Route::get('/country-list', 'HomeController@countryList')->name('api_country_list');
+    Route::get('/country-details/{id}', 'HomeController@countryDetails')->name('api_country_details');
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -16,13 +16,11 @@ use Auth;
 use Response;
 use Validator;
 use Hash;
-use App\Jobs\SendVerificationCode;
 use App\Models\Cms;
 use App\Http\Resources\CmsResource;
-use App\Models\User;
-use App\Http\Resources\UserResource;
-use App\Models\Category;
-use App\Http\Resources\CategoryResource;
+use App\Models\Country;
+use App\Http\Resources\CountryResource;
+
 
 class HomeController extends Controller
 {
@@ -84,13 +82,57 @@ class HomeController extends Controller
         if ($id != null) {
             $cmsDetails = Cms::where(['id' => $id, 'status' => '1'])->first();
             if ($cmsDetails != null) {
-                $data['cms_details']    = new CmsResource($cmsDetails);
+                $data['cms_details'] = new CmsResource($cmsDetails);
                 return Response::json(generateResponseBody('FC-PC-0001#page_content', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
             } else {
                 return Response::json(generateResponseBody('FC-PC-0002#page_content', $data, trans('custom_api.message_no_records_found'), false, 400));
             }
         } else {
             return Response::json(generateResponseBody('FC-PC-0003#page_content', $data, trans('custom_api.message_no_records_found'), false, 400));
+        }
+    }
+
+    /*
+        * Function name : countryList
+        * Purpose       : To get list of country
+        * Author        :
+        * Created Date  :
+        * Modified Date : 
+        * Input Params  : 
+        * Return Value  : 
+    */
+    public function countryList(Request $request) {
+        $data = [];
+        $countryList = Country::where(['status' => '1'])->whereNull('deleted_at')->get();
+        if ($countryList != null) {
+            $data['country_list'] = CountryResource::collection($countryList);
+            return Response::json(generateResponseBody('FC-CL-0001#country_list', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
+        } else {
+            return Response::json(generateResponseBody('FC-CL-0002#country_list', $data, trans('custom_api.message_no_records_found'), false, 400));
+        }
+    }
+    
+    /*
+        * Function name : countryDetails
+        * Purpose       : To get country details
+        * Author        :
+        * Created Date  :
+        * Modified Date : 
+        * Input Params  : 
+        * Return Value  : 
+    */
+    public function countryDetails(Request $request, $countryId = null) {
+        $data = [];
+        if ($countryId != null) {
+            $countryDetails = Country::where(['id' => $countryId, 'status' => '1'])->whereNull('deleted_at')->first();
+            if ($countryDetails != null) {
+                $data['country_details'] = new CountryResource($countryDetails);
+                return Response::json(generateResponseBody('FC-CD-0001#country_details', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
+            } else {
+                return Response::json(generateResponseBody('FC-CD-0002#country_details', $data, trans('custom_api.message_no_records_found'), false, 400));
+            }
+        } else {
+            return Response::json(generateResponseBody('FC-CD-0003#country_details', $data, trans('custom_api.error_id_missing'), false, 400));
         }
     }
 

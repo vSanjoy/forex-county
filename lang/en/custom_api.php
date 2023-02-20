@@ -84,5 +84,6 @@ return [
     'error_booking_amount'                          => 'Please enter booking amount.',
     'error_price_regx'                              => 'Please enter valid price.',
     'error_unique_code'                             => 'Unique code is required.',
+    'error_id_missing'                              => 'Id missing',
 
 ];

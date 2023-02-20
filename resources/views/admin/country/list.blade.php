@@ -20,6 +20,7 @@
 										<th>@lang('custom_admin.label_image')</th>
 										<th>@lang('custom_admin.label_country_name')</th>
 										<th>@lang('custom_admin.label_country_code')</th>
+										<th>@lang('custom_admin.label_country_code_for_phone')</th>
 										<th class="modifiedColumn">@lang('custom_admin.label_modified')</th>
 										<th class="row_status">@lang('custom_admin.label_status')</th>
 										<th class="actions">@lang('custom_admin.label_action')</th>

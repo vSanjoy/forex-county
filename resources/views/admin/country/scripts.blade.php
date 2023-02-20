@@ -44,6 +44,7 @@ $(document).ready(function() {
 				},
 				{data: 'countryname', name: 'countryname'},
 				{data: 'countrycode', name: 'countrycode'},
+				{data: 'country_code_for_phone', name: 'country_code_for_phone'},
 				{data: 'updated_at', name: 'updated_at', orderable: false, searchable: false},
 				{data: 'status', name: 'status'},
 			@if ($isAllow || in_array($editUrl, $allowedRoutes))

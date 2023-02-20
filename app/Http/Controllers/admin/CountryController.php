@@ -143,6 +143,9 @@ class CountryController extends Controller
                         ->addColumn('countrycode', function ($row) {
                             return $row->countrycode ?? null;
                         })
+                        ->addColumn('country_code_for_phone', function ($row) {
+                            return $row->country_code_for_phone ?? 'N/A';
+                        })
                         ->addColumn('updated_at', function ($row) {
                             return changeDateFormat($row->updated_at);
                         })

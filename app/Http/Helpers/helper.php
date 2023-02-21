@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\Cms;
 use App\Models\User;
+use App\Models\TemporaryUser;
 use App\Models\WebsiteSetting;
 
 /*
@@ -732,6 +733,22 @@ function toSetAndGetLocale($request) {
     }
     \App::setLocale($requestLanguage);
     return $requestLanguage;
+}
+
+/*
+    * Function name : getTemporaryUserFromHeader
+    * Purpose       : This function is get temporary user from header
+    * Author        :
+    * Created Date  :
+    * Modified Date :
+    * Input Params  : $request
+    * Return Value  :
+*/
+function getTemporaryUserFromHeader($request) {
+    $headers            = $request->header();
+    $token              = $headers['x-access-token'][0];
+    $temporaryUserData  = TemporaryUser::where('token', $token)->first();
+    return $temporaryUserData;
 }
 
 /*

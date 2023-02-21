@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// API Controllers
+use App\Http\Controllers\api\TemporaryUserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,11 +35,26 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'api.'], function() {
-    Route::get('/', 'HomeController@index')->name('api_index');
-    Route::get('/generate-token', 'HomeController@generateToken')->name('api_generate_token');
-    // Country
-    Route::get('/country-list', 'HomeController@countryList')->name('api_country_list');
-    Route::get('/country-details/{id}', 'HomeController@countryDetails')->name('api_country_details');
+    // Before Authentication
+    Route::controller(HomeController::class)->group(function() {
+        Route::get('/', 'index')->name('api_index');
+        Route::get('/generate-token', 'generateToken')->name('api_generate_token');
+        // Country
+        Route::get('/country-list', 'countryList')->name('api_country_list');
+        Route::get('/country-details/{id}', 'countryDetails')->name('api_country_details');
+    });
+
+    // Customer
+    Route::controller(TemporaryUserController::class)->group(function() {
+        // Signup
+        Route::post('/signup-step1', 'signupStep1')->name('api_signup_step1');
+        Route::middleware('api.temporaryuser.token')->group(function () {
+            Route::post('/signup-step2', 'signupStep2')->name('api_signup_step2');
+        });
+        
+    });
+
+    
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

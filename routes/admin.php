@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Controllers
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\AccountController;
 use App\Http\Controllers\admin\CmsController;

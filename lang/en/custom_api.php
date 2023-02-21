@@ -37,10 +37,13 @@ return [
     'message_registration_successful'               => 'Registration successful.',
     'message_comment_added_successfully'            => 'Comment added successfully.',
     'message_event_image_added_successfully'        => 'Event image added successfully.',
+    'message_data_added_successfully'               => 'Data added successfully.',
 
     // Error
     'error_access_token_mismatched'                 => 'Invalid access token.',
     'error_access_token_not_provided'               => 'Access token not provided.',
+    'error_first_name'                              => 'Please enter first name.',
+    'error_last_name'                               => 'Please enter last name.',
     'error_name'                                    => 'Please enter name.',
     'error_email'                                   => 'Please enter email.',
     'error_valid_email'                             => 'Please enter valid email.',
@@ -85,5 +88,8 @@ return [
     'error_price_regx'                              => 'Please enter valid price.',
     'error_unique_code'                             => 'Unique code is required.',
     'error_id_missing'                              => 'Id missing',
+    'error_country_id'                              => 'Please select country.',
+    'error_phone_no'                                => 'Please enter phone number.',
+
 
 ];

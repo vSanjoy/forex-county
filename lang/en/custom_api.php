@@ -38,6 +38,7 @@ return [
     'message_comment_added_successfully'            => 'Comment added successfully.',
     'message_event_image_added_successfully'        => 'Event image added successfully.',
     'message_data_added_successfully'               => 'Data added successfully.',
+    'message_account_created_wait_for_activation'   => 'Activate your account to start using the great features of cents',
 
     // Error
     'error_access_token_mismatched'                 => 'Invalid access token.',
@@ -90,6 +91,8 @@ return [
     'error_id_missing'                              => 'Id missing',
     'error_country_id'                              => 'Please select country.',
     'error_phone_no'                                => 'Please enter phone number.',
-
+    'error_password'                                => 'Please enter passcode.',
+    'error_repeat_password'                         => 'Please enter repeat passcode.',
+    'error_password_not_matched'                    => 'Repeat passcode does not match.',
 
 ];

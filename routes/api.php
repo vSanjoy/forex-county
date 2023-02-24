@@ -50,6 +50,8 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
         Route::post('/signup-step1', 'signupStep1')->name('api_signup_step1');
         Route::middleware('api.temporaryuser.token')->group(function () {
             Route::post('/signup-step2', 'signupStep2')->name('api_signup_step2');
+            Route::post('/signup-step3', 'signupStep3')->name('api_signup_step3');
+            Route::post('/signup-step4', 'signupStep4')->name('api_signup_step4');
         });
         
     });

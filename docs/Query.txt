@@ -1,0 +1,1 @@
+ALTER TABLE `fc_users` ADD `country_id` INT(11) NULL DEFAULT NULL COMMENT 'Id from countries table' AFTER `profile_pic`;

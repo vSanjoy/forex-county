@@ -25,6 +25,7 @@ class TemporaryUserResource extends JsonResource
             'last_name'     => $this->last_name ?? '',
             'full_name'     => $this->full_name ?? '',
             'email'         => $this->email ?? '',
+            'password'      => $this->password ?? '',
             'country_id'    => $this->country_id ?? '',
             'phone_no'      => $this->phone_no ?? '',
             'token'         => $this->token ?? '',

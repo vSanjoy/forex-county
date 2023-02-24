@@ -14,5 +14,4 @@ class TemporaryUser extends Model
     public function resolveRouteBinding($value, $field = null) {
         return $this->where('id', customEncryptionDecryption($value, 'decrypt'))->firstOrFail();
     }
-
 }

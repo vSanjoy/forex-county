@@ -37,9 +37,9 @@ class ApiTemporaryUserTokenMiddleware
                 $existToken = TemporaryUser::where(['token' => $headerToken])->count();
                 if ($existToken == 0) {
                     if ($functionName == 'signup_step2' || $functionName == 'signup_step3') {
-                        return Response::json(generateResponseBodyForSignInSignUp('FC-ATUTM-0001#'.$functionName, $data, trans('custom_api.error_access_token_mismatched'), false, 300));
+                        return Response::json(generateResponseBodyForSignInSignUp('FC-ATUTM-0001#'.$functionName, $data, __('custom_api.error_access_token_mismatched'), false, 300));
                     } else {
-                        return Response::json(generateResponseBody('FC-ATUTM-0002#'.$functionName, $data, trans('custom_api.error_access_token_mismatched'), false, 300));
+                        return Response::json(generateResponseBody('FC-ATUTM-0002#'.$functionName, $data, __('custom_api.error_access_token_mismatched'), false, 300));
                     }
                 } else {
                     return $next($request);
@@ -47,9 +47,9 @@ class ApiTemporaryUserTokenMiddleware
             }
         } else {
             if ($functionName == 'signup_step2' || $functionName == 'signup_step3') {
-                return Response::json(generateResponseBody('FC-ATUTM-0003#'.$functionName, $data, trans('custom_api.error_access_token_mismatched'), false, 300));
+                return Response::json(generateResponseBody('FC-ATUTM-0003#'.$functionName, $data, __('custom_api.error_access_token_mismatched'), false, 300));
             } else {
-                return Response::json(generateResponseBody('FC-ATUTM-0004#'.$functionName, $data, trans('custom_api.error_access_token_not_provided'), false, 100));
+                return Response::json(generateResponseBody('FC-ATUTM-0004#'.$functionName, $data, __('custom_api.error_access_token_not_provided'), false, 100));
             }
         }
     }

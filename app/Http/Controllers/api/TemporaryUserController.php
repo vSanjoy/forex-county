@@ -59,15 +59,15 @@ class TemporaryUserController extends Controller
                     'email'     => 'regex:'.config('global.EMAIL_REGEX').'|unique:'.$userModel->getTable().',email,NULL,id,deleted_at,NULL',
                 ],
                 [
-                    'first_name.required'   => trans('custom_api.error_first_name'),
-                    'last_name.required'    => trans('custom_api.error_last_name'),
-                    'email.regex'           => trans('custom_api.error_valid_email'),
-                    'email.unique'          => trans('custom_api.error_email_unique'),
+                    'first_name.required'   => __('custom_api.error_first_name'),
+                    'last_name.required'    => __('custom_api.error_last_name'),
+                    'email.regex'           => __('custom_api.error_valid_email'),
+                    'email.unique'          => __('custom_api.error_email_unique'),
                 ]
             );
             $errors = $validation->errors()->all();
             if ($errors) {
-                return Response::json(generateResponseBody('FC-SS1-0001#signup_step1', ['errors' => $errors], trans('custom_api.message_validation_error'), false, 400));
+                return Response::json(generateResponseBody('FC-SS1-0001#signup_step1', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
             } else {
                 $input              = $request->all();
                 $input['full_name'] = Str::headline($request->first_name.' '.$request->last_name);
@@ -79,13 +79,13 @@ class TemporaryUserController extends Controller
 
                     $data['user_details'] = new TemporaryUserResource($saveData);
 
-                    return Response::json(generateResponseBody('FC-SS1-0002#signup_step1', $data, trans('custom_api.message_data_added_successfully'), true, 200));
+                    return Response::json(generateResponseBody('FC-SS1-0002#signup_step1', $data, __('custom_api.message_data_added_successfully'), true, 200));
                 } else {
-                    return Response::json(generateResponseBody('FC-SS1-0003#signup_step1', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+                    return Response::json(generateResponseBody('FC-SS1-0003#signup_step1', $data, __('custom_api.error_something_went_wrong'), false, 400));
                 }
             }
         } else {
-            return Response::json(generateResponseBody('FC-SS1-0004#signup_step1', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+            return Response::json(generateResponseBody('FC-SS1-0004#signup_step1', $data, __('custom_api.error_something_went_wrong'), false, 400));
         }
         
     }
@@ -104,7 +104,7 @@ class TemporaryUserController extends Controller
         $userData   = getTemporaryUserFromHeader($request);
 
         if ($userData != null) {
-            if ($request->isMethod('POST')) {
+            if ($request->isMethod('PATCH')) {
                 $userModel = new User();
                 $validation = \Validator::make($request->all(),
                     [
@@ -112,13 +112,13 @@ class TemporaryUserController extends Controller
                         'phone_no'  => 'required',
                     ],
                     [
-                        'country_id.required'   => trans('custom_api.error_country_id'),
-                        'phone_no.required'     => trans('custom_api.error_phone_no'),
+                        'country_id.required'   => __('custom_api.error_country_id'),
+                        'phone_no.required'     => __('custom_api.error_phone_no'),
                     ]
                 );
                 $errors = $validation->errors()->all();
                 if ($errors) {
-                    return Response::json(generateResponseBody('FC-SS2-0001#signup_step2', ['errors' => $errors], trans('custom_api.message_validation_error'), false, 400));
+                    return Response::json(generateResponseBody('FC-SS2-0001#signup_step2', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
                 } else {
                     $input      = $request->all();
                     $updateData = TemporaryUser::where('id', $userData['id'])->update($input);
@@ -127,16 +127,16 @@ class TemporaryUserController extends Controller
                         $updatedUserData        = TemporaryUser::where('id', $userData['id'])->first();
                         $data['user_details']   = new TemporaryUserResource($updatedUserData);
 
-                        return Response::json(generateResponseBody('FC-SS2-0002#signup_step2', $data, trans('custom_api.message_data_added_successfully'), true, 200));
+                        return Response::json(generateResponseBody('FC-SS2-0002#signup_step2', $data, __('custom_api.message_data_added_successfully'), true, 200));
                     } else {
-                        return Response::json(generateResponseBody('FC-SS2-0003#signup_step2', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+                        return Response::json(generateResponseBody('FC-SS2-0003#signup_step2', $data, __('custom_api.error_something_went_wrong'), false, 400));
                     }
                 }
             } else {
-                return Response::json(generateResponseBody('FC-SS2-0004#signup_step2', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+                return Response::json(generateResponseBody('FC-SS2-0004#signup_step2', $data, __('custom_api.error_something_went_wrong'), false, 400));
             }
         } else {
-            return Response::json(generateResponseBodyForSignInSignUp('FC-SS2-0002#signup_step2', $data, trans('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            return Response::json(generateResponseBodyForSignInSignUp('FC-SS2-0002#signup_step2', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
         }
         
     }
@@ -155,19 +155,19 @@ class TemporaryUserController extends Controller
         $userData   = getTemporaryUserFromHeader($request);
 
         if ($userData != null) {
-            if ($request->isMethod('POST')) {
+            if ($request->isMethod('PATCH')) {
                 $userModel = new User();
                 $validation = \Validator::make($request->all(),
                     [
                         'password'  => 'required',
                     ],
                     [
-                        'password.required'   => trans('custom_api.error_password'),
+                        'password.required'   => __('custom_api.error_password'),
                     ]
                 );
                 $errors = $validation->errors()->all();
                 if ($errors) {
-                    return Response::json(generateResponseBody('FC-SS3-0001#signup_step3', ['errors' => $errors], trans('custom_api.message_validation_error'), false, 400));
+                    return Response::json(generateResponseBody('FC-SS3-0001#signup_step3', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
                 } else {
                     $input = $request->all();
                     $input['password'] = Hash::make($request->password);
@@ -178,16 +178,16 @@ class TemporaryUserController extends Controller
                         $updatedUserData        = TemporaryUser::where('id', $userData['id'])->first();
                         $data['user_details']   = new TemporaryUserResource($updatedUserData);
 
-                        return Response::json(generateResponseBody('FC-SS3-0002#signup_step3', $data, trans('custom_api.message_data_added_successfully'), true, 200));
+                        return Response::json(generateResponseBody('FC-SS3-0002#signup_step3', $data, __('custom_api.message_data_added_successfully'), true, 200));
                     } else {
-                        return Response::json(generateResponseBody('FC-SS3-0003#signup_step3', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+                        return Response::json(generateResponseBody('FC-SS3-0003#signup_step3', $data, __('custom_api.error_something_went_wrong'), false, 400));
                     }
                 }
             } else {
-                return Response::json(generateResponseBody('FC-SS3-0004#signup_step3', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+                return Response::json(generateResponseBody('FC-SS3-0004#signup_step3', $data, __('custom_api.error_something_went_wrong'), false, 400));
             }
         } else {
-            return Response::json(generateResponseBodyForSignInSignUp('FC-SS2-0003#signup_step3', $data, trans('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            return Response::json(generateResponseBodyForSignInSignUp('FC-SS2-0003#signup_step3', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
         }
         
     }
@@ -206,25 +206,25 @@ class TemporaryUserController extends Controller
         $userData   = getTemporaryUserFromHeader($request);
 
         if ($userData != null) {
-            if ($request->isMethod('POST')) {
+            if ($request->isMethod('PATCH')) {
                 $userModel = new User();
                 $validation = \Validator::make($request->all(),
                     [
                         'repeat_password'  => 'required',
                     ],
                     [
-                        'repeat_password.required'   => trans('custom_api.error_repeat_password'),
+                        'repeat_password.required'   => __('custom_api.error_repeat_password'),
                     ]
                 );
                 $errors = $validation->errors()->all();
                 if ($errors) {
-                    return Response::json(generateResponseBody('FC-SS4-0001#signup_step4', ['errors' => $errors], trans('custom_api.message_validation_error'), false, 400));
+                    return Response::json(generateResponseBody('FC-SS4-0001#signup_step4', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
                 } else {
                     $input = $request->all();
                     $hashedPassword = $userData['password'];
                     
                     if (Hash::check($request->repeat_password, $hashedPassword)) {
-                        // Move records from temporary_bookings table to bookings table
+                        // Move records from temporary_users table to users table
                         TemporaryUser::query()
                                         ->where('id', $userData['id'])
                                         ->each(function ($oldRecord) {
@@ -236,16 +236,16 @@ class TemporaryUserController extends Controller
                                             $oldRecord->delete();
                                         });
                         
-                        return Response::json(generateResponseBody('FC-SS4-0002#signup_step4', $data, trans('custom_api.message_account_created_wait_for_activation'), true, 200));
+                        return Response::json(generateResponseBody('FC-SS4-0002#signup_step4', $data, __('custom_api.message_account_created_wait_for_activation'), true, 200));
                     } else {
-                        return Response::json(generateResponseBody('FC-SS4-0004#signup_step4', $data, trans('custom_api.error_password_not_matched'), false, 400));
+                        return Response::json(generateResponseBody('FC-SS4-0004#signup_step4', $data, __('custom_api.error_password_not_matched'), false, 400));
                     }
                 }
             } else {
-                return Response::json(generateResponseBody('FC-SS4-0005#signup_step4', $data, trans('custom_api.error_something_went_wrong'), false, 400));
+                return Response::json(generateResponseBody('FC-SS4-0005#signup_step4', $data, __('custom_api.error_something_went_wrong'), false, 400));
             }
         } else {
-            return Response::json(generateResponseBodyForSignInSignUp('FC-SS4-0006#signup_step4', $data, trans('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            return Response::json(generateResponseBodyForSignInSignUp('FC-SS4-0006#signup_step4', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
         }
         
     }

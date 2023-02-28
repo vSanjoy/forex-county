@@ -49,7 +49,7 @@ class HomeController extends Controller
     */
     public function index() {
         $data['index_data'] = "Api for Forex County";
-        return Response::json(generateResponseBody('FC-I-0001#index', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
+        return Response::json(generateResponseBody('FC-I-0001#index', $data, __('custom_api.message_data_fetched_successfully'), true, 200));
     }
     
     /*
@@ -65,7 +65,7 @@ class HomeController extends Controller
         $token              = Hash::make(env('APP_KEY'));
         $data['_authtoken'] = $token;
 
-        return Response::json(generateResponseBody('FC-GT-0002#generate_token', $data, trans('custom_api.message_token_generated_successfully'), true, 200));
+        return Response::json(generateResponseBody('FC-GT-0002#generate_token', $data, __('custom_api.message_token_generated_successfully'), true, 200));
     }
 
     /*
@@ -83,12 +83,12 @@ class HomeController extends Controller
             $cmsDetails = Cms::where(['id' => $id, 'status' => '1'])->first();
             if ($cmsDetails != null) {
                 $data['cms_details'] = new CmsResource($cmsDetails);
-                return Response::json(generateResponseBody('FC-PC-0001#page_content', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
+                return Response::json(generateResponseBody('FC-PC-0001#page_content', $data, __('custom_api.message_data_fetched_successfully'), true, 200));
             } else {
-                return Response::json(generateResponseBody('FC-PC-0002#page_content', $data, trans('custom_api.message_no_records_found'), false, 400));
+                return Response::json(generateResponseBody('FC-PC-0002#page_content', $data, __('custom_api.message_no_records_found'), false, 400));
             }
         } else {
-            return Response::json(generateResponseBody('FC-PC-0003#page_content', $data, trans('custom_api.message_no_records_found'), false, 400));
+            return Response::json(generateResponseBody('FC-PC-0003#page_content', $data, __('custom_api.message_no_records_found'), false, 400));
         }
     }
 
@@ -106,9 +106,9 @@ class HomeController extends Controller
         $countryList = Country::where(['status' => '1'])->whereNull('deleted_at')->get();
         if ($countryList != null) {
             $data['country_list'] = CountryResource::collection($countryList);
-            return Response::json(generateResponseBody('FC-CL-0001#country_list', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
+            return Response::json(generateResponseBody('FC-CL-0001#country_list', $data, __('custom_api.message_data_fetched_successfully'), true, 200));
         } else {
-            return Response::json(generateResponseBody('FC-CL-0002#country_list', $data, trans('custom_api.message_no_records_found'), false, 400));
+            return Response::json(generateResponseBody('FC-CL-0002#country_list', $data, __('custom_api.message_no_records_found'), false, 400));
         }
     }
     
@@ -127,12 +127,12 @@ class HomeController extends Controller
             $countryDetails = Country::where(['id' => $countryId, 'status' => '1'])->whereNull('deleted_at')->first();
             if ($countryDetails != null) {
                 $data['country_details'] = new CountryResource($countryDetails);
-                return Response::json(generateResponseBody('FC-CD-0001#country_details', $data, trans('custom_api.message_data_fetched_successfully'), true, 200));
+                return Response::json(generateResponseBody('FC-CD-0001#country_details', $data, __('custom_api.message_data_fetched_successfully'), true, 200));
             } else {
-                return Response::json(generateResponseBody('FC-CD-0002#country_details', $data, trans('custom_api.message_no_records_found'), false, 400));
+                return Response::json(generateResponseBody('FC-CD-0002#country_details', $data, __('custom_api.message_no_records_found'), false, 400));
             }
         } else {
-            return Response::json(generateResponseBody('FC-CD-0003#country_details', $data, trans('custom_api.error_id_missing'), false, 400));
+            return Response::json(generateResponseBody('FC-CD-0003#country_details', $data, __('custom_api.error_id_missing'), false, 400));
         }
     }
 
@@ -156,7 +156,7 @@ class HomeController extends Controller
         $lang       = strtoupper($getSetLang);
         $userData  = ApiHelper::getUserFromHeader($request);
         if (!$userData) {
-            return \Response::json(ApiHelper::generateResponseBody('HC-NL-0001#notification_list',  trans('custom.not_authorized'), false, 400));
+            return \Response::json(ApiHelper::generateResponseBody('HC-NL-0001#notification_list',  __('custom.not_authorized'), false, 400));
         }
 
         $offset = 0;

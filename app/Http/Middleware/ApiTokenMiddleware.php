@@ -37,9 +37,9 @@ class ApiTokenMiddleware
                 $existToken = User::where(['auth_token' => $headerToken])->count();
                 if ($existToken == 0) {
                     if ($functionName == 'sign_up' || $functionName == 'sign_in') {
-                        return Response::json(generateResponseBodyForSignInSignUp('FC-0003#'.$functionName, trans('custom_api.error_access_token_mismatched'), false, 300));
+                        return Response::json(generateResponseBodyForSignInSignUp('FC-0003#'.$functionName, __('custom_api.error_access_token_mismatched'), false, 300));
                     } else {
-                        return Response::json(generateResponseBody('FC-0003#'.$functionName, $data, trans('custom_api.error_access_token_mismatched'), false, 300));
+                        return Response::json(generateResponseBody('FC-0003#'.$functionName, $data, __('custom_api.error_access_token_mismatched'), false, 300));
                     }
                 } else {
                     return $next($request);
@@ -47,9 +47,9 @@ class ApiTokenMiddleware
             }
         } else {
             if ($functionName == 'sign_up' || $functionName == 'sign_in') {
-                return Response::json(generateResponseBody('FC-0003#'.$functionName, $data, trans('custom_api.error_access_token_mismatched'), false, 300));
+                return Response::json(generateResponseBody('FC-0003#'.$functionName, $data, __('custom_api.error_access_token_mismatched'), false, 300));
             } else {
-                return Response::json(generateResponseBody('FC-0001#'.$functionName, $data, trans('custom_api.error_access_token_not_provided'), false, 100));
+                return Response::json(generateResponseBody('FC-0001#'.$functionName, $data, __('custom_api.error_access_token_not_provided'), false, 100));
             }
         }
     }

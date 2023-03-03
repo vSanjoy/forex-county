@@ -47,11 +47,14 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
     // Customer
     Route::controller(TemporaryUserController::class)->group(function() {
         // Signup
-        Route::post('/signup-step1', 'signupStep1')->name('api_signup_step1');
-        Route::middleware('api.temporaryuser.token')->group(function () {
-            Route::patch('/signup-step2', 'signupStep2')->name('api_signup_step2');
-            Route::patch('/signup-step3', 'signupStep3')->name('api_signup_step3');
-            Route::patch('/signup-step4', 'signupStep4')->name('api_signup_step4');
+        Route::prefix('signup')->group(function () {
+            Route::post('/step1', 'signupStep1')->name('api_signup_step1');
+            
+            Route::middleware('api.temporaryuser.token')->group(function () {
+                Route::patch('/step2', 'signupStep2')->name('api_signup_step2');
+                Route::patch('/step3', 'signupStep3')->name('api_signup_step3');
+                Route::patch('/step4', 'signupStep4')->name('api_signup_step4');
+            });
         });
         
     });

@@ -1,1 +1,4 @@
 ALTER TABLE `fc_users` ADD `country_id` INT(11) NULL DEFAULT NULL COMMENT 'Id from countries table' AFTER `profile_pic`;
+
+03/03/2023
+ALTER TABLE `fc_temporary_users` ADD `device_token` VARCHAR(255) NULL DEFAULT NULL AFTER `password`;

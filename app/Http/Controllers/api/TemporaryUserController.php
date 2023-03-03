@@ -56,7 +56,7 @@ class TemporaryUserController extends Controller
                 [
                     'first_name'=> 'required',
                     'last_name' => 'required',
-                    'email'     => 'regex:'.config('global.EMAIL_REGEX').'|unique:'.$userModel->getTable().',email,NULL,id,deleted_at,NULL',
+                    'email'     => 'sometimes|nullable|regex:'.config('global.EMAIL_REGEX').'|unique:'.$userModel->getTable().',email,NULL,id,deleted_at,NULL',
                 ],
                 [
                     'first_name.required'   => __('custom_api.error_first_name'),
@@ -69,9 +69,10 @@ class TemporaryUserController extends Controller
             if ($errors) {
                 return Response::json(generateResponseBody('FC-SS1-0001#signup_step1', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
             } else {
-                $input              = $request->all();
-                $input['full_name'] = Str::headline($request->first_name.' '.$request->last_name);
-                $saveData           = TemporaryUser::create($input);
+                $input                  = $request->all();
+                $input['full_name']     = Str::headline($request->first_name.' '.$request->last_name);
+                $input['device_token']  = $request->device_token;
+                $saveData               = TemporaryUser::create($input);
 
                 if ($saveData) {
                     $saveData->token = Hash::make(md5($saveData->id).env('APP_KEY'));

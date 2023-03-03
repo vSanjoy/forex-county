@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('country_id')->nullable();
             $table->string('phone_no')->nullable();
             $table->string('password')->nullable();
+            $table->string('device_token')->nullable();
             $table->string('token')->nullable()->comment('Token for further steps of signup');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'))->nullable();

@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('auth_token')->nullable();
             $table->string('device_token')->nullable();
             $table->text('verification_code')->nullable();
-            $table->integer('otp')->nullable()->comment('OTP for verification for forgot password');
+            $table->string('otp')->nullable()->comment('OTP for verification for forgot password');
             $table->enum('type', ['SA','A','U','C','AG'])->default('C')->comment('SA=>Super Admin, A=>Sub Admin, U=>User, C=>Customer, AG=>Agent');
             $table->enum('agree', ['N','Y'])->default('Y')->comment('N=>No, Y=>Yes');
             $table->enum('status', ['0','1'])->default('1')->comment('0=>Inactive, 1=>Active');

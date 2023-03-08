@@ -181,13 +181,13 @@ class TemporaryUserController extends Controller
                         $updatedUserData        = TemporaryUser::where('id', $userData['id'])->first();
                         $data['user_details']   = new TemporaryUserResource($updatedUserData);
 
-                        return Response::json(generateResponseBody('FC-SS3-0002#signup_step3', $data, __('custom_api.message_data_added_successfully'), true, 200));
+                        return Response::json(generateResponseBody('FC-SS3-0003#signup_step3', $data, __('custom_api.message_data_added_successfully'), true, 200));
                     } else {
                         return Response::json(generateResponseBody('FC-SS3-0003#signup_step3', $data, __('custom_api.error_something_went_wrong'), false, 400));
                     }
                 }
             } else {
-                return Response::json(generateResponseBody('FC-SS3-0004#signup_step3', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                return Response::json(generateResponseBody('FC-SS3-0003#signup_step3', $data, __('custom_api.error_something_went_wrong'), false, 400));
             }
         } else {
             return Response::json(generateResponseBodyForSignInSignUp('FC-SS2-0003#signup_step3', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));

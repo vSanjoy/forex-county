@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // API Controllers
 use App\Http\Controllers\api\TemporaryUserController;
+use App\Http\Controllers\api\UserController;
 
 
 /*
@@ -44,7 +45,7 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
         Route::get('/country-details/{id}', 'countryDetails')->name('api_country_details');
     });
 
-    // Customer
+    // Temporary Customer
     Route::controller(TemporaryUserController::class)->group(function() {
         // Signup
         Route::prefix('signup')->group(function () {
@@ -56,6 +57,13 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
                 Route::patch('/step4', 'signupStep4')->name('api_signup_step4');
             });
         });
+    });
+
+    // Customer
+    Route::controller(UserController::class)->group(function() {
+        Route::post('/forgot-passcode', 'forgotPasscode')->name('api_forgot_passcode');
+
+        
         
     });
 

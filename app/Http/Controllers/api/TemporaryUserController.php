@@ -70,6 +70,8 @@ class TemporaryUserController extends Controller
                 return Response::json(generateResponseBody('FC-SS1-0001#signup_step1', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
             } else {
                 $input                  = $request->all();
+                $input['first_name']    = Str::headline($request->first_name);
+                $input['last_name']     = Str::headline($request->last_name);
                 $input['full_name']     = Str::headline($request->first_name.' '.$request->last_name);
                 $input['device_token']  = $request->device_token;
                 $saveData               = TemporaryUser::create($input);

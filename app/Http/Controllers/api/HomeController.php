@@ -103,7 +103,7 @@ class HomeController extends Controller
     */
     public function countryList(Request $request) {
         $data = [];
-        $countryList = Country::where(['status' => '1'])->whereNull('deleted_at')->get();
+        $countryList = Country::where(['status' => '1'])->whereNotNull(['country_code_for_phone','image'])->whereNull('deleted_at')->orderBy('countryname','ASC')->get();
         if ($countryList != null) {
             $data['country_list'] = CountryResource::collection($countryList);
             return Response::json(generateResponseBody('FC-CL-0001#country_list', $data, __('custom_api.message_data_fetched_successfully'), true, 200));

@@ -1,0 +1,6 @@
+Twilio:
+
+Account SID: AC23ec08d892fae5b2c4852e5f4feaea7c
+Auth Token: b83cf7c57c31cfe71a6266f9beda3a9a
+
+My Twilio phone number: +15077095242

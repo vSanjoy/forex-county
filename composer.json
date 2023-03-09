@@ -17,6 +17,7 @@
         "laravelcollective/html": "^6.3",
         "php-flasher/flasher-notyf-laravel": "^1.12",
         "stripe/stripe-php": "^10.3",
+        "twilio/sdk": "^6.44",
         "yajra/laravel-datatables-oracle": "^10.2"
     },
     "require-dev": {

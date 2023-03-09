@@ -41,6 +41,8 @@ return [
     'message_account_created_wait_for_activation'   => 'Activate your account to start using the great features of cents',
     'message_otp_sent_successfully'                 => 'OTP has been sent your phone number & registered email.',
     'message_security_code_sent_successfully'       => 'Security code has been sent your registered phone number.',
+    'message_security_code_verified_successfully'   => 'Security code verified successfully.',
+    'message_passcode_reset_successfully'           => 'Passcode reset successfully.',
 
     // Error
     'error_access_token_mismatched'                 => 'Invalid access token.',
@@ -93,9 +95,15 @@ return [
     'error_id_missing'                              => 'Id missing',
     'error_country_id'                              => 'Please select country.',
     'error_phone_no'                                => 'Please enter phone number.',
-    'error_password'                                => 'Please enter passcode.',
-    'error_repeat_password'                         => 'Please enter repeat passcode.',
-    'error_password_not_matched'                    => 'Repeat passcode does not match.',
-    'error_invalid_phone_number_inactive_user'      => 'Invalid phone number or user inactive/deleted.'
+    'error_passcode'                                => 'Please enter passcode.',
+    'error_repeat_passcode'                         => 'Please enter repeat passcode.',
+    'error_passcode_not_matched'                    => 'Repeat passcode does not match.',
+    'error_invalid_phone_number_inactive_user'      => 'Invalid phone number or user inactive/deleted.',
+    'error_invalid_user_inactive_or_deleted_user'   => 'Invalid user or user is inactive/deleted.',
+    'error_message_not_sent'                        => 'Unable to send SMS right now.',
+    'error_security_code'                           => 'Please enter security code.',
+    'error_inactive_user_or_deleted_user'           => 'User is inactive or deleted.',
+    'error_already_reset_passcode'                  => 'You have already reset passcode.',
+    'error_invalid_security_code'                   => 'Invalid security code.',
 
 ];

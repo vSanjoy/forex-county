@@ -61,10 +61,10 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
 
     // Customer
     Route::controller(UserController::class)->group(function() {
-        Route::post('/forgot-passcode', 'forgotPasscode')->name('api_forgot_passcode');
-
-        
-        
+        Route::patch('/forgot-passcode', 'forgotPasscode')->name('api_forgot_passcode');
+        Route::patch('/verify-security-code', 'verifySecurityCode')->name('api_verify_security_code');
+        Route::patch('/new-passcode', 'newPasscode')->name('api_new_passcode');
+        Route::patch('/repeat-passcode', 'repeatPasscode')->name('api_repeat_passcode');
     });
 
     

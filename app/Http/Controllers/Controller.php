@@ -104,4 +104,19 @@ class Controller extends BaseController
         return $randonString;
     }
 
+    /*
+        * Function Name : getRandomPasscode
+        * Purpose       : This function is to generate random password
+        * Author        :
+        * Created Date  :
+        * Modified date :
+        * Input Params  : 
+        * Return Value  : Mixed
+    */
+    public function getRandomPasscode() {
+        $randonString = rand(100000, 999999);
+
+        return $randonString;
+    }
+
 }

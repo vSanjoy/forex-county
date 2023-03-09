@@ -127,4 +127,17 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'App\Models\UserRole', 'user_id', 'role_id');
     }
 
+    /*
+        * Function name : countryDetails
+        * Purpose       : To get country details
+        * Author        :
+        * Created Date  :
+        * Modified Date :
+        * Input Params  :
+        * Return Value  :
+    */
+    public function countryDetails() {
+        return $this->belongsTo('App\Models\Country', 'country_id');
+    }
+
 }

@@ -2,3 +2,6 @@ ALTER TABLE `fc_users` ADD `country_id` INT(11) NULL DEFAULT NULL COMMENT 'Id fr
 
 03/03/2023
 ALTER TABLE `fc_temporary_users` ADD `device_token` VARCHAR(255) NULL DEFAULT NULL AFTER `password`;
+
+09/03/2023
+ALTER TABLE `fc_users` CHANGE `verification_code` `verification_code` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Verification code is used for reset passcode in app';

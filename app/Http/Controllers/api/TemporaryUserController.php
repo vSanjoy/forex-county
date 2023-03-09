@@ -165,7 +165,7 @@ class TemporaryUserController extends Controller
                         'password'  => 'required',
                     ],
                     [
-                        'password.required'   => __('custom_api.error_password'),
+                        'password.required'   => __('custom_api.error_passcode'),
                     ]
                 );
                 $errors = $validation->errors()->all();
@@ -216,7 +216,7 @@ class TemporaryUserController extends Controller
                         'repeat_password'  => 'required',
                     ],
                     [
-                        'repeat_password.required'   => __('custom_api.error_repeat_password'),
+                        'repeat_password.required'   => __('custom_api.error_repeat_passcode'),
                     ]
                 );
                 $errors = $validation->errors()->all();
@@ -241,7 +241,7 @@ class TemporaryUserController extends Controller
                         
                         return Response::json(generateResponseBody('FC-SS4-0002#signup_step4', $data, __('custom_api.message_account_created_wait_for_activation'), true, 200));
                     } else {
-                        return Response::json(generateResponseBody('FC-SS4-0004#signup_step4', $data, __('custom_api.error_password_not_matched'), false, 400));
+                        return Response::json(generateResponseBody('FC-SS4-0004#signup_step4', $data, __('custom_api.error_passcode_not_matched'), false, 400));
                     }
                 }
             } else {

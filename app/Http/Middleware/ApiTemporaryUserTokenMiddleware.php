@@ -28,7 +28,7 @@ class ApiTemporaryUserTokenMiddleware
         // Token section
         if ( array_key_exists('x-access-token', $headers) ) {
             $headerToken  = $headers['x-access-token'][0];
-            // Checking generated-token matched with request token (Before sign in)
+            // Checking generated-token matched with request token (Before log in)
             if (Hash::check(env('APP_KEY'), $headerToken)) {
                 return $next($request);
             }

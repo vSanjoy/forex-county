@@ -29,7 +29,7 @@ class UserResource extends JsonResource
             'country_id'        => $this->country_id ?? '',
             'country_phone_code'=> $this->countryDetails ? $this->countryDetails->country_code_for_phone : '',
             'phone_no'          => $this->phone_no ?? '',
-            'auth_token'        => $this->auth_token ?? '',
+            '_authtoken'        => $this->auth_token ?? '',
         ];
     }
 }

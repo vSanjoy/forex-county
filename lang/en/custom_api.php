@@ -24,7 +24,7 @@ return [
     'message_registration_processed'                => 'Please check your email for verification code.',
     'message_account_verified'                      => 'Account verified successfully.',
     'message_account_fetched_successfully'          => 'Account fetched successfully.',
-    'message_account_signout'                       => 'Account sign out successful.',
+    'message_account_signout'                       => 'Account log out successful.',
     'message_successfully_updated'                  => 'Data updated successfully.',
     'message_profile_updated_successfully'          => 'Profile updated successfully.',
     'message_no_records_found'                      => 'No records found.',
@@ -43,6 +43,8 @@ return [
     'message_security_code_sent_successfully'       => 'Security code has been sent your registered phone number.',
     'message_security_code_verified_successfully'   => 'Security code verified successfully.',
     'message_passcode_reset_successfully'           => 'Passcode reset successfully.',
+    'message_logged_in_successfully'                => 'Logged in successfully.',
+
 
     // Error
     'error_access_token_mismatched'                 => 'Invalid access token.',
@@ -105,5 +107,9 @@ return [
     'error_inactive_user_or_deleted_user'           => 'User is inactive or deleted.',
     'error_already_reset_passcode'                  => 'You have already reset passcode.',
     'error_invalid_security_code'                   => 'Invalid security code.',
+    'error_unauthorized_access'                     => 'Unauthorized access.',
+    'error_method_not_supported'                    => 'Method not supported.',
+    'error_incorrect_passcode'                      => 'Passcode incorrect, please try again.',
+    'error_reset_passcode'                          => 'Please reset your passcode.',
 
 ];

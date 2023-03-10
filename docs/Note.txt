@@ -9,7 +9,7 @@ Auth Token: bd87c3cd2ee8b96e1bdee790bbbf72f2
 Live Account:
 ------------
 Account SID: AC23ec08d892fae5b2c4852e5f4feaea7c
-Auth Token: 811b1011f11ad2abb1a1af54233f1192
+Auth Token: 3aa4133099da5246e55e979871f9f2c0
 
 
 My Twilio phone number: +15077095242

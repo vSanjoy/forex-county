@@ -67,6 +67,24 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
         Route::patch('/repeat-passcode', 'repeatPasscode')->name('api_repeat_passcode');
     });
 
+    Route::middleware('api.token')->group(function () {
+        // Auth
+        Route::controller(UserController::class)->group(function() {
+            Route::post('/log-in', 'logIn')->name('api_log_in');
+            Route::post('/log-out', 'logOut')->name('api_log_out');
+        });
+
+
+
+        // Route::post('/sign-in', 'UserController@signIn')->name('api_sign_in');
+        // Route::post('/edit-profile-details', 'UserController@editProfileDetails')->name('api_edit_profile_details');
+        // Route::post('/edit-profile', 'UserController@editProfile')->name('api_edit_profile');
+        // Route::post('/change-password', 'UserController@changePassword')->name('api_change_password');
+        // Route::post('/forgot-password', 'UserController@forgetPassword')->name('api_forget_password');
+        // Route::post('/reset-password', 'UserController@resetPassword')->name('api_reset_password');
+
+    });
+
     
 });
 

@@ -44,6 +44,7 @@ return [
     'message_security_code_verified_successfully'   => 'Security code verified successfully.',
     'message_passcode_reset_successfully'           => 'Passcode reset successfully.',
     'message_logged_in_successfully'                => 'Logged in successfully.',
+    'message_user_details_received'                 => 'User details received.',
 
 
     // Error

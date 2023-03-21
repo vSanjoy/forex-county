@@ -380,5 +380,30 @@ class UserController extends Controller
             return Response::json(generateResponseBody('FC-NP-0007#repeat_passcode', $data, __('custom_api.error_something_went_wrong'), false, 400));
         }
     }
+
+    /*
+        * Function name : userDetails
+        * Purpose       : To get user details
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : 
+        * Return Value  : 
+    */
+    public function userDetails(Request $request) {
+        $data       = [];
+        $userData   = getUserFromHeader($request);
+
+        try {
+            if ($userData != null) {
+                $data['user_details']   = new UserResource($userData);
+                return Response::json(generateResponseBody('FC-UD-0001#user_details', $data, trans('custom_api.message_user_details_received'), true, 200));
+            } else {
+                return Response::json(generateResponseBodyForSignInSignUp('FC-UD-0002#user_details', $data, trans('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-UD-0003#user_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
     
 }

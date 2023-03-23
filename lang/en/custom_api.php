@@ -12,6 +12,13 @@ return [
     'label_hours'                                   => 'Hours',
     'label_minute'                                  => 'Minute',
     'label_minutes'                                 => 'Minutes',
+    'label_support'                                 => 'Support',
+    'label_administrator'                           => 'Administrator',
+    'label_full_name'                               => 'Full Name',
+    'label_issue_type'                              => 'Issue Type',
+    'label_question_or_issue'                       => 'Question or Issue',
+    'label_email_for_replies'                       => 'Email For Replies',
+    'label_thanks_and_regards'                      => 'Thanks & Regards',
 
     // Subject
     'subject_verification_code'                     => 'Verification Code',
@@ -45,6 +52,8 @@ return [
     'message_passcode_reset_successfully'           => 'Passcode reset successfully.',
     'message_logged_in_successfully'                => 'Logged in successfully.',
     'message_user_details_received'                 => 'User details received.',
+    'message_support'                               => 'Thank you for contacting with us, we will get back to you soon.',
+    'message_support_to_super_admin'                => 'Please check the below details for new support form submission.',
 
 
     // Error
@@ -111,6 +120,9 @@ return [
     'error_unauthorized_access'                     => 'Unauthorized access.',
     'error_method_not_supported'                    => 'Method not supported.',
     'error_incorrect_passcode'                      => 'Passcode incorrect, please try again.',
+    'error_incorrect_passcode_device'               => 'Device & passcode incorrect, please contact with administrator.',
     'error_reset_passcode'                          => 'Please reset your passcode.',
+    'error_issue_type'                              => 'Please select issue type.',
+    'error_question'                                => 'Please ask your question or describe the issue.',
 
 ];

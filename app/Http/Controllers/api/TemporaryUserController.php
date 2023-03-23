@@ -20,7 +20,7 @@ use Hash;
 use App\Models\User;
 use App\Models\TemporaryUser;
 use App\Http\Resources\TemporaryUserResource;
-
+use App\Http\Resources\UserResource;
 
 class TemporaryUserController extends Controller
 {
@@ -180,7 +180,7 @@ class TemporaryUserController extends Controller
                         return Response::json(generateResponseBody('FC-SS3-0001#signup_step3', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
                     } else {
                         $input = $request->all();
-                        $input['password'] = Hash::make($request->password);
+                        $input['password'] = $request->password;
 
                         $updateData = TemporaryUser::where('id', $userData['id'])->update($input);
 
@@ -235,21 +235,34 @@ class TemporaryUserController extends Controller
                     } else {
                         $input = $request->all();
                         $hashedPassword = $userData['password'];
-                        
-                        if (Hash::check($request->repeat_password, $hashedPassword)) {
-                            // Move records from temporary_users table to users table
-                            TemporaryUser::query()
-                                            ->where('id', $userData['id'])
-                                            ->each(function ($oldRecord) {
-                                                $newRecord = $oldRecord->replicate();
-                                                unset($newRecord->token);
-                                                $newRecord->setTable('users');
-                                                $newRecord->save();
 
-                                                $oldRecord->delete();
-                                            });
-                            
-                            return Response::json(generateResponseBody('FC-SS4-0002#signup_step4', $data, __('custom_api.message_account_created_wait_for_activation'), true, 200));
+                        if ($request->repeat_password == $hashedPassword) {
+                            $userModel->first_name  = $userData['first_name'];
+                            $userModel->last_name   = $userData['last_name'];
+                            $userModel->full_name   = $userData['full_name'];
+                            $userModel->email       = $userData['email'];
+                            $userModel->phone_no    = $userData['phone_no'];
+                            $userModel->password    = $userData['password'];
+                            $userModel->country_id  = $userData['country_id'];
+                            $userModel->device_token= $userData['device_token'];
+                            if ($userModel->save()) {
+                                Auth::guard('web')->loginUsingId($userModel->id);
+
+                                $authenticatedToken = Hash::make(md5($userModel->id).env('APP_KEY'));
+                                    
+                                $userModel->auth_token      = $authenticatedToken;
+                                $userModel->lastlogintime   = strtotime(getCurrentFullDateTime());
+                                $userModel->save();
+
+                                // Move records from temporary_users table to users table
+                                TemporaryUser::where('id', $userData['id'])->delete();
+
+                                $data['user_details']   = new UserResource($userModel);
+                                
+                                return Response::json(generateResponseBody('FC-SS4-0002#signup_step4', $data, __('custom_api.message_account_created_wait_for_activation'), true, 200));
+                            } else {
+                                return Response::json(generateResponseBody('FC-SS4-0008#signup_step4', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                            }
                         } else {
                             return Response::json(generateResponseBody('FC-SS4-0004#signup_step4', $data, __('custom_api.error_passcode_not_matched'), false, 400));
                         }

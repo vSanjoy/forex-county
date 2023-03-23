@@ -14,4 +14,17 @@ class TemporaryUser extends Model
     public function resolveRouteBinding($value, $field = null) {
         return $this->where('id', customEncryptionDecryption($value, 'decrypt'))->firstOrFail();
     }
+
+    /*
+        * Function name : countryDetails
+        * Purpose       : To get country details
+        * Author        :
+        * Created Date  :
+        * Modified Date :
+        * Input Params  :
+        * Return Value  :
+    */
+    public function countryDetails() {
+        return $this->belongsTo('App\Models\Country', 'country_id');
+    }
 }

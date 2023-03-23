@@ -20,7 +20,8 @@ use App\Models\Cms;
 use App\Http\Resources\CmsResource;
 use App\Models\Country;
 use App\Http\Resources\CountryResource;
-
+use App\Models\Support;
+use App\Http\Resources\SupportResource;
 
 class HomeController extends Controller
 {
@@ -148,6 +149,81 @@ class HomeController extends Controller
             }
         } catch (Exception $e) {
             return Response::json(generateResponseBody('FC-CD-0004#country_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
+
+    /*
+        * Function name : support
+        * Purpose       : To post support data from my account
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : issue type, question & email for replies
+        * Return Value  : 
+    */
+    public function support(Request $request) {
+        $data = [];
+        $userData   = getUserFromHeader($request);
+        
+        try {
+            if ($userData != null) {
+                if ($request->isMethod('POST')) {
+                    $validation = \Validator::make($request->all(),
+                        [
+                            'issue_type'=> 'required',
+                            'question'  => 'required',
+                            'email'     => 'required|regex:'.config('global.EMAIL_REGEX'),
+                        ],
+                        [
+                            'issue_type.required'   => __('custom_api.error_issue_type'),
+                            'question.required'     => __('custom_api.error_question'),
+                            'email.regex'           => __('custom_api.error_valid_email'),
+                            'email.unique'          => __('custom_api.error_email_unique'),
+                        ]
+                    );
+                    $errors = $validation->errors()->all();
+                    if ($errors) {
+                        return Response::json(generateResponseBody('FC-S-0001#support', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+                    } else {
+                        $input                      = $request->all();
+                        $input['user_id']           = $userData['id'];
+                        $input['issue_type']        = $request->issue_type ?? null;
+                        $input['question']          = $request->question ?? null;
+                        $input['email_for_replies'] = $request->email ?? null;
+
+                        $saveData                   = Support::create($input);
+
+                        if ($saveData) {
+                            $siteSetting = getSiteSettings();
+                            // Mail
+                            \Mail::send('emails.api.support_to_admin',
+                            [
+                                'user'          => $userData,
+                                'inputDetails'  => $input,
+                                'siteSetting'   => $siteSetting,
+                            ], function ($m) use ($userData, $input, $siteSetting) {
+                                $m->from($input['email_for_replies'], $userData['full_name']);
+                                $m->to($siteSetting->to_email, $siteSetting->website_title)->subject(__('custom_api.label_support').' - '.$siteSetting->website_title);
+
+                                // $m->from('sanjay@virginworkz.com', 'Test');
+                                // $m->to('admins@yopmail.com', 'Test 1')->subject(__('custom_api.label_support').' - '.'Test 1');
+                            });
+                            
+                            $data['support_details'] = new SupportResource($saveData);
+
+                            return Response::json(generateResponseBody('FC-S-0002#support', $data, __('custom_api.message_support'), true, 200));
+                        } else {
+                            return Response::json(generateResponseBody('FC-S-0003#support', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                        }
+                    }
+                } else {
+                    return Response::json(generateResponseBody('FC-S-0004#support', $data, __('custom_api.error_method_not_supported'), false, 400));
+                }
+            } else {
+                return Response::json(generateResponseBodyForSignInSignUp('FC-S-0005#support', $data, trans('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-S-0005#support', $data, __('custom_api.error_something_went_wrong'), false, 400));
         }
     }
 

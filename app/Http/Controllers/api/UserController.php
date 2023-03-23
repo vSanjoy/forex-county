@@ -67,7 +67,7 @@ class UserController extends Controller
                 } else {
                     $input = $request->all();
                     
-                    if (Auth::guard('web')->attempt(['type' => 'C', 'password' => $request->password])) {
+                    if (Auth::guard('web')->attempt(['type' => 'C', 'password' => $request->password, 'device_token' => $request->device_token])) {
                         if (Auth::user()->verification_code === null && Auth::user()->otp === null) {
                             if (Auth::user()->status == '1') {
                                 if (Auth::user()->type == 'C') {
@@ -76,7 +76,6 @@ class UserController extends Controller
                                     
                                     $user->auth_token           = $authenticatedToken;
                                     $user->lastlogintime        = strtotime(getCurrentFullDateTime());
-                                    $user->device_token         = $request->device_token;
                                     $user->save();
                                     
                                     $data['user_details']       = new UserResource($user);
@@ -125,7 +124,7 @@ class UserController extends Controller
         try {
             if ($userData != null) {
                 if ($request->isMethod('POST')) {
-                    User::where(['auth_token' => $userData->auth_token, 'type' => 'C'])->update(['auth_token' => NULL, 'device_token'=> NULL]);
+                    User::where(['auth_token' => $userData->auth_token, 'type' => 'C'])->update(['auth_token' => NULL]);
 
                     $token              = Hash::make(env('APP_KEY'));
                     $data['_authtoken'] = $token;

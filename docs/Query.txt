@@ -5,3 +5,57 @@ ALTER TABLE `fc_temporary_users` ADD `device_token` VARCHAR(255) NULL DEFAULT NU
 
 09/03/2023
 ALTER TABLE `fc_users` CHANGE `verification_code` `verification_code` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Verification code is used for reset passcode in app';
+
+21/03/2023
+CREATE TABLE `fc_supports` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `issue_type` varchar(255) DEFAULT NULL,
+  `question` text DEFAULT NULL,
+  `email_for_replies` varchar(255) DEFAULT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '0=>Inactive, 1=>Active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `fc_supports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fc_supports_user_id_foreign` (`user_id`);
+
+ALTER TABLE `fc_supports`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `fc_supports`
+  ADD CONSTRAINT `fc_supports_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `fc_users` (`id`) ON DELETE CASCADE;
+
+CREATE TABLE `fc_migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `fc_migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2023_01_12_122406_create_website_settings_table', 1),
+(6, '2023_01_12_122434_create_roles_table', 1),
+(7, '2023_01_12_122540_create_user_roles_table', 1),
+(8, '2023_01_17_112803_create_cms_table', 1),
+(9, '2023_01_19_082506_create_countries_table', 1),
+(10, '2023_01_20_095338_create_currencies_table', 1),
+(11, '2023_01_24_061931_create_transfer_fees_table', 2),
+(12, '2023_01_23_053738_create_banks_table', 3),
+(13, '2023_01_24_091343_create_money_transfers_table', 3),
+(14, '2023_01_30_114712_create_roles_table', 3),
+(15, '2023_01_31_061439_create_role_pages_table', 4),
+(16, '2023_01_31_122526_create_role_permissions_table', 5),
+(17, '2023_01_31_062834_create_user_details_table', 6),
+(18, '2023_02_03_095219_create_recipients_table', 7),
+(19, '2023_02_20_122753_create_temporary_users_table', 7),
+(20, '2023_03_21_112525_create_supports_table', 8);
+
+ALTER TABLE `fc_migrations` ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `fc_migrations` MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;

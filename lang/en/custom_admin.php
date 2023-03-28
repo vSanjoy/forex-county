@@ -416,6 +416,7 @@ return [
     'label_ifsc_code'                               => 'IFSC Code',
     'label_postal_code'                             => 'Post Code',
     'label_view_money_transfer'                     => 'Money Transfer Details',
+    'label_edit_user'                               => 'Edit User',
 
 
     // Buttons

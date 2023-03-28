@@ -36,14 +36,14 @@ $(document).ready(function() {
 	        columns: [
 				{data: 'id', name: 'id'},
 	            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-                {data: 'nickname', name: 'nickname'},
+                // {data: 'nickname', name: 'nickname'},
                 {data: 'country', name: 'country'},
 				{data: 'email', name: 'email'},
 				{data: 'phone_no', name: 'phone_no'},
-                {data: 'user_type', name: 'user_type'},
-                {data: 'city', name: 'city'},
+                // {data: 'user_type', name: 'user_type'},
+                // {data: 'city', name: 'city'},
                 {data: 'is_email_verified', name: 'is_email_verified'},
-                {data: 'blockpass_approved', name: 'blockpass_approved'},
+                // {data: 'blockpass_approved', name: 'blockpass_approved'},
 				{data: 'status', name: 'status'},
 			@if ($isAllow || in_array($editUrl, $allowedRoutes))
 				{data: 'action', name: 'action', orderable: false, searchable: false},

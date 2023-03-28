@@ -95,7 +95,7 @@ class UserController extends Controller
         try {
             if ($request->ajax()) {
 
-                $data = $this->model->get();
+                $data = $this->model->where(['type' => 'C'])->whereNull('deleted_at');
                 // Start :: Manage restriction
                 $isAllow = false;
                 $restrictions = checkingAllowRouteToUser($this->pageRoute . '.');
@@ -117,7 +117,7 @@ class UserController extends Controller
                         return $row->email ?? null;
                     })
                     ->addColumn('phone_no', function ($row) {
-                        return $row->phone_no ?? null;
+                        return $row->userDetail->country_code.' '.$row->phone_no ?? null;
                     })
                     ->addColumn('user_type', function ($row) {
                         return $row->userDetail->user_type ?? null;
@@ -160,7 +160,7 @@ class UserController extends Controller
                             $btn .= '<a href="' . $recipientLink . '" class="btn rounded-pill btn-icon btn-outline-primary btn-sm ms-1">R</a>';
                         }
                         if ($isAllow || in_array($this->deleteUrl, $allowedRoutes)) {
-                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-sm ms-1 delete" data-action-type="delete" data-id="' . customEncryptionDecryption($row->id) . '"><i class="bx bx-trash"></i></a>';
+                            $btn .= ' <a href="javascript: void(0);" class="btn rounded-pill btn-icon btn-outline-danger btn-sm delete" data-action-type="delete" data-id="' . customEncryptionDecryption($row->id) . '"><i class="bx bx-trash"></i></a>';
                         }
                         return $btn;
                     })
@@ -301,7 +301,7 @@ class UserController extends Controller
                     'first_name' => ['required'],
                     'last_name' => ['required'],
                     'email'  => ['required', Rule::unique('users')->ignore($user)],
-                    'country_code' => ['required'],
+                    // 'country_code' => ['required'],
                     'phone_no' => ['required'],
                     'country' => ['required'],
                     'address' => ['required'],
@@ -315,7 +315,7 @@ class UserController extends Controller
                     'last_name.required'=> trans('custom_admin.error_last_name'),
                     'email.required'=> trans('custom_admin.error_email'),
                     'email.unique'=> trans('custom_admin.error_email_unique'),
-                    'country_code.required'=> trans('custom_admin.error_ph_country_code'),
+                    // 'country_code.required'=> trans('custom_admin.error_ph_country_code'),
                     'phone_no.required'=> trans('custom_admin.error_phone_no'),
                     'country.required'=> trans('custom_admin.error_country'),
                     'address.required'=> trans('custom_admin.error_address'),

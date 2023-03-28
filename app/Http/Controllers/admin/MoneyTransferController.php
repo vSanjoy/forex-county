@@ -216,7 +216,7 @@ class MoneyTransferController extends Controller
         $data = [
             'pageTitle'     => __('custom_admin.label_view_money_transfer'),
             'panelTitle'    => __('custom_admin.label_view_money_transfer'),
-            'pageType'      => 'EDITPAGE'
+            'pageType'      => 'VIEWPAGE'
         ];
 
         try {

@@ -56,7 +56,7 @@
                                                                     'required' => true
                                                                     ]) }}
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <label for="email" class="form-label">@lang('custom_admin.label_password')</label>
                                 {{ Form::password('password', array(
                                         'id' => 'password',
@@ -72,14 +72,14 @@
                                          'class' => 'form-control',
                                          'placeholder' => '············',
                                           )) }}
-                            </div>
+                            </div> --}}
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('custom_admin.label_ph_country_code') }}<span class="red_star">*</span></label>
+                                <label class="form-label">{{ __('custom_admin.label_ph_country_code') }}</label>
                                 {{ Form::text('country_code', $user->userDetail->country_code, [
                                                                     'id' => 'country_code',
                                                                     'class' => 'form-control',
                                                                     'placeholder' => __('custom_admin.placeholder_ph_country_code'),
-                                                                    'required' => true
+                                                                    'readonly' => true
                                                                     ]) }}
                             </div>
                             <div class="col-md-6">

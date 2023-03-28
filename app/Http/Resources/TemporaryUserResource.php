@@ -29,6 +29,7 @@ class TemporaryUserResource extends JsonResource
             'device_token'      => $this->device_token ?? '',
             'address'           => $this->address ?? '',
             'country_id'        => $this->country_id ?? '',
+            'country'           => $this->countryDetails ? $this->countryDetails->countryname : '',
             'country_phone_code'=> $this->countryDetails ? $this->countryDetails->country_code_for_phone : '',
             'country_flag_thumb'=> $this->countryDetails ? ($this->countryDetails->image != null ? asset('images/uploads/country/thumbs/'.$this->countryDetails->image) : asset('images/'.config('global.POST_NO_IMAGE'))) : asset('images/'.config('global.POST_NO_IMAGE')),
             'country_flag'      => $this->countryDetails ? ($this->countryDetails->image != null ? asset('images/uploads/country/'.$this->countryDetails->image) : asset('images/'.config('global.POST_NO_IMAGE'))) : asset('images/'.config('global.POST_NO_IMAGE')),

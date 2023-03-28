@@ -17,14 +17,13 @@
                                 <tr>
                                     <th class="zeroColumn table-th-display-none"></th>
                                     <th class="firstColumn">@lang('custom_admin.label_hash')</th>
-                                    <th>@lang('custom_admin.label_username')</th>
                                     <th>@lang('custom_admin.label_country')</th>
                                     <th>@lang('custom_admin.label_email')</th>
                                     <th>@lang('custom_admin.label_phone')</th>
-                                    <th>@lang('custom_admin.label_user_type')</th>
-                                    <th>@lang('custom_admin.label_newsletter_subscription')</th>
+                                    {{-- <th>@lang('custom_admin.label_user_type')</th> --}}
+                                    {{-- <th>@lang('custom_admin.label_newsletter_subscription')</th> --}}
                                     <th>@lang('custom_admin.label_email_verified')</th>
-                                    <th>@lang('custom_admin.label_blockpass_verified')</th>
+                                    {{-- <th>@lang('custom_admin.label_blockpass_verified')</th> --}}
                                     <th class="row_status">@lang('custom_admin.label_status')</th>
                                     <th class="more_actions">@lang('custom_admin.label_action')</th>
                                 </tr>

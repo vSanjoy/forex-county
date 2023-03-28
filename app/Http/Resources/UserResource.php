@@ -28,12 +28,16 @@ class UserResource extends JsonResource
             // 'password'          => $this->password ?? '',
             'address'           => $this->address ?? '',
             'country_id'        => $this->country_id ?? '',
+            'country'           => $this->countryDetails ? $this->countryDetails->countryname : '',
             'country_phone_code'=> $this->countryDetails ? $this->countryDetails->country_code_for_phone : '',
             'country_flag_thumb'=> $this->countryDetails ? ($this->countryDetails->image != null ? asset('images/uploads/country/thumbs/'.$this->countryDetails->image) : asset('images/'.config('global.POST_NO_IMAGE'))) : asset('images/'.config('global.POST_NO_IMAGE')),
             'country_flag'      => $this->countryDetails ? ($this->countryDetails->image != null ? asset('images/uploads/country/'.$this->countryDetails->image) : asset('images/'.config('global.POST_NO_IMAGE'))) : asset('images/'.config('global.POST_NO_IMAGE')),
             'phone_no'          => $this->phone_no ?? '',
             '_authtoken'        => $this->auth_token ?? '',
             'dob'               => $this->userDetail ? ($this->userDetail->date_of_birth != null ? changeDateFormatFromUnixTimestamp(strtotime($this->userDetail->date_of_birth), 'd F Y') : '') : '',
+            'city'              => $this->userDetail ? $this->userDetail->city : '',
+            'postCode'         => $this->userDetail ? $this->userDetail->post_code : '',
+            'buildingName'     => $this->userDetail ? $this->userDetail->building_name : '',
         ];
     }
 }

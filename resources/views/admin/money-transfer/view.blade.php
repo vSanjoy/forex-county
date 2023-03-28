@@ -15,15 +15,15 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="">Sender</label>
-                                <input type="text" class="form-control" value="{{ $moneyTransfer->senderDetails->full_name }}">
+                                <input type="text" class="form-control" value="{{ $moneyTransfer->senderDetails->full_name ?? 'N/A' }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Receiver</label>
-                                <input type="text" class="form-control" value="{{ $moneyTransfer->receiverDetails->full_name }}">
+                                <input type="text" class="form-control" value="{{ $moneyTransfer->receiverDetails->full_name ?? 'N/A' }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Transfer No.</label>
-                                <input type="text" class="form-control" value="{{ $moneyTransfer->transfer_no }}">
+                                <input type="text" class="form-control" value="{{ $moneyTransfer->transfer_no ?? 'N/A' }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Payment Status</label>

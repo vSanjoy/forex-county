@@ -17,7 +17,9 @@ use Auth;
 use Response;
 use Validator;
 use Hash;
+use App\Models\Country;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Models\TemporaryUser;
 use App\Http\Resources\TemporaryUserResource;
 use App\Http\Resources\UserResource;
@@ -256,6 +258,18 @@ class TemporaryUserController extends Controller
 
                                 // Move records from temporary_users table to users table
                                 TemporaryUser::where('id', $userData['id'])->delete();
+
+                                $countryDetails = Country::where(['id' => $userModel->country_id])->first();
+
+                                $userDetailModel                    = new UserDetail();
+                                $userDetailModel->user_id           = $userModel->id;
+                                $userDetailModel->is_phone_verified = 'Y';
+                                $userDetailModel->country           = $userModel->country_id;
+                                if ($userModel->email != null) {
+                                    $userDetailModel->is_email_verified = 'Y';
+                                }
+                                $userDetailModel->country_code      = $countryDetails->country_code_for_phone ?? null;
+                                $userDetailModel->save();
 
                                 $data['user_details']   = new UserResource($userModel);
                                 

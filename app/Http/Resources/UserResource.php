@@ -35,9 +35,9 @@ class UserResource extends JsonResource
             'phone_no'          => $this->phone_no ?? '',
             '_authtoken'        => $this->auth_token ?? '',
             'dob'               => $this->userDetail ? ($this->userDetail->date_of_birth != null ? changeDateFormatFromUnixTimestamp(strtotime($this->userDetail->date_of_birth), 'd F Y') : '') : '',
-            'city'              => $this->userDetail ? $this->userDetail->city : '',
-            'postCode'         => $this->userDetail ? $this->userDetail->post_code : '',
-            'buildingName'     => $this->userDetail ? $this->userDetail->building_name : '',
+            'city'              => $this->userDetail ? ($this->userDetail->city != null ? $this->userDetail->city : '' ) : '',
+            'postCode'         => $this->userDetail ? ($this->userDetail->post_code != null ? $this->userDetail->post_code : '' ) : '',
+            'buildingName'     => $this->userDetail ? ($this->userDetail->building_name != null ? $this->userDetail->building_name : '' ) : '',
         ];
     }
 }

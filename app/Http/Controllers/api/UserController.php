@@ -18,6 +18,7 @@ use Response;
 use Validator;
 use Hash;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Http\Resources\UserResource;
 use Twilio\Rest\Client;
 
@@ -180,7 +181,7 @@ class UserController extends Controller
                             if ($updateData) {
                                 $countryCode    = $getUser->countryDetails ? $getUser->countryDetails->country_code_for_phone : getenv('COUNTRY_CODE');
                                 $toPhoneNumber  = $countryCode.$getUser->phone_no;
-                                $messageBody    = "Hello ".$getUser->first_name."! \nYour security code to reset login passcode is: ".$getUser->otp;
+                                $messageBody    = "Hello ".$getUser->first_name."! \nYour security code to reset login passcode is: ".$getUser->otp.". Please do not share the security code with anyone.";
 
                                 $accountSid = getenv('TWILIO_ACCOUNT_SID');
                                 $authToken  = getenv('TWILIO_AUTH_TOKEN');
@@ -402,6 +403,83 @@ class UserController extends Controller
             }
         } catch (Exception $e) {
             return Response::json(generateResponseBody('FC-UD-0003#user_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
+
+    /*
+        * Function name : personalDetails
+        * Purpose       : To get user details
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : 
+        * Return Value  : 
+    */
+    public function personalDetails(Request $request) {
+        $data       = [];
+        $userData   = getUserFromHeader($request);
+
+        try {
+            if ($request->isMethod('PATCH')) {
+                $validation = \Validator::make($request->all(),
+                    [
+                        'date_of_birth' => 'required',
+                        'building_name' => 'required',
+                        'city'          => 'required',
+                        'post_code'     => 'required',
+                    ],
+                    [
+                        'date_of_birth.required'=> __('custom_api.error_date_of_birth'),
+                        'building_name.required'=> __('custom_api.error_building_name'),
+                        'city.required'         => __('custom_api.error_city'),
+                        'post_code.required'    => __('custom_api.error_post_code'),
+                    ]
+                );
+                $errors = $validation->errors()->all();
+                if ($errors) {
+                    return Response::json(generateResponseBody('FC-PD-0001#personal_details', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+                } else {
+                    $input = $request->all();
+                    $otp   = $this->getRandomPasscode();
+                    $updateUserData = UserDetail::where('user_id', $userData['id'])
+                                                    ->update([
+                                                        'date_of_birth' => changeDateFormatFromUnixTimestamp(strtotime($input['date_of_birth']), 'Y-m-d'),
+                                                        'city' => $input['city'],
+                                                        'building_name' => $input['building_name'],
+                                                        'post_code' => $input['post_code'],
+                                                        'phone_verification_code' => $otp
+                                                    ]);
+                    if ($updateUserData) {
+                        $countryCode    = $userData->countryDetails ? $userData->countryDetails->country_code_for_phone : getenv('COUNTRY_CODE');
+                        $toPhoneNumber  = $countryCode.$userData->phone_no;
+                        $messageBody    = "Hello ".$userData->first_name."! \nYour security code to verify your identity is: ".$otp.". Please do not share the security code with anyone.";
+
+                        $accountSid = getenv('TWILIO_ACCOUNT_SID');
+                        $authToken  = getenv('TWILIO_AUTH_TOKEN');
+                        $fromNumber = getenv('TWILIO_FROM');
+                        
+                        $twilio = new Client($accountSid, $authToken);
+                        $message = $twilio->messages->create($toPhoneNumber, [
+                                                                    'from' => $fromNumber,
+                                                                    'body' => $messageBody
+                                                                ]
+                                                            );
+                        if ($message->sid) {
+                            $data['user_details']   = new UserResource($userData);
+
+                            return Response::json(generateResponseBody('FC-PD-0002#repeat_passcode', $data, __('custom_api.message_personal_details_updated_successfully'), true, 200));
+                        } else {
+                            return Response::json(generateResponseBody('FC-PD-0003#personal_details', $data, __('custom_api.error_sms_sent'), false, 400));
+                        }
+                    } else {
+                        return Response::json(generateResponseBody('FC-PD-0004#personal_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                    }
+                }
+            } else {
+                return Response::json(generateResponseBody('FC-PD-0005#personal_details', $data, __('custom_api.error_method_not_supported'), false, 400));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-PD-0006#personal_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
         }
     }
     

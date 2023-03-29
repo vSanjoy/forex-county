@@ -54,6 +54,7 @@ return [
     'message_user_details_received'                 => 'User details received.',
     'message_support'                               => 'Thank you for contacting with us, we will get back to you soon.',
     'message_support_to_super_admin'                => 'Please check the below details for new support form submission.',
+    'message_personal_details_updated_successfully' => 'Personal details update successfully.',
 
 
     // Error
@@ -124,5 +125,11 @@ return [
     'error_reset_passcode'                          => 'Please reset your passcode.',
     'error_issue_type'                              => 'Please select issue type.',
     'error_question'                                => 'Please ask your question or describe the issue.',
+    'error_date_of_birth'                           => 'Please select date of birth.',
+    'error_building_name'                           => 'Please enter street,house number.',
+    'error_city'                                    => 'Please enter city.',
+    'error_post_code'                               => 'Please enter post code.',
+    'error_sms_sent'                                => 'SMS not sent.',
+
 
 ];

@@ -72,6 +72,8 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
         Route::controller(UserController::class)->group(function() {
             Route::post('/log-in', 'logIn')->name('api_log_in');
             Route::get('/user-details', 'userDetails')->name('api_user_details');
+
+            Route::patch('/personal-details', 'personalDetails')->name('api_personal_details');
             
             Route::post('/log-out', 'logOut')->name('api_log_out');
         });

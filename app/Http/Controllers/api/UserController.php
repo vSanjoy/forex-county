@@ -420,35 +420,93 @@ class UserController extends Controller
         $userData   = getUserFromHeader($request);
 
         try {
-            if ($request->isMethod('PATCH')) {
-                $validation = \Validator::make($request->all(),
-                    [
-                        'date_of_birth' => 'required',
-                        'building_name' => 'required',
-                        'city'          => 'required',
-                        'post_code'     => 'required',
-                    ],
-                    [
-                        'date_of_birth.required'=> __('custom_api.error_date_of_birth'),
-                        'building_name.required'=> __('custom_api.error_building_name'),
-                        'city.required'         => __('custom_api.error_city'),
-                        'post_code.required'    => __('custom_api.error_post_code'),
-                    ]
-                );
-                $errors = $validation->errors()->all();
-                if ($errors) {
-                    return Response::json(generateResponseBody('FC-PD-0001#personal_details', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+            if ($userData != null) {
+                if ($request->isMethod('PATCH')) {
+                    $validation = \Validator::make($request->all(),
+                        [
+                            'date_of_birth' => 'required',
+                            'building_name' => 'required',
+                            'city'          => 'required',
+                            'post_code'     => 'required',
+                        ],
+                        [
+                            'date_of_birth.required'=> __('custom_api.error_date_of_birth'),
+                            'building_name.required'=> __('custom_api.error_building_name'),
+                            'city.required'         => __('custom_api.error_city'),
+                            'post_code.required'    => __('custom_api.error_post_code'),
+                        ]
+                    );
+                    $errors = $validation->errors()->all();
+                    if ($errors) {
+                        return Response::json(generateResponseBody('FC-PD-0001#personal_details', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+                    } else {
+                        $input = $request->all();
+                        $otp   = $this->getRandomPasscode();
+                        $updateUserData = UserDetail::where('user_id', $userData['id'])
+                                                        ->update([
+                                                            'date_of_birth' => changeDateFormatFromUnixTimestamp(strtotime($input['date_of_birth']), 'Y-m-d'),
+                                                            'city' => $input['city'],
+                                                            'building_name' => $input['building_name'],
+                                                            'post_code' => $input['post_code'],
+                                                            'phone_verification_code' => $otp
+                                                        ]);
+                        if ($updateUserData) {
+                            // $countryCode    = $userData->countryDetails ? $userData->countryDetails->country_code_for_phone : getenv('COUNTRY_CODE');
+                            // $toPhoneNumber  = $countryCode.$userData->phone_no;
+                            // $messageBody    = "Hello ".$userData->first_name."! \nYour security code to verify your identity is: ".$otp.". Please do not share the security code with anyone.";
+
+                            // $accountSid = getenv('TWILIO_ACCOUNT_SID');
+                            // $authToken  = getenv('TWILIO_AUTH_TOKEN');
+                            // $fromNumber = getenv('TWILIO_FROM');
+                            
+                            // $twilio = new Client($accountSid, $authToken);
+                            // $message = $twilio->messages->create($toPhoneNumber, [
+                            //                                             'from' => $fromNumber,
+                            //                                             'body' => $messageBody
+                            //                                         ]
+                            //                                     );
+                            // if ($message->sid) {
+                                $data['user_details']   = new UserResource($userData);
+
+                                return Response::json(generateResponseBody('FC-PD-0002#repeat_passcode', $data, __('custom_api.message_personal_details_updated_successfully'), true, 200));
+                            // } else {
+                            //     return Response::json(generateResponseBody('FC-PD-0003#personal_details', $data, __('custom_api.error_sms_sent'), false, 400));
+                            // }
+                        } else {
+                            return Response::json(generateResponseBody('FC-PD-0004#personal_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                        }
+                    }
                 } else {
-                    $input = $request->all();
-                    $otp   = $this->getRandomPasscode();
-                    $updateUserData = UserDetail::where('user_id', $userData['id'])
-                                                    ->update([
-                                                        'date_of_birth' => changeDateFormatFromUnixTimestamp(strtotime($input['date_of_birth']), 'Y-m-d'),
-                                                        'city' => $input['city'],
-                                                        'building_name' => $input['building_name'],
-                                                        'post_code' => $input['post_code'],
-                                                        'phone_verification_code' => $otp
-                                                    ]);
+                    return Response::json(generateResponseBody('FC-PD-0005#personal_details', $data, __('custom_api.error_method_not_supported'), false, 400));
+                }
+            } else {
+                return Response::json(generateResponseBodyForSignInSignUp('FC-PD-0006#personal_details', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-PD-0007#personal_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
+    
+    /*
+        * Function name : sendProfileUpdateSecurityCode
+        * Purpose       : To send security code for verify identity
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : send security code (Received on phone)
+        * Return Value  : 
+    */
+    public function sendProfileUpdateSecurityCode(Request $request) {
+        $data       = [];
+        $userData   = getUserFromHeader($request);
+        
+        try {
+            if ($userData != null) {
+                if ($request->isMethod('PATCH')) {
+                    $otp            = $this->getRandomPasscode();
+
+                    $updateUserData = UserDetail::where('user_id', $userData['id'])->update(['phone_verification_code' => $otp]);
+
                     if ($updateUserData) {
                         $countryCode    = $userData->countryDetails ? $userData->countryDetails->country_code_for_phone : getenv('COUNTRY_CODE');
                         $toPhoneNumber  = $countryCode.$userData->phone_no;
@@ -467,19 +525,68 @@ class UserController extends Controller
                         if ($message->sid) {
                             $data['user_details']   = new UserResource($userData);
 
-                            return Response::json(generateResponseBody('FC-PD-0002#repeat_passcode', $data, __('custom_api.message_personal_details_updated_successfully'), true, 200));
+                            return Response::json(generateResponseBody('FC-SPUSC-0001#send_profile_update_security_code', $data, __('custom_api.message_security_code_sent_successfully'), true, 200));
                         } else {
-                            return Response::json(generateResponseBody('FC-PD-0003#personal_details', $data, __('custom_api.error_sms_sent'), false, 400));
+                            return Response::json(generateResponseBody('FC-SPUSC-0002#send_profile_update_security_code', $data, __('custom_api.error_sms_sent'), false, 400));
                         }
                     } else {
-                        return Response::json(generateResponseBody('FC-PD-0004#personal_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                        return Response::json(generateResponseBody('FC-SPUSC-0006#send_profile_update_security_code', $data, __('custom_api.error_something_went_wrong'), false, 400));
                     }
+                } else {
+                    return Response::json(generateResponseBody('FC-SPUSC-0003#send_profile_update_security_code', $data, __('custom_api.error_method_not_supported'), false, 400));
                 }
             } else {
-                return Response::json(generateResponseBody('FC-PD-0005#personal_details', $data, __('custom_api.error_method_not_supported'), false, 400));
+                return Response::json(generateResponseBodyForSignInSignUp('FC-SPUSC-0004#send_profile_update_security_code', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
             }
         } catch (Exception $e) {
-            return Response::json(generateResponseBody('FC-PD-0006#personal_details', $data, __('custom_api.error_something_went_wrong'), false, 400));
+            return Response::json(generateResponseBody('FC-SPUSC-0005#send_profile_update_security_code', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
+
+    /*
+        * Function name : verifyProfileUpdateSecurityCode
+        * Purpose       : To post security code for verify identity
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : Security code (Received on phone)
+        * Return Value  : 
+    */
+    public function verifyProfileUpdateSecurityCode(Request $request) {
+        $data = [];
+        $userData   = getUserFromHeader($request);
+        
+        try {
+            if ($userData != null) {
+                if ($request->isMethod('PATCH')) {
+                    $validation = \Validator::make($request->all(),
+                        [
+                            'security_code' => 'required',
+                        ],
+                        [
+                            'security_code.required'    => __('custom_api.error_security_code'),
+                        ]
+                    );
+                    $errors = $validation->errors()->all();
+                    if ($errors) {
+                        return Response::json(generateResponseBody('FC-VSC-0001#verify_profile_security_code', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+                    } else {
+                        $input = $request->all();
+                        $getUser = UserDetail::where(['user_id' => $userData['id'], 'phone_verification_code' => $input['security_code']])->first();
+                        if ($getUser) {
+                            return Response::json(generateResponseBody('FC-VSC-0002#verify_profile_security_code', $data, __('custom_api.message_security_code_verified_successfully'), true, 200));
+                        } else {
+                            return Response::json(generateResponseBody('FC-VSC-0003#verify_profile_security_code', $data, __('custom_api.error_invalid_security_code'), false, 400));
+                        }
+                    }
+                } else {
+                    return Response::json(generateResponseBody('FC-VSC-0004#verify_profile_security_code', $data, __('custom_api.error_method_not_supported'), false, 400));
+                }
+            } else {
+                return Response::json(generateResponseBodyForSignInSignUp('FC-VSC-0005#verify_profile_security_code', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-VSC-0006#verify_profile_security_code', $data, __('custom_api.error_something_went_wrong'), false, 400));
         }
     }
     

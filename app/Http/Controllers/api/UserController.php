@@ -512,23 +512,23 @@ class UserController extends Controller
                         $toPhoneNumber  = $countryCode.$userData->phone_no;
                         $messageBody    = "Hello ".$userData->first_name."! \nYour security code to verify your identity is: ".$otp.". Please do not share the security code with anyone.";
 
-                        $accountSid = getenv('TWILIO_ACCOUNT_SID');
-                        $authToken  = getenv('TWILIO_AUTH_TOKEN');
-                        $fromNumber = getenv('TWILIO_FROM');
+                        // $accountSid = getenv('TWILIO_ACCOUNT_SID');
+                        // $authToken  = getenv('TWILIO_AUTH_TOKEN');
+                        // $fromNumber = getenv('TWILIO_FROM');
                         
-                        $twilio = new Client($accountSid, $authToken);
-                        $message = $twilio->messages->create($toPhoneNumber, [
-                                                                    'from' => $fromNumber,
-                                                                    'body' => $messageBody
-                                                                ]
-                                                            );
-                        if ($message->sid) {
+                        // $twilio = new Client($accountSid, $authToken);
+                        // $message = $twilio->messages->create($toPhoneNumber, [
+                        //                                             'from' => $fromNumber,
+                        //                                             'body' => $messageBody
+                        //                                         ]
+                        //                                     );
+                        // if ($message->sid) {
                             $data['user_details']   = new UserResource($userData);
 
                             return Response::json(generateResponseBody('FC-SPUSC-0001#send_profile_update_security_code', $data, __('custom_api.message_security_code_sent_successfully'), true, 200));
-                        } else {
-                            return Response::json(generateResponseBody('FC-SPUSC-0002#send_profile_update_security_code', $data, __('custom_api.error_sms_sent'), false, 400));
-                        }
+                        // } else {
+                        //     return Response::json(generateResponseBody('FC-SPUSC-0002#send_profile_update_security_code', $data, __('custom_api.error_sms_sent'), false, 400));
+                        // }
                     } else {
                         return Response::json(generateResponseBody('FC-SPUSC-0006#send_profile_update_security_code', $data, __('custom_api.error_something_went_wrong'), false, 400));
                     }
@@ -587,6 +587,90 @@ class UserController extends Controller
             }
         } catch (Exception $e) {
             return Response::json(generateResponseBody('FC-VSC-0006#verify_profile_security_code', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
+    
+    /*
+        * Function name : updatePhoneNumber
+        * Purpose       : To update customer phone number
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : Country id & phone number
+        * Return Value  : 
+    */
+    public function updatePhoneNumber(Request $request) {
+        $data = [];
+        $userData   = getUserFromHeader($request);
+        
+        try {
+            if ($userData != null) {
+                if ($request->isMethod('PATCH')) {
+                    $validation = \Validator::make($request->all(),
+                        [
+                            'country_id'=> 'required',
+                            'phone_no'  => 'required',
+                        ],
+                        [
+                            'country_id.required'   => __('custom_api.error_country_id'),
+                            'phone_no.required'     => __('custom_api.error_phone_no'),
+                        ]
+                    );
+                    $errors = $validation->errors()->all();
+                    if ($errors) {
+                        return Response::json(generateResponseBody('FC-UPN-0001#update_phone_number', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+                    } else {
+                        $input      = $request->all();
+                        $checkUser  = User::where('id', '<>', $userData['id'])->where(['country_id' => $input['country_id'], 'phone_no' => $input['phone_no']])->first();
+
+                        if ($checkUser) {
+                            return Response::json(generateResponseBody('FC-UPN-0002#update_phone_number', $data, __('custom_api.error_country_with_phone_number_exist'), false, 400));
+                        } else {
+                            $otp = $this->getRandomPasscode();
+
+                            $userData['country_id']             = $input['country_id'];
+                            $userData['phone_no']               = $input['phone_no'];
+                            $updateData = $userData->save();
+                            if ($updateData) {
+                                $countryCode    = $userData->countryDetails ? $userData->countryDetails->country_code_for_phone : getenv('COUNTRY_CODE');
+                                $toPhoneNumber  = $countryCode.$userData->phone_no;
+                                $messageBody    = "Hello ".$userData->first_name."! \nYour security code to verify your identity is: ".$otp.". Please do not share the security code with anyone.";
+
+                                UserDetail::where('user_id', $userData['id'])->update([
+                                                                                'country_code' => $userData->countryDetails->country_code_for_phone,
+                                                                                'phone_verification_code' => $otp
+                                                                            ]);
+
+                                $accountSid = getenv('TWILIO_ACCOUNT_SID');
+                                $authToken  = getenv('TWILIO_AUTH_TOKEN');
+                                $fromNumber = getenv('TWILIO_FROM');
+                                
+                                $twilio = new Client($accountSid, $authToken);
+                                $message = $twilio->messages->create($toPhoneNumber, [
+                                                                            'from' => $fromNumber,
+                                                                            'body' => $messageBody
+                                                                        ]
+                                                                    );
+                                if ($message->sid) {
+                                    $data['user_details']   = new UserResource($userData);
+    
+                                    return Response::json(generateResponseBody('FC-UPN-0003#update_phone_number', $data, __('custom_api.message_phone_number_updated_successfully'), true, 200));
+                                } else {
+                                    return Response::json(generateResponseBody('FC-UPN-0004#update_phone_number', $data, __('custom_api.error_sms_sent'), false, 400));
+                                }
+                            } else {
+                                return Response::json(generateResponseBody('FC-UPN-0005#update_phone_number', $data, __('custom_api.error_something_went_wrong'), false, 400));
+                            }
+                        }
+                    }
+                } else {
+                    return Response::json(generateResponseBody('FC-UPN-0006#update_phone_number', $data, __('custom_api.error_method_not_supported'), false, 400));
+                }
+            } else {
+                return Response::json(generateResponseBodyForSignInSignUp('FC-UPN-0007#update_phone_number', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-UPN-0008#update_phone_number', $data, __('custom_api.error_something_went_wrong'), false, 400));
         }
     }
     

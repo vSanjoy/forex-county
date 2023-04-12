@@ -77,6 +77,7 @@ Route::group(['middleware'=>'api', 'namespace'=>'api', 'prefix'=>'v1', 'as'=>'ap
             Route::patch('/personal-details', 'personalDetails')->name('api_personal_details');
             Route::patch('/verify-profile-update-security-code', 'verifyProfileUpdateSecurityCode')->name('api_verify_profile_update_security_code');
             Route::patch('/send-profile-update-security-code', 'sendProfileUpdateSecurityCode')->name('api_send_profile_update_security_code');
+            Route::patch('/update-phone-number', 'updatePhoneNumber')->name('api_update_phone_number');
             
             Route::post('/log-out', 'logOut')->name('api_log_out');
         });

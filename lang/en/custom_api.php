@@ -55,6 +55,7 @@ return [
     'message_support'                               => 'Thank you for contacting with us, we will get back to you soon.',
     'message_support_to_super_admin'                => 'Please check the below details for new support form submission.',
     'message_personal_details_updated_successfully' => 'Personal details update successfully.',
+    'message_phone_number_updated_successfully'     => 'Phone number update successfully.',
 
 
     // Error
@@ -130,6 +131,7 @@ return [
     'error_city'                                    => 'Please enter city.',
     'error_post_code'                               => 'Please enter post code.',
     'error_sms_sent'                                => 'SMS not sent.',
+    'error_country_with_phone_number_exist'         => 'Country with phone number already exist.',
 
 
 ];

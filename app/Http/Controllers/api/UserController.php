@@ -674,4 +674,51 @@ class UserController extends Controller
         }
     }
     
+    /*
+        * Function name : verifyPhotoIdentityCountry
+        * Purpose       : verify photo identity country
+        * Author        : 
+        * Created Date  : 
+        * Modified Date :  
+        * Input Params  : Country id
+        * Return Value  : 
+    */
+    public function verifyPhotoIdentityCountry(Request $request) {
+        $data = [];
+        $userData   = getUserFromHeader($request);
+        
+        try {
+            if ($userData != null) {
+                if ($request->isMethod('PATCH')) {
+                    $validation = \Validator::make($request->all(),
+                        [
+                            'country_id'=> 'required',
+                        ],
+                        [
+                            'country_id.required'   => __('custom_api.error_country_id'),
+                        ]
+                    );
+                    $errors = $validation->errors()->all();
+                    if ($errors) {
+                        return Response::json(generateResponseBody('FC-VPIC-0001#verify_photo_identity_country', ['errors' => $errors], __('custom_api.message_validation_error'), false, 400));
+                    } else {
+                        $input = $request->all();
+                        
+                        UserDetail::where('user_id', $userData['id'])->update(['photo_id_verified_country' => $input['country_id']]);
+
+                        $data['user_details']   = new UserResource($userData);
+
+                        return Response::json(generateResponseBody('FC-VPIC-0002#verify_photo_identity_country', $data, __('custom_api.message_verify_photo_identity_country_updated_successfully'), true, 200));
+                    }
+                } else {
+                    return Response::json(generateResponseBody('FC-VPIC-0003#verify_photo_identity_country', $data, __('custom_api.error_method_not_supported'), false, 400));
+                }
+            } else {
+                return Response::json(generateResponseBodyForSignInSignUp('FC-VPIC-0004#verify_photo_identity_country', $data, __('custom_api.error_invalid_credentials_inactive_user'), false, 401));
+            }
+        } catch (Exception $e) {
+            return Response::json(generateResponseBody('FC-VPIC-0008#verify_photo_identity_country', $data, __('custom_api.error_something_went_wrong'), false, 400));
+        }
+    }
+    
 }

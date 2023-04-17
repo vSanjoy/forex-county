@@ -38,6 +38,7 @@ class UserResource extends JsonResource
             'city'              => $this->userDetail ? ($this->userDetail->city != null ? $this->userDetail->city : '' ) : '',
             'postCode'         => $this->userDetail ? ($this->userDetail->post_code != null ? $this->userDetail->post_code : '' ) : '',
             'buildingName'     => $this->userDetail ? ($this->userDetail->building_name != null ? $this->userDetail->building_name : '' ) : '',
+            'photo_id_verified_country'=> $this->userDetail ? ($this->userDetail->photo_id_verified_country != null ? $this->userDetail->photo_id_verified_country : '' ) : '',
         ];
     }
 }

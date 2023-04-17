@@ -56,6 +56,7 @@ return [
     'message_support_to_super_admin'                => 'Please check the below details for new support form submission.',
     'message_personal_details_updated_successfully' => 'Personal details update successfully.',
     'message_phone_number_updated_successfully'     => 'Phone number update successfully.',
+    'message_verify_identity_country_updated_successfully' => 'Verify identity country successfully updated.',
 
 
     // Error

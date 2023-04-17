@@ -59,3 +59,6 @@ INSERT INTO `fc_migrations` (`id`, `migration`, `batch`) VALUES
 ALTER TABLE `fc_migrations` ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `fc_migrations` MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+12/04/2023
+ALTER TABLE `fc_user_details` ADD `photo_id_verified_country` VARCHAR(255) NULL DEFAULT NULL AFTER `is_two_step_verification_active`;
